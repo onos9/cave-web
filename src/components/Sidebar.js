@@ -55,7 +55,7 @@ export default (props = {}) => {
         <Nav.Link { ...linkProps } target={ target } className={ classNames }>
           <span>
             { icon ? <span className="sidebar-icon"><FontAwesomeIcon icon={ icon } /> </span> : null }
-            { image ? <Image src={ image } width={ 20 } height={ 20 } className="sidebar-icon svg-icon" /> : null }
+            { image ? <Image src={ image } width={ 'auto' } height={ 50 } className="sidebar-icon svg-icon" /> : null }
 
             <span className="sidebar-text">{ title }</span>
           </span>
@@ -97,7 +97,7 @@ export default (props = {}) => {
               </Nav.Link>
             </div>
             <Nav className="flex-column pt-3 pt-md-0">
-              <NavItem title="Adullam" link={ Routes.Presentation.path } image={ ReactHero } />
+              <NavItem title="" link={ Routes.Presentation.path } image={ ReactHero } />
 
               <NavItem title="Home" link={ Routes.Home.path } icon={ faChartPie } />
               <NavItem title="Dashboard" link={ Routes.Dashboard.path } icon={ faChartPie } />
