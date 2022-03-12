@@ -1,0 +1,63 @@
+.radio-btn {
+  width: 80px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  padding: 0 0.5em;
+  margin-bottom: 14px;
+  margin-right: 30px;
+}
+
+.radio-btn input {
+  position: relative;
+  cursor: pointer;
+  appearance: none;
+}
+
+.radio-btn input::before,
+.radio-btn input::after {
+  content: "";
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50px;
+}
+
+.radio-btn input:checked::before {
+  background: #ca4444;
+  transform: translate(-50%, -50%);
+}
+
+.radio-btn input::after {
+  width: 10px;
+  height: 10px;
+  background: none;
+  border: 2px solid #633f83;
+  transform: translate(-80%, -50%);
+  transition: all 0.5s;
+}
+
+.radio-btn input:checked::after {
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+  transform: translate(-15%, -50%);
+  z-index: 10;
+}
+
+.radio-btn label {
+  margin-left: 0.5em;
+  cursor: pointer;
+}
+
+.htmlfor {
+  margin: 0;
+  
+}
+
+.gender {
+  margin: 0;
+  display: flex;
+  margin-bottom: 12px;
+}
