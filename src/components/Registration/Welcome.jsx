@@ -1,11 +1,28 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import './registration.css'
-import { faHome, faPaperPlane } from "@fortawesome/free-solid-svg-icons"
+import React, { useState, useEffect } from 'react'
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import './registration.css'
 
 const Welcome = () => {
-  const HandleMenuClick = () => { }
+
+  const [data, setData] = useState({})
+  let temp = { route: '/' }
+
+  const handleClick = () => {
+    const isGoogle = emailCheck(data.email)
+    const route = isGoogle ? 'auth/google' : '/'
+    console.log(route)
+  }
+
+  const onChange = (e) => {
+    temp[e.target.name] = e.target.value
+    setData((d) => ({ ...d, ...temp }))
+  }
+
+  const emailCheck = (email) => {
+    var regExp = new RegExp("[a-z0-9\.-_]*@gmail\.com$", "i")
+    return !!data.email.match(regExp)
+  }
 
   return (
     <>
@@ -18,26 +35,16 @@ const Welcome = () => {
         </div>
         <form id="subscribe">
           <div className="input-group mb-3 w-75 mx-auto">
-            <input type="email" className="form-control" placeholder="sunlimetech@gmail.com" aria-label="Recipient's username" aria-describedby="button-addon2" required />
+            <input type="email" className="form-control" placeholder="sunlimetech@gadullam.ng" required name='email' onChange={ onChange } />
             <div className="input-group-append">
-              <button className="btn btn-primary" type="button" id="button-addon2">
-                <Link to='/'>
-                  <i className="material-icons"
-                    title="Go to Home"
-                  >
-                    <FontAwesomeIcon icon={ faPaperPlane } />
-                  </i>
-                </Link>
+              <button className="btn btn-primary" type="button" onClick={ handleClick }>
+                <FontAwesomeIcon
+                  color='white'
+                  icon={ faPaperPlane } />
               </button>
             </div>
           </div>
         </form>
-        {/* <button className="get_started_btn">GET STARTED </button> */ }
-      </div>
-      <div className="home-icon">
-        <Link to='/'>
-          <FontAwesomeIcon icon={ faHome } />
-        </Link>
       </div>
     </>
 

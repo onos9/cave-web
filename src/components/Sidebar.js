@@ -121,7 +121,7 @@ export default (props = {}) => {
 
               <Dropdown.Divider className="my-3 border-indigo" />
 
-              {/* <CollapsableNavItem eventKey="documentation/" title="Getting Started" icon={ faBook }>
+            <CollapsableNavItem eventKey="documentation/" title="Getting Started" icon={ faBook }>
                 <NavItem title="Overview" link={ Routes.DocsOverview.path } />
                 <NavItem title="Download" link={ Routes.DocsDownload.path } />
                 <NavItem title="Quick Start" link={ Routes.DocsQuickStart.path } />
@@ -129,7 +129,7 @@ export default (props = {}) => {
                 <NavItem title="Folder Structure" link={ Routes.DocsFolderStructure.path } />
                 <NavItem title="Build Tools" link={ Routes.DocsBuild.path } />
                 <NavItem title="Changelog" link={ Routes.DocsChangelog.path } />
-              </CollapsableNavItem> */}
+              </CollapsableNavItem>
 
               <CollapsableNavItem eventKey="components/" title="Components" icon={ faBoxOpen }>
                 <NavItem title="Accordion" link={ Routes.Accordions.path } />

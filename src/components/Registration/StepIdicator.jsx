@@ -2,7 +2,6 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
     faGraduationCap,
-    faUserMd,
     faBible,
     faNotesMedical,
     faHandshakeSlash,
@@ -27,7 +26,6 @@ const StepIdicator = () => {
                  <span key={ index } className="step">
                     <FontAwesomeIcon color='white' icon={ Icon } />
                 </span>
-                
             )) }
         </>
     )

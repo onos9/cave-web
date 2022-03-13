@@ -12,7 +12,7 @@ import { Routes } from "../routes"
 import ThemesbergLogoIcon from "../assets/img/themesberg.svg"
 import ThemesbergLogo from "../assets/img/themesberg-logo.svg"
 import MockupPresentation from "../assets/img/mockup-presentation.png"
-import ReactHero from "../assets/img/technologies/react-hero-logo.svg"
+import ReactHero from "../assets/img/cave-hero-logo.svg"
 import MapboxImg from "../assets/img/mockup-map-presentation.png"
 import CalendarImg from "../assets/img/mockup-calendar-presentation.png"
 import ReactMockupImg from "../assets/img/react-mockup.png"
@@ -82,21 +82,21 @@ export default () => {
       <Navbar variant="dark" expand="lg" bg="dark" className="navbar-transparent navbar-theme-primary sticky-top">
         <Container className="position-relative justify-content-between px-3">
           <Navbar.Brand as={ HashLink } to="#home" className="me-lg-3 d-flex align-items-center">
-            <Image src={ ReactHero } />
-            <span className="ms-2 brand-text d-none d-md-inline">Volt React</span>
+            <Image src={ ReactHero } height={ 60 } width={ "auto" } />
+            <span className="ms-2 brand-text d-none d-md-inline"></span>
           </Navbar.Brand>
 
           <div className="d-flex align-items-center">
             <Navbar.Collapse id="navbar-default-primary">
               <Nav className="navbar-nav-hover align-items-lg-center">
-                <Nav.Link as={ HashLink } to="#features">Features</Nav.Link>
-                <Nav.Link as={ HashLink } to="#pages">Pages</Nav.Link>
+                <Nav.Link as={ HashLink } to="#features">About</Nav.Link>
+                <Nav.Link as={ HashLink } to="#pages">Courses</Nav.Link>
                 <Nav.Link as={ HashLink } to="#folder" className="d-sm-none d-xl-inline">Folder Structure</Nav.Link>
-                <Nav.Link as={ HashLink } to="#getting-started">Getting Started</Nav.Link>
-                <Nav.Link as={ HashLink } to="#download">Upgrade to Pro</Nav.Link>
+                <Nav.Link as={ HashLink } to="#getting-started">Enrollment</Nav.Link>
+                <Nav.Link as={ HashLink } to="#download">Tuition Details</Nav.Link>
               </Nav>
             </Navbar.Collapse>
-            <Button as={ HashLink } to="#download" variant="outline-white" className="ms-3"><FontAwesomeIcon icon={ faDownload } className="me-1" /> Download</Button>
+            <Button as={ HashLink } to="#download" variant="outline-white" className="ms-3"><FontAwesomeIcon icon={ faDownload } className="me-1" /> Download App</Button>
           </div>
         </Container>
       </Navbar>
@@ -105,19 +105,19 @@ export default () => {
           <Row>
             <Col xs={ 12 } className="text-center">
               <div className="react-big-icon d-none d-lg-block"><span className="fab fa-react"></span></div>
-              <h1 className="fw-bolder text-secondary">Volt React Dashboard</h1>
-              <p className="text-muted fw-light mb-5 h5">Open source powered by React.js and Bootstrap 5</p>
+              <h1 className="fw-bolder text-secondary">Adullam Bible School</h1>
+              <p className="text-muted fw-light mb-5 h5">RCN Theological Seminary</p>
               <div className="d-flex align-items-center justify-content-center">
-                <Button variant="secondary" as={ Link } to={ Routes.Dashboard.path } className="text-dark me-3">
-                  Explore dashboard <FontAwesomeIcon icon={ faExternalLinkAlt } className="d-none d-sm-inline ms-1" />
+                <Button variant="secondary" as={ Link } to={ Routes.Registration.path } className="text-dark me-3">
+                  Enroll Now <FontAwesomeIcon icon={ faExternalLinkAlt } className="d-none d-sm-inline ms-1" />
                 </Button>
-                <GitHubButton className="mt-lg-2" href="https://github.com/themesberg/volt-react-dashboard" data-size="large" data-show-count="true" aria-label="Star themesberg/volt-react-dashboard on GitHub">Star</GitHubButton>
+                {/* <GitHubButton className="mt-lg-2" href="https://github.com/themesberg/volt-react-dashboard" data-size="large" data-show-count="true" aria-label="Star themesberg/volt-react-dashboard on GitHub">Star</GitHubButton> */ }
               </div>
               <div className="d-flex justify-content-center flex-column mb-6 mb-lg-5 mt-5">
                 <div className="text-center">
                   <a href="https://themesberg.com" target="_blank">
-                    <Image src={ ThemesbergLogoIcon } height={ 25 } width={ 25 } className="mb-3" alt="Themesberg Logo" />
-                    <p className="text-muted font-small m-0">A Themesberg production</p>
+                    {/* <Image src={ ThemesbergLogoIcon } height={ 25 } width={ 25 } className="mb-3" alt="Themesberg Logo" /> */}
+                    <p className="text-muted font-small m-0"></p>
                   </a>
                 </div>
               </div>

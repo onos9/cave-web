@@ -143,15 +143,10 @@ const Wizard = () => {
                 <div className="nextprevious" id="nextprevious">
                     <div className="btn-nextprevious">
                         <button type="button" id="prevBtn" onClick={ () => nextPrev(-1) }>
-                            <i className="material-icons">
-                                <FontAwesomeIcon color='white' icon={ faAngleDoubleLeft } />
-
-                            </i>
+                            <FontAwesomeIcon color='white' icon={ faAngleDoubleLeft } />
                         </button>
                         <button type="button" id="nextBtn" onClick={ () => nextPrev(1) }>
-                            <i className="material-icons">
-                                <FontAwesomeIcon color='white' icon={ faAngleDoubleRight } />
-                            </i>
+                            <FontAwesomeIcon color='white' icon={ faAngleDoubleRight } />
                         </button>
                     </div>
                 </div>

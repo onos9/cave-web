@@ -23,8 +23,6 @@ export default () => {
 
     const { first_name, last_name, email, password1, password2 } = formData
 
-    const UpdateInput = e => { setFormData({ ...formData, [e.target.name]: e.target.value }) }
-
     const SubmitForm = async (e) => {
         e.preventDefault()
 
@@ -77,8 +75,8 @@ export default () => {
 
     return (
         <>
-            {/* <Welcome /> */}
-            <Wizard />
+            <Welcome />
+            {/* <Wizard /> */ }
             <div className="bodybg" />
         </>
     )
