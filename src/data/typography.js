@@ -84,6 +84,20 @@ export default
         "on_campus_accomodation_explain": "There is a shared room space within the school environment for N40,000 per session (covering for the two semesters). Adullam Help Desk +234 802 216 4432 will be glad to support where necessary.",
 
         "special_courses": "Special Courses",
+        "christian_apologetics": "Christian Apologetics",
+        "kairos": "Kairos",
+        "student_work_ymc": "Student Work/YMC",
+        "site_map": "Site Map",
+        "site_map_events": "Events",
+        "site_map_courses": "Courses",
+        "site_map_enrollment": "Enrollment",
+        "site_map_programs": "Programs",
+        "info_details": " +234 802 216 4432 (Help Desk)",
+        "info_details_two": "adullam.rcn@gmail.com",
+        "info_details_three": "www.adullam.ng",
+        "info_details_four": "#4 Remnant Avenue, opposite State Library, Makurdi, Benue State",
+
+
 
         
 

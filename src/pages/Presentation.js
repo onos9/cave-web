@@ -27,7 +27,8 @@ import typography from "../data/typography"
 
 
 
-export default () => {
+export default function functionName(state = null, action){
+
   const PagePreview = (props) => {
     const { name, image, link } = props
     
@@ -491,25 +492,29 @@ export default () => {
                 <Image src={ ReactHero } />
                 <span className="ms-2 brand-text">Volt React</span>
               </Navbar.Brand>
-              <p>Volt React is a free and open source admin dashboard template powered by React.js and Bootstrap 5.</p>
+              <p> {typography.info_details}</p>
+              <p> {typography.info_details_two}</p>
+              <p> {typography.info_details_three}</p>
+              <p> {typography.info_details_four}</p>
             </Col>
             <Col xs={ 6 } md={ 2 } className="mb-5 mb-lg-0">
-              <span className="h5">Themesberg</span>
+              <span className="h5">{typography.site_map}</span>
               <ul className="links-vertical mt-2">
-                <li><Card.Link target="_blank" href="https://themesberg.com/blog">Blog</Card.Link></li>
-                <li><Card.Link target="_blank" href="https://themesberg.com/products">Products</Card.Link></li>
+                <li><Card.Link target="_blank" href="https://themesberg.com/blog">{typography.site_map_events}</Card.Link></li>
+                <li><Card.Link target="_blank" href="https://themesberg.com/products">{typography.site_map_courses}</Card.Link></li>
                 <li><Card.Link target="_blank" href="https://themesberg.com/about">About Us</Card.Link></li>
-                <li><Card.Link target="_blank" href="https://themesberg.com/contact">Contact Us</Card.Link></li>
+                <li><Card.Link target="_blank" href="https://themesberg.com/contact">{typography.site_map_enrollment}</Card.Link></li>
+                <li><Card.Link target="_blank" href="https://themesberg.com/contact">{typography.site_map_programs}</Card.Link></li>
               </ul>
             </Col>
             <Col xs={ 6 } md={ 2 } className="mb-5 mb-lg-0">
               <span className="h5">{typography.special_courses}</span>
               <ul className="links-vertical mt-2">
                 <li>
-                  <Card.Link as={ Link } to={ Routes.DocsQuickStart.path } target="_blank">Getting started</Card.Link>
+                  <Card.Link as={Link} to={Routes.DocsQuickStart.path} target="_blank">{typography.christian_apologetics}</Card.Link>
                 </li>
-                <li><Card.Link as={ Link } to={ Routes.DocsChangelog.path } target="_blank">Changelog</Card.Link></li>
-                <li><Card.Link target="_blank" href="https://themesberg.com/licensing">License</Card.Link></li>
+                <li><Card.Link as={Link} to={Routes.DocsChangelog.path} target="_blank">{typography.kairos}</Card.Link></li>
+                <li><Card.Link target="_blank" href="https://themesberg.com/licensing">{typography.student_work_ymc}</Card.Link></li>
               </ul>
             </Col>
             <Col xs={ 12 } md={ 4 } className="mb-5 mb-lg-0">
