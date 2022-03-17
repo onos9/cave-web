@@ -189,7 +189,7 @@ export default () => {
               <p className="mb-3 lead fw-bold">100+ premium UI elements based on Bootstrap 5</p>
               <p className="mb-4">We've built over 100 React.js powered components to be used throughout your application saving you time kickstarting your project.</p>
               <p className="mb-4">Check out the components and use our live React.js component editor to try the code.</p>
-              <Button as={ Link } to={ Routes.Forms.path } variant="secondary" className="mb-5 mb-lg-0" target="_blank"><FontAwesomeIcon icon={ faReact } className="me-1" /> Components examples</Button>
+              <Button as={ Link } to={ '/#' } variant="secondary" className="mb-5 mb-lg-0" target="_blank"><FontAwesomeIcon icon={ faReact } className="me-1" /> Components examples</Button>
             </Col>
             <Col lg={ 6 } className="rounded shadow pt-3">
               <Code scope={ { Form, Button } } code={ `<Form>
@@ -293,7 +293,7 @@ export default () => {
               <div className="d-none d-lg-block mt-5">
                 <h4>The perfect folder structure for your project</h4>
                 <p className="lead mb-4">The folder structure is based on the popular <code>create-react-app</code> repository using Sass source files for CSS preprocessing.</p>
-                <Button as={ Link } variant="secondary" size="md" to={ Routes.DocsFolderStructure.path } target="_blank" className="text-dark">
+                <Button as={ Link } variant="secondary" size="md" to={ '/#' } target="_blank" className="text-dark">
                   <FontAwesomeIcon icon={ faCodeBranch } className="me-2" /> Folder Structure
                 </Button>
               </div>
@@ -359,7 +359,7 @@ export default () => {
                 </div>
               </div>
               <p className="mt-4 text-white text-center mb-0">
-                Looks unfamiliar? Don’t worry! Our <Link to={ Routes.DocsQuickStart.path } className="text-white text-underline fw-bold" target="_blank">documentation</Link> has got you covered.
+                Looks unfamiliar? Don’t worry! Our <Link to={ '/#' } className="text-white text-underline fw-bold" target="_blank">documentation</Link> has got you covered.
               </p>
             </Col>
           </Row>
@@ -502,9 +502,9 @@ export default () => {
               <span className="h5">Other</span>
               <ul className="links-vertical mt-2">
                 <li>
-                  <Card.Link as={ Link } to={ Routes.DocsQuickStart.path } target="_blank">Getting started</Card.Link>
+                  <Card.Link as={ Link } to={ '/#' } target="_blank">Getting started</Card.Link>
                 </li>
-                <li><Card.Link as={ Link } to={ Routes.DocsChangelog.path } target="_blank">Changelog</Card.Link></li>
+                <li><Card.Link as={ Link } to={ '/#' } target="_blank">Changelog</Card.Link></li>
                 <li><Card.Link target="_blank" href="https://themesberg.com/licensing">License</Card.Link></li>
               </ul>
             </Col>

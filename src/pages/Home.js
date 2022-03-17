@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import PlaceholderLoading from 'react-placeholder-loading'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
-import * as Constants from "../../Constants"
+import * as Constants from "../Constants"
 
 export default () => {
     // Videos State

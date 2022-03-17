@@ -1,0 +1,10 @@
+{
+    "scope": [
+        "ZohoMail.folders.READ"
+    ],
+    "expiry_time": 1647190248162,
+    "client_id": "1000.E116SA9O9E7XPDGKM8EUJ7TSGFY53N",
+    "client_secret": "69c836a27ce89c73671fe3ec04dbaa98b344a2406d",
+    "code": "1000.f7b79e693c127eee997c9b2974e79383.74f394b9dfa4b22855820d63ee39c775",
+    "grant_type": "authorization_code"
+}
