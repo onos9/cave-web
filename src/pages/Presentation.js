@@ -361,11 +361,7 @@ export default function functionName(state = null, action){
                 </div>
               </div>
               <p className="mt-4 text-white text-center mb-0">
-<<<<<<< HEAD
-                Looks unfamiliar? Don’t worry! Our <Link to={ '/#' } className="text-white text-underline fw-bold" target="_blank">documentation</Link> has got you covered.
-=======
-                <Link to={ Routes.DocsQuickStart.path } className="text-white text-underline fw-bold" target="_blank"></Link> 
->>>>>>> 882ab8a6738e20d12964dce74e7c0bc270aafa81
+                <Link to={ '/#' } className="text-white text-underline fw-bold" target="_blank"></Link> 
               </p>
             </Col>
           </Row>
@@ -515,17 +511,10 @@ export default function functionName(state = null, action){
               <span className="h5">{typography.special_courses}</span>
               <ul className="links-vertical mt-2">
                 <li>
-<<<<<<< HEAD
-                  <Card.Link as={ Link } to={ '/#' } target="_blank">Getting started</Card.Link>
-                </li>
-                <li><Card.Link as={ Link } to={ '/#' } target="_blank">Changelog</Card.Link></li>
-                <li><Card.Link target="_blank" href="https://themesberg.com/licensing">License</Card.Link></li>
-=======
-                  <Card.Link as={Link} to={Routes.DocsQuickStart.path} target="_blank">{typography.christian_apologetics}</Card.Link>
+                  <Card.Link as={Link} to={'/#'} target="_blank">{typography.christian_apologetics}</Card.Link>
                 </li>
                 <li><Card.Link as={Link} to={Routes.DocsChangelog.path} target="_blank">{typography.kairos}</Card.Link></li>
                 <li><Card.Link target="_blank" href="https://themesberg.com/licensing">{typography.student_work_ymc}</Card.Link></li>
->>>>>>> 882ab8a6738e20d12964dce74e7c0bc270aafa81
               </ul>
             </Col>
             <Col xs={ 12 } md={ 4 } className="mb-5 mb-lg-0">
