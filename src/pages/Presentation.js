@@ -9,7 +9,6 @@ import Code from "../components/CodeEditor"
 import GitHubButton from 'react-github-btn'
 
 import { Routes } from "../routes"
-import ThemesbergLogoIcon from "../assets/img/themesberg.svg"
 import ThemesbergLogo from "../assets/img/themesberg-logo.svg"
 import MockupPresentation from "../assets/img/mockup-presentation.png"
 import ReactHero from "../assets/img/cave-hero-logo.svg"
@@ -194,7 +193,7 @@ export default function functionName(state = null, action){
               <p className="mb-3 lead fw-bold"></p>
               <p className="mb-4">{typography.about_essay}</p>
               <p className="mb-4"></p>
-              <Button as={Link} to={Routes.Forms.path} variant="secondary" className="mb-5 mb-lg-0" target="_blank"><FontAwesomeIcon icon={faIntercom} className="me-1" /> {typography.contact_button}</Button>
+              <Button as={Link} to={"/#"} variant="secondary" className="mb-5 mb-lg-0" target="_blank"><FontAwesomeIcon icon={faIntercom} className="me-1" /> {typography.contact_button}</Button>
             </Col>
             <Col lg={ 6 } className="rounded shadow pt-3">
               <Code scope={ { Form, Button } } code={ `<Form>
@@ -513,7 +512,7 @@ export default function functionName(state = null, action){
                 <li>
                   <Card.Link as={Link} to={'/#'} target="_blank">{typography.christian_apologetics}</Card.Link>
                 </li>
-                <li><Card.Link as={Link} to={Routes.DocsChangelog.path} target="_blank">{typography.kairos}</Card.Link></li>
+                <li><Card.Link as={Link} to={'/#'} target="_blank">{typography.kairos}</Card.Link></li>
                 <li><Card.Link target="_blank" href="https://themesberg.com/licensing">{typography.student_work_ymc}</Card.Link></li>
               </ul>
             </Col>
