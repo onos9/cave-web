@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React from 'react'
 import * as Constants from "../Constants"
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { NotificationManager } from 'react-notifications'
 import { Logo } from '../assets/cave-logo2.png'
@@ -11,7 +11,7 @@ import Wizard from '../components/Registration/Wizard'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default () => {
-    const navigate = useHistory()
+    const navigate = useNavigate()
 
     const [formData, setFormData] = useState({
         first_name: '',
@@ -43,7 +43,7 @@ export default () => {
                 let resp = await axios.post(`${Constants.api}/auth/login`, body, config)
                 if (resp.statusCode === 200)
                 {
-                    navigate.push('/')
+                    navigate('/')
                     NotificationManager.info('An Email Verification Has Been Send To Your Mail..')
                 }
             } catch (err)
@@ -75,8 +75,8 @@ export default () => {
 
     return (
         <>
-            <Welcome />
-            {/* <Wizard /> */ }
+            {/* <Welcome /> */}
+            <Wizard />
             <div className="bodybg" />
         </>
     )

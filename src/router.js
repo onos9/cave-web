@@ -1,13 +1,13 @@
 
-export const Routes = {
+export const Router = {
     // pages
-    Home: { path: "/home" },
+    Home: { path: "/dash/home" },
     Watch: { path: "/watch" },
     Registration: { path: "/registration" },
     Presentation: { path: "/" },
-    Dashboard: { path: "/dashboard" },
-    Transactions: { path: "/transactions" },
-    Settings: { path: "/settings" },
+    Dashboard: { path: "/dash/dashboard" },
+    Transactions: { path: "/dash/transactions" },
+    Settings: { path: "/dash/settings" },
 
     Signin: { path: "/sign-in" },
     Signup: { path: "/sign-up" },
@@ -16,4 +16,4 @@ export const Routes = {
     Lock: { path: "/lock" },
     NotFound: { path: "/404" },
     ServerError: { path: "/500" },
-};
+}

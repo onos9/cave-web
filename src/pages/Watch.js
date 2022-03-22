@@ -1,10 +1,10 @@
-import { useEffect, useState, useMemo} from 'react';
+import { useEffect, useState, useMemo } from 'react'
 
 import axios from 'axios'
-import ReactPlayer from 'react-player/lazy';
-import * as Constants from "../Constants";
-import { useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import ReactPlayer from 'react-player/lazy'
+import * as Constants from "../Constants"
+import { useSelector } from 'react-redux'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faThumbsUp } from '@fortawesome/free-regular-svg-icons'
 
@@ -14,8 +14,8 @@ function useQuery() {
 }
 
 export default () => {
-    // query and navigate.push
-    const navigate = useHistory()
+    // query and navigate
+    const navigate = useNavigate()
     let query = useQuery()
     const v = query.get('v')
 
@@ -131,7 +131,7 @@ export default () => {
         }
         else
         {
-            navigate.push('/authorization/credentials/login')
+            navigate('/authorization/credentials/login')
         }
     }
 
@@ -213,7 +213,7 @@ export default () => {
         }
         else
         {
-            navigate.push('/authorization/credentials/login')
+            navigate('/authorization/credentials/login')
         }
     }
 
@@ -245,7 +245,7 @@ export default () => {
         }
         else
         {
-            navigate.push('/authorization/credentials/login')
+            navigate('/authorization/credentials/login')
         }
     }
 
@@ -283,7 +283,7 @@ export default () => {
         }
         else
         {
-            navigate.push('/authorization/credentials/login')
+            navigate('/authorization/credentials/login')
         }
     }
 
@@ -316,7 +316,7 @@ export default () => {
         }
         else
         {
-            navigate.push('/authorization/credentials/login')
+            navigate('/authorization/credentials/login')
         }
     }
 
@@ -795,7 +795,7 @@ export default () => {
                                                             document.getElementsByClassName('m-1 d-flex p-3 pb-0')[i].style.background = ''
                                                         } }
                                                         onClick={ () => {
-                                                            navigate.push(`/watch?v=${relate.video_id}`)
+                                                            navigate(`/watch?v=${relate.video_id}`)
                                                             // HandleLike()
                                                             window.scroll({
                                                                 top: 0,
@@ -931,7 +931,7 @@ export default () => {
                     </div>
                     )
                 })
-                :null
+                : null
                 // <Loading />
             }
         </>

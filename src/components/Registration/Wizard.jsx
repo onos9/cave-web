@@ -25,7 +25,7 @@ const Wizard = () => {
     }, [currentTab])
 
     useEffect(() => {
-        //console.log(formData)
+        console.log(formData)
     }, [formData])
 
     const handleChange = (form) => {
@@ -84,8 +84,8 @@ const Wizard = () => {
 
     const sendToServer = async (id) => {
         try
-        {   // Get Acceess token and user info using google jwt
-            let resp = await axios.post(`${Constants.apiV1}/api/v1/candidate/${id}`, formData)
+        {
+            let resp = await axios.post(`${Constants.apiV1}/api/v1/candidate/`, { data: JSON.stringify(formData) })
             NotificationManager.info(`Updated Successfully !`)
             console.log(resp.data.candidate)
         } catch (error)

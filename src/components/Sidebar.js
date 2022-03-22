@@ -8,7 +8,7 @@ import { faBook, faBoxOpen, faChartPie, faCog, faFileAlt, faHandHoldingUsd, faSi
 import { Nav, Badge, Image, Button, Dropdown, Accordion, Navbar } from '@themesberg/react-bootstrap'
 import { Link } from 'react-router-dom'
 
-import { Routes } from "../routes"
+import { Router } from "../router"
 import ThemesbergLogo from "../assets/img/themesberg.svg"
 import ReactHero from "../assets/img/cave-hero-logo.svg"
 import ProfilePicture from "../assets/img/team/profile-picture-3.jpg"
@@ -70,7 +70,7 @@ export default (props = {}) => {
   return (
     <>
       <Navbar expand={ false } collapseOnSelect variant="dark" className="navbar-theme-primary px-4 d-md-none">
-        <Navbar.Brand className="me-lg-5" as={ Link } to={ Routes.Home.path }>
+        <Navbar.Brand className="me-lg-5" as={ Link } to={ Router.Home.path }>
           <Image src={ ReactHero } className="navbar-brand-light" />
         </Navbar.Brand>
         <Navbar.Toggle as={ Button } aria-controls="main-navbar" onClick={ onCollapse }>
@@ -87,7 +87,7 @@ export default (props = {}) => {
                 </div>
                 <div className="d-block">
                   <h6>Hi, Jane</h6>
-                  <Button as={ Link } variant="secondary" size="xs" to={ Routes.Signin.path } className="text-dark">
+                  <Button as={ Link } variant="secondary" size="xs" to={ Router.Signin.path } className="text-dark">
                     <FontAwesomeIcon icon={ faSignOutAlt } className="me-2" /> Sign Out
                   </Button>
                 </div>
@@ -97,24 +97,24 @@ export default (props = {}) => {
               </Nav.Link>
             </div>
             <Nav className="flex-column pt-3 pt-md-0">
-              <NavItem title="" link={ Routes.Presentation.path } image={ ReactHero } />
+              <NavItem title="" link={ Router.Presentation.path } image={ ReactHero } />
 
-              <NavItem title="Home" link={ Routes.Home.path } icon={ faChartPie } />
-              <NavItem title="Dashboard" link={ Routes.Dashboard.path } icon={ faChartPie } />
-              <NavItem title="Registration" link={ Routes.Registration.path } icon={ faChartPie } />
-              <NavItem title="Transactions" icon={ faHandHoldingUsd } link={ Routes.Transactions.path } />
-              <NavItem title="Settings" icon={ faCog } link={ Routes.Settings.path } />
+              <NavItem title="Home" link={ Router.Home.path } icon={ faChartPie } />
+              <NavItem title="Dashboard" link={ Router.Dashboard.path } icon={ faChartPie } />
+              <NavItem title="Registration" link={ Router.Registration.path } icon={ faChartPie } />
+              <NavItem title="Transactions" icon={ faHandHoldingUsd } link={ Router.Transactions.path } />
+              <NavItem title="Settings" icon={ faCog } link={ Router.Settings.path } />
 
               <Dropdown.Divider className="my-3 border-indigo" />
-              
+
               <CollapsableNavItem eventKey="examples/" title="Page Examples" icon={ faFileAlt }>
-                <NavItem title="Sign In" link={ Routes.Signin.path } />
-                <NavItem title="Sign Up" link={ Routes.Signup.path } />
-                <NavItem title="Forgot password" link={ Routes.ForgotPassword.path } />
-                <NavItem title="Reset password" link={ Routes.ResetPassword.path } />
-                <NavItem title="Lock" link={ Routes.Lock.path } />
-                <NavItem title="404 Not Found" link={ Routes.NotFound.path } />
-                <NavItem title="500 Server Error" link={ Routes.ServerError.path } />
+                <NavItem title="Sign In" link={ Router.Signin.path } />
+                <NavItem title="Sign Up" link={ Router.Signup.path } />
+                <NavItem title="Forgot password" link={ Router.ForgotPassword.path } />
+                <NavItem title="Reset password" link={ Router.ResetPassword.path } />
+                <NavItem title="Lock" link={ Router.Lock.path } />
+                <NavItem title="404 Not Found" link={ Router.NotFound.path } />
+                <NavItem title="500 Server Error" link={ Router.ServerError.path } />
               </CollapsableNavItem>
 
               <Button as={ Link } to={ '' } variant="secondary" className="upgrade-to-pro"><FontAwesomeIcon icon={ faRocket } className="me-1" /> Upgrade to Pro</Button>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Route, Switch, Redirect } from "react-router-dom"
-import { Routes } from "../routes"
+
+import { Route, Routes, Navigate, Outlet } from "react-router-dom"
+import { Router } from "../router"
 
 // pages
 import Presentation from "./Presentation"
@@ -34,7 +35,10 @@ const RouteWithLoader = ({ component: Component, ...rest }) => {
   }, [])
 
   return (
-    <Route { ...rest } render={ props => (<> <Preloader show={ loaded ? false : true } /> <Component { ...props } /> </>) } />
+    <>
+      <Preloader show={ loaded ? false : true } />
+      <Outlet />
+    </>
   )
 }
 
@@ -58,43 +62,41 @@ const RouteWithSidebar = ({ component: Component, ...rest }) => {
   }
 
   return (
-    <Route { ...rest } render={ props => (
-      <>
-        <Preloader show={ loaded ? false : true } />
-        <Sidebar />
+    <>
+      <Preloader show={ loaded ? false : true } />
+      <Sidebar />
 
-        <main className="content">
-          <Navbar />
-          <Component { ...props } />
-          <Footer toggleSettings={ toggleSettings } showSettings={ showSettings } />
-        </main>
-      </>
-    ) }
-    />
+      <main className="content">
+        <Navbar />
+        <Outlet />
+        <Footer toggleSettings={ toggleSettings } showSettings={ showSettings } />
+      </main>
+    </>
   )
 }
 
 export default () => (
-  <Switch>
-    <RouteWithLoader exact path={ Routes.Presentation.path } component={ Presentation } />
-    <RouteWithLoader exact path={ Routes.Signin.path } component={ Signin } />
-    <RouteWithLoader exact path={ Routes.Signup.path } component={ Signup } />
-    <RouteWithLoader exact path={ Routes.ForgotPassword.path } component={ ForgotPassword } />
-    <RouteWithLoader exact path={ Routes.ResetPassword.path } component={ ResetPassword } />
-    <RouteWithLoader exact path={ Routes.Lock.path } component={ Lock } />
-    <RouteWithLoader exact path={ Routes.NotFound.path } component={ NotFoundPage } />
-    <RouteWithLoader exact path={ Routes.ServerError.path } component={ ServerError } />
-
-    <RouteWithLoader exact path={ Routes.Watch.path } component={ Watch } />
-    <RouteWithLoader exact path={ Routes.Registration.path } component={ Registration } />
+  <Routes>
 
     {/* pages */ }
-    <RouteWithSidebar exact path={ Routes.Dashboard.path } component={ Dashboard } />          
-    <RouteWithSidebar exact path={ Routes.Transactions.path } component={ Transactions } />
-    <RouteWithSidebar exact path={ Routes.Settings.path } component={ Settings } />
+    <Route path='*' element={ <NotFoundPage /> } />
+    <Route path="/" element={ <RouteWithLoader /> } >
+      <Route path={ Router.Presentation.path } element={ <Presentation /> } />
+      <Route path={ Router.Registration.path } element={ <Registration /> } />
+      <Route path={ Router.Watch.path } element={ <Watch /> } />
+      <Route path={ Router.Signin.path } element={ <Signin /> } />
+      <Route path={ Router.Signup.path } element={ <Signup /> } />
+      <Route path={ Router.ForgotPassword.path } element={ <ForgotPassword /> } />
+      <Route path={ Router.ResetPassword.path } element={ <ResetPassword /> } />
+      <Route path={ Router.Lock.path } element={ <Lock /> } />
+      <Route path={ Router.ServerError.path } element={ <ServerError /> } />
+    </Route>
 
-    <RouteWithSidebar exact path={ Routes.Home.path } component={ Home } />
-
-    <Redirect to={ Routes.NotFound.path } />
-  </Switch>
+    <Route path="/dash" element={ <RouteWithSidebar /> } >
+      <Route path={ Router.Home.path } element={ <Home /> } />
+      <Route path={ Router.Dashboard.path } element={ <Dashboard /> } />
+      <Route path={ Router.Transactions.path } element={ <Transactions /> } />
+      <Route path={ Router.Settings.path } element={ <Settings /> } />
+    </Route>
+  </Routes >
 )

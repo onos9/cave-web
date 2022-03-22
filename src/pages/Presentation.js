@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faBook, faExternalLinkAlt, faTimesCircle, faCheckCircle, faCalendarAlt, faCodeBranch, faShoppingCart, faFolder, faMapMarkedAlt, faPager, faFileCode, faDownload, faSignInAlt } from "@fortawesome/free-solid-svg-icons"
 import { faBootstrap, faGithub, faIntercom, faJs, faReact, faSass } from "@fortawesome/free-brands-svg-icons"
@@ -8,7 +8,7 @@ import { HashLink } from 'react-router-hash-link'
 import Code from "../components/CodeEditor"
 import GitHubButton from 'react-github-btn'
 
-import { Routes } from "../routes"
+import { Router } from "../router"
 import ThemesbergLogo from "../assets/img/themesberg-logo.svg"
 import MockupPresentation from "../assets/img/mockup-presentation.png"
 import ReactHero from "../assets/img/cave-hero-logo.svg"
@@ -22,15 +22,39 @@ import ReactLogo from "../assets/img/technologies/react-logo.svg"
 import pages from "../data/pages"
 import features from "../data/features"
 import typography from "../data/typography"
+import { apiV1 } from "../Constants"
+import axios from 'axios'
 
+export default (state = null, action) => {
+  const code = new URLSearchParams(window.location.search).get('code')
 
+  useEffect(() => {
+    const doCode = code ? sendCode : getCodeUrl
+    doCode()
+  }, [code])
 
+  const sendCode = async () => {
+    try
+    {
+      const data = { code: code }
+      const response = await axios.post(`${apiV1}/api/v1/mail`, data)
+      console.log(response.data)
+    } catch (error)
+    {
+      console.log(error)
+    }
+  }
 
-export default function functionName(state = null, action){
+  const getCodeUrl = async () => {
+    const resp = await axios.get(`${apiV1}/api/v1/mail`)
+    const params = new URLSearchParams(resp.data).toString()
+    const url = `https://accounts.zoho.com/oauth/v2/auth?${params}`
+    console.log(url)
+  }
 
   const PagePreview = (props) => {
     const { name, image, link } = props
-    
+
 
     return (
       <Col xs={ 6 } className="mb-5">
@@ -97,11 +121,11 @@ export default function functionName(state = null, action){
                 <Nav.Link as={ HashLink } to="#events">Events</Nav.Link>
                 <Nav.Link as={ HashLink } to="#pages">Courses</Nav.Link>
                 <Nav.Link as={ HashLink } to="#folder" className="d-sm-none d-xl-inline">Folder Structure</Nav.Link>
-                <Nav.Link as={HashLink} to={ Routes.Registration.path}>Enrollment</Nav.Link>
+                <Nav.Link as={ HashLink } to={ Router.Registration.path }>Enrollment</Nav.Link>
                 <Nav.Link as={ HashLink } to="#programs">Programs</Nav.Link>
               </Nav>
             </Navbar.Collapse>
-            <Button as={ HashLink } to={Routes.Signin.path} variant="outline-white" className="ms-3"><FontAwesomeIcon icon={ faSignInAlt } className="me-1" />Login</Button>
+            <Button as={ HashLink } to={ Router.Signin.path } variant="outline-white" className="ms-3"><FontAwesomeIcon icon={ faSignInAlt } className="me-1" />Login</Button>
           </div>
         </Container>
       </Navbar>
@@ -113,7 +137,7 @@ export default function functionName(state = null, action){
               <h1 className="fw-bolder text-secondary">{ typography.app_name }</h1>
               <p className="text-muted fw-light mb-5 h5">{ typography.App_description }</p>
               <div className="d-flex align-items-center justify-content-center">
-                <Button variant="secondary" as={ Link } to={ Routes.Registration.path } className="text-dark me-3">
+                <Button variant="secondary" as={ Link } to={ Router.Registration.path } className="text-dark me-3">
                   Enroll Now <FontAwesomeIcon icon={ faExternalLinkAlt } className="d-none d-sm-inline ms-1" />
                 </Button>
                 {/* <GitHubButton className="mt-lg-2" href="https://github.com/themesberg/volt-react-dashboard" data-size="large" data-show-count="true" aria-label="Star themesberg/volt-react-dashboard on GitHub">Star</GitHubButton> */ }
@@ -121,7 +145,7 @@ export default function functionName(state = null, action){
               <div className="d-flex justify-content-center flex-column mb-6 mb-lg-5 mt-5">
                 <div className="text-center">
                   <a href="https://themesberg.com" target="_blank" rel="noreferrer">
-                    {/* <Image src={ ThemesbergLogoIcon } height={ 25 } width={ 25 } className="mb-3" alt="Themesberg Logo" /> */}
+                    {/* <Image src={ ThemesbergLogoIcon } height={ 25 } width={ 25 } className="mb-3" alt="Themesberg Logo" /> */ }
                     <p className="text-muted font-small m-0"></p>
                   </a>
                 </div>
@@ -147,29 +171,29 @@ export default function functionName(state = null, action){
               <div className="icon icon-shape icon-lg bg-white shadow-lg border-light rounded-circle mb-4">
                 <FontAwesomeIcon icon={ faPager } className="text-secondary" />
               </div>
-              <h3 className="fw-bolder">{typography.graduate}</h3>
+              <h3 className="fw-bolder">{ typography.graduate }</h3>
               <p className="text-gray">{ typography.graduated_student }</p>
             </Col>
             <Col xs={ 6 } md={ 3 } className="text-center mb-4">
               <div className="icon icon-shape icon-lg bg-white shadow-lg border-light rounded-circle mb-4">
                 <FontAwesomeIcon icon={ faReact } className="text-secondary" />
               </div>
-              <h3 className="fw-bolder">{typography.missions}</h3>
-              <p className="text-gray">{typography.missions_outreach}</p>
+              <h3 className="fw-bolder">{ typography.missions }</h3>
+              <p className="text-gray">{ typography.missions_outreach }</p>
             </Col>
             <Col xs={ 6 } md={ 3 } className="text-center">
               <div className="icon icon-shape icon-lg bg-white shadow-lg border-light rounded-circle mb-4">
                 <FontAwesomeIcon icon={ faSass } className="text-secondary" />
               </div>
-              <h3 className="fw-bolder">{typography.practicum}</h3>
-              <p className="text-gray">{typography.ministry_practicum}</p>
+              <h3 className="fw-bolder">{ typography.practicum }</h3>
+              <p className="text-gray">{ typography.ministry_practicum }</p>
             </Col>
             <Col xs={ 6 } md={ 3 } className="text-center">
               <div className="icon icon-shape icon-lg bg-white shadow-lg border-light rounded-circle mb-4">
                 <FontAwesomeIcon color="secondary" icon={ faBootstrap } className="text-secondary" />
               </div>
-              <h3 className="fw-bolder">{typography.prayers}</h3>
-              <p className="text-gray">{typography.prayer_stretch}</p>
+              <h3 className="fw-bolder">{ typography.prayers }</h3>
+              <p className="text-gray">{ typography.prayer_stretch }</p>
             </Col>
           </Row>
         </Container>
@@ -178,10 +202,10 @@ export default function functionName(state = null, action){
         <Container>
           <Row className="justify-content-between align-items-center mb-5 mb-lg-7">
             <Col lg={ 5 } className="order-lg-2 mb-5 mb-lg-0">
-              <h2>{typography.event}</h2>
+              <h2>{ typography.event }</h2>
               <p className="mb-3 lead fw-bold">The most popular front-end library in the world</p>
               <p className="mb-4">Volt React is an admin dashboard template that is built using React.js components using react hooks and a data-driven structure that can kick-start your app in no time.</p>
-              <Button as={Link} to={Routes.Dashboard.path} variant="secondary" target="_blank">{typography.learn_more}<FontAwesomeIcon icon={ faExternalLinkAlt } className="ms-1" /></Button>
+              <Button as={ Link } to={ Router.Dashboard.path } variant="secondary" target="_blank">{ typography.learn_more }<FontAwesomeIcon icon={ faExternalLinkAlt } className="ms-1" /></Button>
             </Col>
             <Col lg={ 6 } className="order-lg-1">
               <Image src={ ReactMockupImg } alt="Calendar Preview" />
@@ -189,11 +213,11 @@ export default function functionName(state = null, action){
           </Row>
           <Row className="justify-content-between align-items-center mb-5 mb-lg-7">
             <Col lg={ 5 }>
-              <h2>{typography.about}</h2>
+              <h2>{ typography.about }</h2>
               <p className="mb-3 lead fw-bold"></p>
-              <p className="mb-4">{typography.about_essay}</p>
+              <p className="mb-4">{ typography.about_essay }</p>
               <p className="mb-4"></p>
-              <Button as={Link} to={"/#"} variant="secondary" className="mb-5 mb-lg-0" target="_blank"><FontAwesomeIcon icon={faIntercom} className="me-1" /> {typography.contact_button}</Button>
+              <Button as={ Link } to={ "/#" } variant="secondary" className="mb-5 mb-lg-0" target="_blank"><FontAwesomeIcon icon={ faIntercom } className="me-1" /> { typography.contact_button }</Button>
             </Col>
             <Col lg={ 6 } className="rounded shadow pt-3">
               <Code scope={ { Form, Button } } code={ `<Form>
@@ -212,9 +236,9 @@ export default function functionName(state = null, action){
           </Row>
           <Row className="justify-content-between align-items-center mb-5 mb-lg-7">
             <Col lg={ 5 } className="order-lg-2 mb-5 mb-lg-0">
-              <h2 className="d-flex align-items-center">{typography.testimonies_one}<Badge pill bg='secondary' text="dark" className="badge-md ms-3 mb-0 fs-6"></Badge></h2>
-              <p className="mb-3 lead fw-bold">{typography.testmonies_one_name}</p>
-              <p className="mb-4">{typography.testimonies_one_essay}</p>
+              <h2 className="d-flex align-items-center">{ typography.testimonies_one }<Badge pill bg='secondary' text="dark" className="badge-md ms-3 mb-0 fs-6"></Badge></h2>
+              <p className="mb-3 lead fw-bold">{ typography.testmonies_one_name }</p>
+              <p className="mb-4">{ typography.testimonies_one_essay }</p>
             </Col>
             <Col lg={ 6 } className="order-lg-1">
               <Image src={ MapboxImg } alt="MapBox Leaflet.js Custom Integration Mockup" />
@@ -222,12 +246,12 @@ export default function functionName(state = null, action){
           </Row>
           <Row className="justify-content-between align-items-center mb-5 mb-lg-7">
             <Col lg={ 5 }>
-              <h2 className="d-flex align-items-center">{typography.testimonies_two} <Badge pill bg='secondary' text="dark" className="badge-md ms-3 mb-0 fs-6"></Badge></h2>
+              <h2 className="d-flex align-items-center">{ typography.testimonies_two } <Badge pill bg='secondary' text="dark" className="badge-md ms-3 mb-0 fs-6"></Badge></h2>
               <p className="mb-3 lead fw-bold">
-            {typography.testimonies_two_name}
+                { typography.testimonies_two_name }
               </p>
               <p className="mb-4">
-                {typography.testimonies_two_essay} </p>
+                { typography.testimonies_two_essay } </p>
             </Col>
             <Col lg={ 6 }>
               <Image src={ CalendarImg } alt="Calendar Preview" />
@@ -235,12 +259,12 @@ export default function functionName(state = null, action){
           </Row>
           <Row className="justify-content-between align-items-center">
             <Col lg={ 5 } className="order-lg-2 mb-5 mb-lg-0">
-              <h2>{typography.testimonoies_three}</h2>
+              <h2>{ typography.testimonoies_three }</h2>
               <p className="mb-3 lead fw-bold">
-              {typography.testimonies_three_name}
+                { typography.testimonies_three_name }
               </p>
               <p className="mb-4">
-              {typography.testimonies_three_essay}           </p>
+                { typography.testimonies_three_essay }           </p>
             </Col>
             <Col lg={ 6 } className="col-lg-6 order-lg-1">
               <Image src={ BS5IllustrationsImg } alt="Front pages overview" />
@@ -253,10 +277,10 @@ export default function functionName(state = null, action){
           <Row className="justify-content-center mb-5 mb-lg-6">
             <Col xs={ 12 } className="text-center">
               <h2 className="px-lg-5">
-                {typography.courses_featured}
+                { typography.courses_featured }
               </h2>
               <p className="lead px-lg-10">
-              
+
               </p>
             </Col>
           </Row>
@@ -269,7 +293,7 @@ export default function functionName(state = null, action){
         <Container>
           <Row className="justify-content-center mb-5 mb-lg-6">
             <Col xs={ 12 } className="text-center">
-              <h2 className="px-lg-5">{typography.faculties}</h2>
+              <h2 className="px-lg-5">{ typography.faculties }</h2>
               <p className="lead px-lg-8"></p>
             </Col>
           </Row>
@@ -282,8 +306,8 @@ export default function functionName(state = null, action){
         <Container>
           <Row className="justify-content-center mb-5 mb-lg-6">
             <Col xs={ 12 } className="text-center">
-              <h2 className="px-lg-5">{typography.courses}</h2>
-              <p className="lead px-lg-8">{typography.courses_insight}</p>
+              <h2 className="px-lg-5">{ typography.courses }</h2>
+              <p className="lead px-lg-8">{ typography.courses_insight }</p>
             </Col>
           </Row>
           <Row className="d-flex align-items-center">
@@ -330,10 +354,10 @@ export default function functionName(state = null, action){
           <Row className="justify-content-center text-center text-white mb-5">
             <Col xs={ 12 }>
               <h2 className="fw-light mb-3">
-                {typography.accomodation_scholarship_heading}<span className="fw-bold"></span><span className="fw-bold"></span>.
+                { typography.accomodation_scholarship_heading }<span className="fw-bold"></span><span className="fw-bold"></span>.
               </h2>
               <p className="lead px-lg-8">
-              { typography.s}
+                { typography.s }
               </p>
             </Col>
           </Row>
@@ -342,25 +366,25 @@ export default function functionName(state = null, action){
               <div className="position-relative">
                 <div className="rounded bg-white p-4 text-dark mb-2">
                   <div className="mb-3">
-                    <div className="fw-bold">&gt; {typography.scholarship_online} <span className="text-black-600"> {typography.scholarship_online_brckt}</span></div>
-                    <div className="text-gray">{typography.scholarship_online_essay}</div>
-                    <div className="text-gray">{typography.scholarship_campus_essay_two}</div>
+                    <div className="fw-bold">&gt; { typography.scholarship_online } <span className="text-black-600"> { typography.scholarship_online_brckt }</span></div>
+                    <div className="text-gray">{ typography.scholarship_online_essay }</div>
+                    <div className="text-gray">{ typography.scholarship_campus_essay_two }</div>
                   </div>
                   <div className="mb-3">
-                    <div className="fw-bold">&gt; {typography.scholarship_campus}<span className="text-black-600"> {typography.scholarship_campus_brckt}</span></div>
-                    <div className="text-gray">{typography.scholarship_campus_essay}</div>
-                    <div className="text-gray">{typography.scholarship_campus_essay_two}</div>
+                    <div className="fw-bold">&gt; { typography.scholarship_campus }<span className="text-black-600"> { typography.scholarship_campus_brckt }</span></div>
+                    <div className="text-gray">{ typography.scholarship_campus_essay }</div>
+                    <div className="text-gray">{ typography.scholarship_campus_essay_two }</div>
                   </div>
                   <div>
-                    <div className="fw-bold">&gt; {typography.off_campus_accomodation}</div>
-                    <div className="text-gray">{typography.off_campus_accomodation_explain}</div>
-                    <div className="fw-bold">&gt; {typography.on_campus_accomodation}</div>
-                    <div className="text-gray">{typography.on_campus_accomodation_explain}</div>
+                    <div className="fw-bold">&gt; { typography.off_campus_accomodation }</div>
+                    <div className="text-gray">{ typography.off_campus_accomodation_explain }</div>
+                    <div className="fw-bold">&gt; { typography.on_campus_accomodation }</div>
+                    <div className="text-gray">{ typography.on_campus_accomodation_explain }</div>
                   </div>
                 </div>
               </div>
               <p className="mt-4 text-white text-center mb-0">
-                <Link to={ '/#' } className="text-white text-underline fw-bold" target="_blank"></Link> 
+                <Link to={ '/#' } className="text-white text-underline fw-bold" target="_blank"></Link>
               </p>
             </Col>
           </Row>
@@ -370,9 +394,9 @@ export default function functionName(state = null, action){
         <Container>
           <Row>
             <Col xs={ 12 } lg={ 8 }>
-              <h2 className="fw-light mb-3"> {typography.program_options} </h2>
-              <p className="lead mb-4 me-lg-6">{typography.program_options_campus_desc}</p>
-              <p className="lead mb-4 me-lg-6">{typography.program_options_online_desc}</p>
+              <h2 className="fw-light mb-3"> { typography.program_options } </h2>
+              <p className="lead mb-4 me-lg-6">{ typography.program_options_campus_desc }</p>
+              <p className="lead mb-4 me-lg-6">{ typography.program_options_online_desc }</p>
             </Col>
             <Col xs={ 12 } lg={ 4 }>
               <div className="github-big-icon">
@@ -385,28 +409,28 @@ export default function functionName(state = null, action){
               <Card border="light" className="p-4">
                 <Card.Header className="bg-white border-0 pb-0">
                   <span className="d-block">
-                    <h2 className="text-primary fw-bold align-top">{typography.first_program_option}</h2>
+                    <h2 className="text-primary fw-bold align-top">{ typography.first_program_option }</h2>
                   </span>
                 </Card.Header>
                 <Card.Body>
                   <ListGroup className="list-group-flush price-list">
                     <ListGroup.Item className="bg-white border-0 ps-0">
-                      <strong>{typography.campus_semester_months}</strong> {typography.campus_semester_months_two}
+                      <strong>{ typography.campus_semester_months }</strong> { typography.campus_semester_months_two }
                     </ListGroup.Item>
                     <ListGroup.Item className="bg-white border-0 ps-0">
-                      <strong>{typography.campus_fee_amount}</strong> {typography.campus_per_semester}
+                      <strong>{ typography.campus_fee_amount }</strong> { typography.campus_per_semester }
                     </ListGroup.Item>
                     <ListGroup.Item className="bg-white border-0 ps-0">
-                      <strong>{typography.this_campus}</strong>
+                      <strong>{ typography.this_campus }</strong>
                     </ListGroup.Item>
                     <ListGroup.Item className="bg-white border-0 ps-0">
-                      <FontAwesomeIcon icon={faCheckCircle} className="text-success me-2" /> {typography.campus_fee_reg}
+                      <FontAwesomeIcon icon={ faCheckCircle } className="text-success me-2" /> { typography.campus_fee_reg }
                     </ListGroup.Item>
                     <ListGroup.Item className="bg-white border-0 ps-0">
-                      <FontAwesomeIcon icon={ faCheckCircle } className="text-success me-2" /> {typography.campus_fee_tuition}
+                      <FontAwesomeIcon icon={ faCheckCircle } className="text-success me-2" /> { typography.campus_fee_tuition }
                     </ListGroup.Item>
                     <ListGroup.Item className="bg-white border-0 ps-0">
-                      <FontAwesomeIcon icon={ faCheckCircle } className="text-success me-2" /> {typography.campus_fee_admin_charge}
+                      <FontAwesomeIcon icon={ faCheckCircle } className="text-success me-2" /> { typography.campus_fee_admin_charge }
                     </ListGroup.Item>
                     <ListGroup.Item className="bg-white border-0 ps-0">
                       <FontAwesomeIcon icon={ faCheckCircle } className="text-success me-2" /> SVG Map
@@ -419,37 +443,37 @@ export default function functionName(state = null, action){
                     </ListGroup.Item>
                   </ListGroup>
                 </Card.Body>
-                <Button href="https://themesberg.com/product/dashboard/volt-react" target="_blank" variant="primary" className="w-100 m-0 mt-3 mb-3"><FontAwesomeIcon icon={faDownload} className="me-1" /> {typography.get_started_one}</Button>
+                <Button href="https://themesberg.com/product/dashboard/volt-react" target="_blank" variant="primary" className="w-100 m-0 mt-3 mb-3"><FontAwesomeIcon icon={ faDownload } className="me-1" /> { typography.get_started_one }</Button>
               </Card>
             </Col>
             <Col xs={ 12 } md={ 6 } lg={ 4 } className="mb-5 mb-lg-0">
               <Card border="light" className="p-4 py-5 mt-lg-n5">
                 <Card.Header className="bg-white border-0 pb-0">
                   <span className="d-block">
-                    <h2 className="text-primary fw-bold align-top">{typography.second_program_option}</h2>
+                    <h2 className="text-primary fw-bold align-top">{ typography.second_program_option }</h2>
                   </span>
                 </Card.Header>
                 <Card.Body>
                   <ListGroup className="list-group-flush price-list">
                     <ListGroup.Item className="bg-white border-0 ps-0">
-                      <strong>{typography.online_semester_months}</strong> {typography.online_semester_months_two}
+                      <strong>{ typography.online_semester_months }</strong> { typography.online_semester_months_two }
                     </ListGroup.Item>
                     <ListGroup.Item className="bg-white border-0 ps-0">
-                      <strong>{typography.online_fee_amount}</strong> {typography.online_per_semester}
+                      <strong>{ typography.online_fee_amount }</strong> { typography.online_per_semester }
                     </ListGroup.Item>
                     <ListGroup.Item className="bg-white border-0 ps-0">
-                      <strong>{typography.this_online}</strong> 
+                      <strong>{ typography.this_online }</strong>
                     </ListGroup.Item>
                     <ListGroup.Item className="bg-white border-0 ps-0">
-                      <FontAwesomeIcon icon={ faCheckCircle } className="text-success me-2" /> {typography.online_fees_reg}                    </ListGroup.Item>
+                      <FontAwesomeIcon icon={ faCheckCircle } className="text-success me-2" /> { typography.online_fees_reg }                    </ListGroup.Item>
                     <ListGroup.Item className="bg-white border-0 ps-0">
-                      <FontAwesomeIcon icon={ faCheckCircle } className="text-success me-2" /> {typography.online_fees_tuition}
+                      <FontAwesomeIcon icon={ faCheckCircle } className="text-success me-2" /> { typography.online_fees_tuition }
                     </ListGroup.Item>
                     <ListGroup.Item className="bg-white border-0 ps-0">
-                      <FontAwesomeIcon icon={ faCheckCircle } className="text-success me-2" /> {typography.online_fees_admin_charge}
+                      <FontAwesomeIcon icon={ faCheckCircle } className="text-success me-2" /> { typography.online_fees_admin_charge }
                     </ListGroup.Item>
                     <ListGroup.Item className="bg-white border-0 ps-0">
-                      <FontAwesomeIcon icon={ faCheckCircle } className="text-success me-2" /> {typography.online_internet_mgt_fee}
+                      <FontAwesomeIcon icon={ faCheckCircle } className="text-success me-2" /> { typography.online_internet_mgt_fee }
                     </ListGroup.Item>
                     <ListGroup.Item className="bg-white border-0 ps-0">
                       <FontAwesomeIcon icon={ faCheckCircle } className="text-success me-2" /> Widgets
@@ -459,7 +483,7 @@ export default function functionName(state = null, action){
                     </ListGroup.Item>
                   </ListGroup>
                 </Card.Body>
-                <Button href="https://demo.themesberg.com/volt-pro-react/#/" target="_blank" variant="secondary" className="w-100 m-0 mt-3">{typography.get_started_two} <FontAwesomeIcon icon={ faExternalLinkAlt } className="ms-1" /></Button>
+                <Button href="https://demo.themesberg.com/volt-pro-react/#/" target="_blank" variant="secondary" className="w-100 m-0 mt-3">{ typography.get_started_two } <FontAwesomeIcon icon={ faExternalLinkAlt } className="ms-1" /></Button>
               </Card>
             </Col>
           </Row>
@@ -491,29 +515,29 @@ export default function functionName(state = null, action){
                 <Image src={ ReactHero } />
                 <span className="ms-2 brand-text">Volt React</span>
               </Navbar.Brand>
-              <p> {typography.info_details}</p>
-              <p> {typography.info_details_two}</p>
-              <p> {typography.info_details_three}</p>
-              <p> {typography.info_details_four}</p>
+              <p> { typography.info_details }</p>
+              <p> { typography.info_details_two }</p>
+              <p> { typography.info_details_three }</p>
+              <p> { typography.info_details_four }</p>
             </Col>
             <Col xs={ 6 } md={ 2 } className="mb-5 mb-lg-0">
-              <span className="h5">{typography.site_map}</span>
+              <span className="h5">{ typography.site_map }</span>
               <ul className="links-vertical mt-2">
-                <li><Card.Link target="_blank" href="https://themesberg.com/blog">{typography.site_map_events}</Card.Link></li>
-                <li><Card.Link target="_blank" href="https://themesberg.com/products">{typography.site_map_courses}</Card.Link></li>
+                <li><Card.Link target="_blank" href="https://themesberg.com/blog">{ typography.site_map_events }</Card.Link></li>
+                <li><Card.Link target="_blank" href="https://themesberg.com/products">{ typography.site_map_courses }</Card.Link></li>
                 <li><Card.Link target="_blank" href="https://themesberg.com/about">About Us</Card.Link></li>
-                <li><Card.Link target="_blank" href="https://themesberg.com/contact">{typography.site_map_enrollment}</Card.Link></li>
-                <li><Card.Link target="_blank" href="https://themesberg.com/contact">{typography.site_map_programs}</Card.Link></li>
+                <li><Card.Link target="_blank" href="https://themesberg.com/contact">{ typography.site_map_enrollment }</Card.Link></li>
+                <li><Card.Link target="_blank" href="https://themesberg.com/contact">{ typography.site_map_programs }</Card.Link></li>
               </ul>
             </Col>
             <Col xs={ 6 } md={ 2 } className="mb-5 mb-lg-0">
-              <span className="h5">{typography.special_courses}</span>
+              <span className="h5">{ typography.special_courses }</span>
               <ul className="links-vertical mt-2">
                 <li>
-                  <Card.Link as={Link} to={'/#'} target="_blank">{typography.christian_apologetics}</Card.Link>
+                  <Card.Link as={ Link } to={ '/#' } target="_blank">{ typography.christian_apologetics }</Card.Link>
                 </li>
-                <li><Card.Link as={Link} to={'/#'} target="_blank">{typography.kairos}</Card.Link></li>
-                <li><Card.Link target="_blank" href="https://themesberg.com/licensing">{typography.student_work_ymc}</Card.Link></li>
+                <li><Card.Link as={ Link } to={ '/#' } target="_blank">{ typography.kairos }</Card.Link></li>
+                <li><Card.Link target="_blank" href="https://themesberg.com/licensing">{ typography.student_work_ymc }</Card.Link></li>
               </ul>
             </Col>
             <Col xs={ 12 } md={ 4 } className="mb-5 mb-lg-0">
