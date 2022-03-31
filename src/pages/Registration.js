@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { NotificationManager } from 'react-notifications'
 import { Logo } from '../assets/cave-logo2.png'
-import Welcome from '../components/Registration/Welcome'
+import Welcome from '../components/Welcome'
 import { useEffect } from 'react'
-import Wizard from '../components/Registration/Wizard'
+import Wizard from '../components/Wizard'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default () => {
@@ -75,8 +75,8 @@ export default () => {
 
     return (
         <>
-            {/* <Welcome /> */}
-            <Wizard />
+            <Welcome />
+            {/* <Wizard /> */}
             <div className="bodybg" />
         </>
     )

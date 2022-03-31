@@ -18,6 +18,7 @@ import ServerError from "./ServerError"
 import Watch from './Watch'
 import Registration from './Registration'
 import Home from './Home'
+import Admission from "./Admission";
 
 // components
 import Sidebar from "../components/Sidebar"
@@ -30,7 +31,7 @@ const RouteWithLoader = ({ component: Component, ...rest }) => {
   const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoaded(true), 1000)
+    const timer = setTimeout(() => setLoaded(true), 100)
     return () => clearTimeout(timer)
   }, [])
 
@@ -77,26 +78,27 @@ const RouteWithSidebar = ({ component: Component, ...rest }) => {
 
 export default () => (
   <Routes>
+    {/* pages */}
+    <Route path="*" element={<NotFoundPage />} />
 
-    {/* pages */ }
-    <Route path='*' element={ <NotFoundPage /> } />
-    <Route path="/" element={ <RouteWithLoader /> } >
-      <Route path={ Router.Presentation.path } element={ <Presentation /> } />
-      <Route path={ Router.Registration.path } element={ <Registration /> } />
-      <Route path={ Router.Watch.path } element={ <Watch /> } />
-      <Route path={ Router.Signin.path } element={ <Signin /> } />
-      <Route path={ Router.Signup.path } element={ <Signup /> } />
-      <Route path={ Router.ForgotPassword.path } element={ <ForgotPassword /> } />
-      <Route path={ Router.ResetPassword.path } element={ <ResetPassword /> } />
-      <Route path={ Router.Lock.path } element={ <Lock /> } />
-      <Route path={ Router.ServerError.path } element={ <ServerError /> } />
+    <Route path="/" element={<RouteWithLoader />}>
+      <Route path={Router.Presentation.path} element={<Presentation />} />
+      <Route path={Router.Registration.path} element={<Registration />} />
+      <Route path={Router.Watch.path} element={<Watch />} />
+      <Route path={Router.Signin.path} element={<Signin />} />
+      <Route path={Router.Signup.path} element={<Signup />} />
+      <Route path={Router.ForgotPassword.path} element={<ForgotPassword />} />
+      <Route path={Router.ResetPassword.path} element={<ResetPassword />} />
+      <Route path={Router.Lock.path} element={<Lock />} />
+      <Route path={Router.ServerError.path} element={<ServerError />} />
+      <Route path={Router.Admission.path} element={<Admission />} />
     </Route>
 
-    <Route path="/dash" element={ <RouteWithSidebar /> } >
-      <Route path={ Router.Home.path } element={ <Home /> } />
-      <Route path={ Router.Dashboard.path } element={ <Dashboard /> } />
-      <Route path={ Router.Transactions.path } element={ <Transactions /> } />
-      <Route path={ Router.Settings.path } element={ <Settings /> } />
+    <Route path="/dash" element={<RouteWithSidebar />}>
+      <Route path={Router.Home.path} element={<Home />} />
+      <Route path={Router.Dashboard.path} element={<Dashboard />} />
+      <Route path={Router.Transactions.path} element={<Transactions />} />
+      <Route path={Router.Settings.path} element={<Settings />} />
     </Route>
-  </Routes >
-)
+  </Routes>
+);

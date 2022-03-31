@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import { Form } from '@themesberg/react-bootstrap'
+import { Form, Row, Col } from '@themesberg/react-bootstrap'
 
-const Health = ({ handleChange}) => {
+const jsonData = [
+    "Yes",
+    "No"
+]
+
+export default ({ handleChange }) => {
     const [health, setHealth] = useState({})
     const [data, setData] = useState({})
-    let temp = { route: 'health'}
+    let temp = { route: 'background' }
+    //jsonData
 
     useEffect(() => {
         setHealth(prev => ({ ...prev, ...{ health: data } }))
@@ -19,152 +25,143 @@ const Health = ({ handleChange}) => {
         temp[e.target.name] = e.target.value
         setData((d) => ({ ...d, ...temp }))
     }
-  return (
-      <div className="container">
-          <h4 id="register">Health Information</h4>
-          <div className="row">
-              <div className="col-md-6 col-sm-6">
-                  <h6><span>*</span>Any Disability?</h6>
-                  <p>
-                      <select name="born_again" onChange={ onChange }>
-                          <option hidden value="">Select status...</option>
-                          <option value='true' >Yes</option>
-                          <option value='false'>No</option>
-                      </select>
-                      <small>this field is blank </small>
-                  </p>
-              </div>
-              <div className="col-md-6 optionbox">
-                  <h6>Any Nervous Hillness?</h6>
-                  <p>
-                      <select name='water_baptism' onChange={ onChange }>
-                          <option hidden>Select status...</option>
-                          <option value='true' >Yes</option>
-                          <option value='false'>No</option>
-                      </select>
-                  </p>
-              </div>
-          </div>
+    return (
+        <>
+            <div className="container">
+                <h4 id="register">Health Information</h4>
+                <Row className=" mb-3">
+                    <Form.Group as={ Col } controlId="formGridClass" className="mb-3">
+                        <Form.Label>Any Disability?</Form.Label>
+                        <Form.Select required isValid>
+                            <option hidden defaultValue>Choose a status</option>
+                            { jsonData.map((rate, index) => (
+                                <option key={ index }>{ rate.name }</option>
+                            )) }
+                        </Form.Select>
+                        <Form.Control.Feedback type="valid">Looks good!</Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Group as={ Col } controlId="formGridClass" className="mb-3">
+                        <Form.Label>Any Nervous</Form.Label>
+                        <Form.Select required isValid>
+                            <option hidden defaultValue>Choose a status</option>
+                            { jsonData.map((rate, index) => (
+                                <option key={ index }>{ rate.name }</option>
+                            )) }
+                        </Form.Select>
+                        <Form.Control.Feedback type="valid">Looks good!</Form.Control.Feedback>
+                    </Form.Group>
+                </Row>
 
-          <div className="row">
-              <div className="col-md-6 col-sm-6">
-                  <h6><span>*</span>Are you Anorexic?</h6>
-                  <p>
-                      <select name="born_again" onChange={ onChange }>
-                          <option hidden value="">Select status...</option>
-                          <option value='true' >Yes</option>
-                          <option value='false'>No</option>
-                      </select>
-                      <small>this field is blank </small>
-                  </p>
-              </div>
-              <div className="col-md-6 optionbox">
-                  <h6>Are you Diabetic?</h6>
-                  <p>
-                      <select name='water_baptism' onChange={ onChange }>
-                          <option hidden>Select status...</option>
-                          <option value='true' >Yes</option>
-                          <option value='false'>No</option>
-                      </select>
-                  </p>
-              </div>
-          </div>
+                <Row className=" mb-3">
+                    <Form.Group as={ Col } controlId="formGridClass" className="mb-3">
+                        <Form.Label>Are you Anorexic?</Form.Label>
+                        <Form.Select required isValid>
+                            <option hidden defaultValue>Choose a status</option>
+                            { jsonData.map((rate, index) => (
+                                <option key={ index }>{ rate.name }</option>
+                            )) }
+                        </Form.Select>
+                        <Form.Control.Feedback type="valid">Looks good!</Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Group as={ Col } controlId="formGridClass" className="mb-3">
+                        <Form.Label>Are you Diabetic?</Form.Label>
+                        <Form.Select required isValid>
+                            <option hidden defaultValue>Choose a rating</option>
+                            { jsonData.map((rate, index) => (
+                                <option key={ index }>{ rate.name }</option>
+                            )) }
+                        </Form.Select>
+                        <Form.Control.Feedback type="valid">Looks good!</Form.Control.Feedback>
+                    </Form.Group>
+                </Row>
 
-          <div className="row">
-              <div className="col-md-6 col-sm-6">
-                  <h6><span>*</span>Are you Epileptic?</h6>
-                  <p>
-                      <select name="born_again" onChange={ onChange }>
-                          <option hidden value="">Select status...</option>
-                          <option value='true' >Yes</option>
-                          <option value='false'>No</option>
-                      </select>
-                      <small>this field is blank </small>
-                  </p>
-              </div>
-              <div className="col-md-6 optionbox">
-                  <h6>Any Special Diet</h6>
-                  <p>
-                      <select name='water_baptism' onChange={ onChange }>
-                          <option hidden>Select status...</option>
-                          <option value='true' >Yes</option>
-                          <option value='false'>No</option>
-                      </select>
-                  </p>
-              </div>
-          </div>
+                <Row className=" mb-3">
+                    <Form.Group as={ Col } controlId="formGridClass" className="mb-3">
+                        <Form.Label>Are you Epileptic?</Form.Label>
+                        <Form.Select required isValid>
+                            <option hidden defaultValue>Choose a status</option>
+                            { jsonData.map((rate, index) => (
+                                <option key={ index }>{ rate.name }</option>
+                            )) }
+                        </Form.Select>
+                        <Form.Control.Feedback type="valid">Looks good!</Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Group as={ Col } controlId="formGridClass" className="mb-3">
+                        <Form.Label>Any Special Diet</Form.Label>
+                        <Form.Select required isValid>
+                            <option hidden defaultValue>Choose a rating</option>
+                            { jsonData.map((rate, index) => (
+                                <option key={ index }>{ rate.name }</option>
+                            )) }
+                        </Form.Select>
+                        <Form.Control.Feedback type="valid">Looks good!</Form.Control.Feedback>
+                    </Form.Group>
+                </Row>
 
-          <div className="row">
-              <div className="col-md-6 col-sm-6">
-                  <h6><span>*</span>Any Learning Disability?</h6>
-                  <p>
-                      <select name="born_again" onChange={ onChange }>
-                          <option hidden value="">Select status...</option>
-                          <option value='true' >Yes</option>
-                          <option value='false'>No</option>
-                      </select>
-                      <small>this field is blank </small>
-                  </p>
-              </div>
-              <div className="col-md-6 optionbox">
-                  <h6>Used any Illigal Drug?</h6>
-                  <p>
-                      <select name='water_baptism' onChange={ onChange }>
-                          <option hidden>Select status...</option>
-                          <option value='true' >Yes</option>
-                          <option value='false'>No</option>
-                      </select>
-                  </p>
-              </div>
-          </div>
+                <Row className=" mb-3">
+                    <Form.Group as={ Col } controlId="formGridClass" className="mb-3">
+                        <Form.Label>Any learning Disability?</Form.Label>
+                        <Form.Select required isValid>
+                            <option hidden defaultValue>Choose a status</option>
+                            { jsonData.map((rate, index) => (
+                                <option key={ index }>{ rate.name }</option>
+                            )) }
+                        </Form.Select>
+                        <Form.Control.Feedback type="valid">Looks good!</Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Group as={ Col } controlId="formGridClass" className="mb-3">
+                        <Form.Label>Used any Illigal Drug?</Form.Label>
+                        <Form.Select required isValid>
+                            <option hidden defaultValue>Choose a status</option>
+                            { jsonData.map((rate, index) => (
+                                <option key={ index }>{ rate.name }</option>
+                            )) }
+                        </Form.Select>
+                        <Form.Control.Feedback type="valid">Looks good!</Form.Control.Feedback>
+                    </Form.Group>
+                </Row>
 
-          <div className="row">
-              <div className="col-md-6 col-sm-6">
-                  <h6><span>*</span>Any Drug Addiction?</h6>
-                  <p>
-                      <select name="born_again" onChange={ onChange }>
-                          <option hidden value="">Select status...</option>
-                          <option value='true' >Yes</option>
-                          <option value='false'>No</option>
-                      </select>
-                      <small>this field is blank </small>
-                  </p>
-              </div>
-              <div className="col-md-6 optionbox">
-                  <h6>Had any Surgery?</h6>
-                  <p>
-                      <select name='water_baptism' onChange={ onChange }>
-                          <option hidden>Select status...</option>
-                          <option value='true' >Yes</option>
-                          <option value='false'>No</option>
-                      </select>
-                  </p>
-              </div>
-          </div>
+                <Row className=" mb-3">
+                    <Form.Group as={ Col } controlId="formGridClass" className="mb-3">
+                        <Form.Label>Any drug addction?</Form.Label>
+                        <Form.Select required isValid>
+                            <option hidden defaultValue>Choose a rating</option>
+                            { jsonData.map((rate, index) => (
+                                <option key={ index }>{ rate.name }</option>
+                            )) }
+                        </Form.Select>
+                        <Form.Control.Feedback type="valid">Looks good!</Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Group as={ Col } controlId="formGridClass" className="mb-3">
+                        <Form.Label>Had any surgery?</Form.Label>
+                        <Form.Select required isValid>
+                            <option hidden defaultValue>Choose a status</option>
+                            { jsonData.map((rate, index) => (
+                                <option key={ index }>{ rate.name }</option>
+                            )) }
+                        </Form.Select>
+                        <Form.Control.Feedback type="valid">Looks good!</Form.Control.Feedback>
+                    </Form.Group>
+                </Row>
 
-          <div className="row">
-              <div className="col-md-6 col-sm-6">
-                  <h6><span>*</span>Any Stomach Ulcers?</h6>
-                  <p>
-                      <select name="born_again" onChange={ onChange }>
-                          <option hidden value="">Select status...</option>
-                          <option value='true' >Yes</option>
-                          <option value='false'>No</option>
-                      </select>
-                      <small>this field is blank </small>
-                  </p>
-              </div>
-          </div>
+                <Form.Group as={ Col } controlId="formGridClass" className="mb-3">
+                    <Form.Label>Any stomach Ulcer?</Form.Label>
+                    <Form.Select required isValid>
+                        <option hidden defaultValue>Choose a status</option>
+                        { jsonData.map((rate, index) => (
+                            <option key={ index }>{ rate.name }</option>
+                        )) }
+                    </Form.Select>
+                    <Form.Control.Feedback type="valid">Looks good!</Form.Control.Feedback>
+                </Form.Group>
 
-          <div className="row">
-             
-              <Form.Group className="mb-3">
-                  <Form.Label>Describe any other health issues</Form.Label>
-                  <Form.Control as="textarea" rows="4" />
-              </Form.Group>
-          </div>
-      </div >
-  )
+                <Form>
+                    <Form.Group>
+                        <Form.Label>Brief Salvation History</Form.Label>
+                        <Form.Control as="textarea" rows="4" placeholder="Enter your message..." />
+                    </Form.Group>
+                </Form>
+            </div>
+        </>
+    )
 }
-
-export default Health

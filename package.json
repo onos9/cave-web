@@ -1,7 +1,7 @@
 {
-  "name": "@themesberg/volt-react-dashboard",
-  "description": "Volt React Dashboard is a free and open source admin dashboard template powered by React.js and Bootstrap 5",
-  "author": "Themesberg",
+  "name": "@onos9/cave",
+  "description": "Cave is a Bible Seminary WebApp powered by React.js and Bootstrap 5",
+  "author": "Beznet",
   "keywords": [
     "bootstrap 5",
     "react",
@@ -11,16 +11,16 @@
     "react ui library",
     "react bootstrap 5",
     "bootstrap 5 dashboard",
-    "themesberg"
+    "beznet"
   ],
   "license": "MIT",
-  "homepage": "https://demo.themesberg.com/volt-react-dashboard",
+  "homepage": "https://beznet.com",
   "bugs": {
-    "url": "https://github.com/themesberg/volt-react-dashboard/issues"
+    "url": "https://github.com/onos9/cave/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/themesberg/volt-react-dashboard"
+    "url": "https://github.com/onos9/cave"
   },
   "version": "1.0.1",
   "dependencies": {
@@ -38,6 +38,7 @@
     "bootstrap": "5.0.0-beta1",
     "chartist": "^0.11.4",
     "chartist-plugin-tooltips-updated": "^0.1.4",
+    "eslint-plugin-prettier": "^4.0.0",
     "javascript-time-ago": "^2.3.13",
     "js-cookie": "^3.0.1",
     "moment-timezone": "^0.5.31",
@@ -67,9 +68,6 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "browserslist": {
     "production": [

@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from 'react'
+import { Form, Row, Col } from '@themesberg/react-bootstrap'
 
-const Qualification = ({handleChange}) => {
+const jsonData = [
+  "University",
+  "Polytechnic",
+  "Colledge of Education"
+]
+
+export default ({ handleChange }) => {
   const [qualification, setQualification] = useState({})
   const [data, setData] = useState({})
-  let temp = { route: 'qualification'}
+  let temp = { route: 'qualification' }
 
   useEffect(() => {
     setQualification(prev => ({ ...prev, ...{ qualification: data } }))
@@ -19,44 +26,49 @@ const Qualification = ({handleChange}) => {
     setData((d) => ({ ...d, ...temp }))
   }
   return (
-    <div className="container">
-      <h4 id="register">Educational Qualification</h4>
-      <div className='row'>
-        <div className="col-md-6 optionbox">
-          <h6>Instutution you attend?</h6>
-          <p>
-            <select name="institution" onChange={ onChange }>
-              <option >Instutution</option>
-              <option >Unversity</option>
-              <option>Polytechnic</option>
-              <option>Colledge od Education</option>
-            </select>
-          </p>
-        </div>
-        <div className="col-md-6 optionbox">
-          <h6>Degree</h6>
-          <p>
-            <select name="degree" onChange={ onChange }>
-              <option >Degree</option>
-              <option >Unversity</option>
-              <option>Polytechnic</option>
-              <option>Colledge od Education</option>
-            </select>
-          </p>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-md-6 col-sm-6">
-          <h6>Name of Instutution</h6>
-          <p> <input onChange={ onChange } placeholder="First Name..." name="institution_name" /></p>
-        </div>
-        <div className="col-md-6 col-sm-6">
-          <h6>Year of Graduation</h6>
-          <p> <input onChange={ onChange } placeholder="Last Name..." name="gradution_year" /></p>
-        </div>
-      </div>
+    <>
+      <div className="container">
+        <h4 id="register">Educational Qualification</h4>
+        <Form.Group as={ Col } controlId="formGridClass" className="mb-3">
+          <Form.Label>Instutution</Form.Label>
+          <Form.Select required isValid>
+            <option hidden defaultValue>Choose an instutution</option>
+
+            { jsonData.map((subject, index) => (
+              <option key={ index }>{ subject }</option>
+            )) }
+
+          </Form.Select>
+          <Form.Control.Feedback type="valid">Looks good!</Form.Control.Feedback>
+        </Form.Group>
+        <Row className=" mb-3">
+          <Form.Group as={ Col } controlId="formGridClass" className="mb-3">
+            <Form.Label>Assessment</Form.Label>
+            <Form.Select required isValid>
+              <option hidden defaultValue>Choose an assessment</option>
+
+              { jsonData.map((assessment, index) => (
+                <option key={ index }>{ assessment.name }</option>
+              )) }
+
+            </Form.Select>
+            <Form.Control.Feedback type="valid">Looks good!</Form.Control.Feedback>
+          </Form.Group>
+        </Row>
+
+        <Row className=" mb-3">
+          <Form.Group as={ Col } controlId="formGridEmail">
+            <Form.Label>Name of Instutution</Form.Label>
+            <Form.Control required isInvalid type="text" placeholder="Name of instutution" />
+            <Form.Control.Feedback type="invalid">Please choose a username.</Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group as={ Col } controlId="formGridEmail">
+            <Form.Label>Year of Graduation</Form.Label>
+            <Form.Control required isInvalid type="text" placeholder="Year of graduation" />
+            <Form.Control.Feedback type="invalid">Please choose a username.</Form.Control.Feedback>
+          </Form.Group>
+        </Row>
     </div>
+    </>
   )
 }
-
-export default Qualification

@@ -18,23 +18,25 @@ export const ProfileCardWidget = () => {
     try
     {
 
-      let response = await axios.get(`${apiV1}/api/v1/mail/token`)
+      //let response = await axios.get(`${apiV1}/api/v1/mail/token`)
 
-      const config = {
-        headers: { "Authorization": `Zoho-oauthtoken ${response.data.access_token}` }
-      }
-      console.log(config)
+      // const config = {
+      //   headers: { "Authorization": `Zoho-oauthtoken ${response.data.access_token}` }
+      // }
+      //console.log(config)
       const mail = {
-        fromAddress: "my@mydomain.com",
-        toAddress: "family@mydomain.com",
-        ccAddress: "colleagues@mywork.com",
-        bccAddress: "restadmin1@restapi.com",
+        toAddress: "onosbrown.saved@gmail.com",
         subject: "Email - Always and Forever",
         content: "Email can never be dead. The most neutral and effective way, that can be used for one to many and two way communication.",
         askReceip: "yes"
       }
 
-      response = await axios.get(` http://mail.zoho.com/api/accounts`, config)
+      // response = await axios.get(`${apiV1}/api/v1/mail`)
+      // const account = response.data.data
+      // mail.fromAddress = account.sendMailDetails[1].fromAddress
+      
+      const response = await axios.post(`${apiV1}/api/v1/mail`, mail)
+      console.log(response.data)
     } catch (error)
     {
       console.log(error)

@@ -199,7 +199,7 @@ export const TransactionsTable = () => {
     return (
       <tr>
         <td>
-          <Card.Link as={ Link } to={ Router.Invoice.path } className="fw-normal">
+          <Card.Link as={ Link } to={ "Router.Invoice.path" } className="fw-normal">
             { invoiceNumber }
           </Card.Link>
         </td>

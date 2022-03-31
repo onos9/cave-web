@@ -14,64 +14,22 @@ import { Router } from "../router"
 
 
 export default [
-    {
-        "id": 1,
-        "name": "Overview",
-        "image": OverviewImg,
-        "link": Router.Dashboard.path
-    },
-    {
-        "id": 2,
-        "name": "Transactions",
-        "image": TransactionsImg,
-        "link": Router.Transactions.path
-    },
-    {
-        "id": 3,
-        "name": "Settings",
-        "image": SettingsImg,
-        "link": Router.Settings.path
-    },
-    {
-        "id": 4,
-        "name": "Sign In",
-        "image": SignInImg,
-        "link": Router.Signin
-    },
-    {
-        "id": 5,
-        "name": "Sign Up",
-        "image": SignUpImg,
-        "link": Router.Signup.path
-    },
-    {
-        "id": 6,
-        "name": "Lock",
-        "image": LockImg,
-        "link": Router.Lock.path
-    },
-    {
-        "id": 7,
-        "name": "Forgot password",
-        "image": ForgotPasswordImg,
-        "link": Router.ForgotPassword.path
-    },
-    {
-        "id": 8,
-        "name": "Reset password",
-        "image": ResetPasswordImg,
-        "link": Router.ResetPassword.path
-    },
-    {
-        "id": 9,
-        "name": "404",
-        "image": NotFoundImg,
-        "link": Router.NotFound.path
-    },
-    {
-        "id": 10,
-        "name": "500",
-        "image": ServerErrorImg,
-        "link": Router.ServerError.path
-    }
-]
+  {
+    id: 1,
+    name: "Overview",
+    image: SignInImg,
+    link: Router.Dashboard.path,
+  },
+  {
+    id: 2,
+    name: "Transactions",
+    image: SignInImg,
+    link: Router.Transactions.path,
+  },
+  {
+    id: 3,
+    name: "Settings",
+    image: SignInImg,
+    link: Router.Settings.path,
+  }
+];
