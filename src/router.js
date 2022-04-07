@@ -1,20 +1,20 @@
-
 export const Router = {
   // pages
-  Home: { path: "/dash/home" },
-  Admission: { path: "/admission" },
-  Watch: { path: "/watch" },
-  Registration: { path: "/registration" },
   Presentation: { path: "/" },
-  Dashboard: { path: "/dash/dashboard" },
-  Transactions: { path: "/dash/transactions" },
-  Settings: { path: "/dash/settings" },
+  Watch: { path: "/watch" },
+  Admission: { path: "/admission" },
+  Registration: { path: "/registration" },
+
+  Overview: { path: "/platform/overview" },
+  Dashboard: { path: "/platform/dashboard" },
+  Enrollment: { path: "/platform/Enrollment" },
+  Settings: { path: "/platform/settings" },
 
   Signin: { path: "/sign-in" },
   Signup: { path: "/sign-up" },
-  ForgotPassword: { path: "/forgot-password" },
-  ResetPassword: { path: "/reset-password" },
   Lock: { path: "/lock" },
   NotFound: { path: "/404" },
   ServerError: { path: "/500" },
-};
+  ForgotPassword: { path: "/forgot-password" },
+  ResetPassword: { path: "/reset-password" },
+}; 

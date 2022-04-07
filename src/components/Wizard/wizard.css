@@ -1,19 +1,6 @@
 #regForm {
-  width: 55%;
-  padding: 10px;
-  /* overflow: auto; */
-  /* border: 1px solid #ccc; */
-}
-
-#register {
-  color: #262B40;
-  text-align: center;
-  width: 100%;
-  margin-bottom: 35px;
-}
-
-h1 {
-  text-align: center;
+  width: 70%;
+  margin: top 50px;
 }
 
 #regForm option[selected] {
@@ -46,7 +33,7 @@ textarea {
 }
 
 .tab input:focus {
-  border: 1px solid #262B40 !important;
+  border: 1px solid #262b40 !important;
   outline: none;
 }
 
@@ -61,7 +48,7 @@ input.invalid {
 .btn-nextprevious button {
   width: 50px;
   height: 50px;
-  background-color: #262B40 !important;
+  background-color: #262b40 !important;
   border: none;
   border-radius: 50% !important;
   margin-right: 5px !important;
@@ -100,18 +87,18 @@ button:focus {
   justify-content: center;
   align-items: center;
   font-size: 15px;
-  color: #262B40;
+  color: #262b40;
   opacity: 0.5;
 }
 
 .step.active {
   opacity: 1;
-  background: #262B40;
+  background: #262b40;
 }
 
 .step.finish {
   color: #fff;
-  background: #262B40;
+  background: #262b40;
   opacity: 1;
 }
 
@@ -123,57 +110,6 @@ button:focus {
 
 .thanks-message {
   display: none;
-}
-
-.welcome_note_container {
-  width: 35%;
-  margin-top: 6%;
-  margin-left: 8%;
-  line-height: 1.5;
-  font-size: 16px;
-  display: block;
-}
-
-.welcome_text {
-  font-size: 28px;
-  font-weight: 600;
-}
-
-.welcome_note {
-  font-size: 16px;
-  margin-top: 5%;
-  line-height: 1.7;
-  font-weight: 400;
-  color: #3c3c3c;
-}
-
-#multiorg_page .welcome_note {
-  margin-top: 0px;
-  font-weight: 600;
-}
-
-.get_started_btn {
-  width: 200px;
-  height: 50px;
-  margin-top: 4%;
-  background-color: #262B40;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 600;
-  border: none;
-  border-radius: 3px;
-}
-
-.get_started_btn:hover {
-  background-color: #633f83ed;
-  cursor: pointer;
-  border: none;
-}
-
-.get_started_btn:focus {
-  background-color: #633f83ed;
-  cursor: pointer;
-  border: none;
 }
 
 .home-icon {

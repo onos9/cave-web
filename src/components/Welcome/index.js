@@ -1,81 +1,63 @@
-import React, { useState } from 'react'
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Form, Row, Col, Button } from '@themesberg/react-bootstrap'
-import { apiV1 } from "../../Constants"
-import axios from 'axios'
-import './welcome.css'
+import React, { useState, useEffect } from "react";
+import {
+  Form,
+  Row,
+  Col,
+  Button,
+  Container,
+  Alert,
+} from "@themesberg/react-bootstrap";
+import { useNavigate, useLocation, Navigate } from "react-router-dom";
+import "./welcome.css";
+import { Router } from "../../router";
 
 export default () => {
+  const { state } = useLocation();
+  const navigate = useNavigate();
 
-    const [data, setData] = useState({})
-    let temp = { route: '/' }
+  const emailCheck = (email) => {
+    var regExp = new RegExp("[a-z0-9.-_]*@gmail.com$", "i");
+    return !!data.email.match(regExp);
+  };
 
-    const handleClick = () => {
+  useEffect(() => {
+    //if (!state?.required) navigate(Router.Admission.path, { replace: true });
+  },[state]);
 
-    }
-
-    const handleChange = (e) => {
-        setData({
-            ...data,
-            [e.target.name]: e.target.value
-        })
-    }
-
-    const handleSubmit = () => {
-        // const isGoogle = emailCheck(data.email)
-        // const route = isGoogle ? 'auth/google' : '/'
-
-        const mail = {
-            toAddress: data.email,
-            subject: "Email Verification",
-            content: `You write`,
-            //redirect_url: 'http://localhost:3000'
-        }
-        sendMail(mail)
-    }
-
-    const emailCheck = (email) => {
-        var regExp = new RegExp("[a-z0-9\.-_]*@gmail\.com$", "i")
-        return !!data.email.match(regExp)
-    }
-
-    const sendMail = async (mail) => {
-        try
-        {
-            const response = await axios.post(`${apiV1}/api/v1/mail`, mail)
-            console.log(response.data)
-        } catch (error)
-        {
-            console.log(error)
-        }
-    }
-
-    return (
-        <>
-            <div className="welcome_note_container">
-                <div className="welcome_text"> Welcome To Adullam Registration Portal! </div>
-                <div className="welcome_note"> We will now guide you through the registration process.
-                    Please fill in all required feilds in order to complete your registration.
-                </div>
-                <div className="welcome_note"> Get Registered to Access all Our Courses Now!.
-                </div>
-                <div className="input_group mb-3 w-75 ">
-                    <Form onSubmit={ handleSubmit }>
-                        <Row>
-                            <Form.Group as={ Col } controlId="formGridEmail">
-                                <Form.Control name="email" required type="email" placeholder="example@gmail.com" onChange={ handleChange }/>
-                                {/* <Form.Control.Feedback type="invalid">Looks good!</Form.Control.Feedback> */ }
-                            </Form.Group>
-                        </Row>
-                        <Button type="submit" variant="outline-primary" className="m-1" >
-                            <FontAwesomeIcon icon={ faArrowRight } className="me-2" /> Create My Account
-                        </Button>
-                    </Form>
-                </div>
-
-            </div>
-        </>
-
-    )
-}
+  return (
+    <>
+      <Row>
+        <Col xs={12} sm={12} xl={8} className="mb-4">
+          <Row className="mb-3 mb-lg-5">
+            <Col xs={12} className="text-center">
+              <h2 className="px-lg-5">
+                {"Welcome To Adullam Registration Portal!"}
+              </h2>
+              <p className="lead px-lg-6">
+                {
+                  "We will now guide you through the registration process. Please fill in all required feilds in order to complete your registration."
+                }
+              </p>
+            </Col>
+          </Row>
+          <Row className="">
+            <Col xs={12}>
+              <h5 className="px-lg-0">{"Entry Requirements"}</h5>
+              {state?.required ? (
+                <ul>
+                  {state?.required.map((requirement, i) => (
+                    <li key={i}>
+                      <p>{requirement}</p>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <Navigate to={Router.Admission.path} state={{ from: location }}/>
+              )}
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+    </>
+  );
+};

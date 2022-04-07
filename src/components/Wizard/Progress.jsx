@@ -19,17 +19,14 @@ const icons = [
     { Icon: faHandshakeSlash },
 ]
 
-const StepIdicator = () => {
-    return (
-        <>
-            { icons.map(({ Icon }, index) => (
-                 <span key={ index } className="step">
-                    <FontAwesomeIcon color='white' icon={ Icon } />
-                </span>
-                
-            )) }
-        </>
-    )
-}
-
-export default StepIdicator
+export default ({ step }) => {
+  return (
+    <>
+      {icons.map(({ Icon }, index) => (
+        <span key={index} className={index > step ? "step" : "step active"}>
+          <FontAwesomeIcon color="white" icon={Icon} />
+        </span>
+      ))}
+    </>
+  );
+};

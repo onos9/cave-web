@@ -1,28 +1,21 @@
-import React, { createContext, useReducer } from "react"
-import { useAuth } from "./actions/authAction"
-import { useClass } from "./actions/classAction"
-import initAuth from "./initialstates/initAuth"
-import initClass from "./initialstates/initClass"
-import authReducer from "./reducers/authReducer"
-import classReducer from "./reducers/classReducer"
+import React, { createContext, useReducer } from "react";
+import authReducer from "./reducers/authReducer";
+import userReducer from "./reducers/userReducer";
 
-export const GlobalContext = createContext({})
+export const GlobalContext = createContext({});
 
 export const Provider = ({ children }) => {
-    const [classState, classDispatch] = useReducer(classReducer, initClass)
-    const [authState, authDispatch] = useReducer(authReducer, initAuth)
+  const [userState, setUser] = useReducer(userReducer, {});
+  const [authState, setAuth] = useReducer(authReducer, {});
+  
+  const store = {
+    authState,
+    userState,
+    setAuth,
+    setUser,
+  };
 
-    const store = {
-        authState,
-        classState,
-        auth: useAuth(authDispatch),
-        mclass: useClass(classDispatch),
-    }
-
-    return (
-        <GlobalContext.Provider
-            value={ store } >
-            { children }
-        </GlobalContext.Provider>
-    )
-}
+  return (
+    <GlobalContext.Provider value={store}>{children}</GlobalContext.Provider>
+  );
+};

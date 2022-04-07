@@ -1,71 +1,95 @@
-import React, { useState, useEffect } from 'react'
-import { Form, Row, Col } from '@themesberg/react-bootstrap'
+import { Col, Form, Row } from "@themesberg/react-bootstrap"
+import React from "react"
 
-export default ({ handleChange }) => {
-    const [health, setHealth] = useState({})
-    const [data, setData] = useState({})
-    let temp = { route: 'health' }
+export default ({ title }) => {
+  return (
+    <>
+      <div className="container">
+        <h4 className="text-center">{title}</h4>
+        <Row>
+          <Form.Group as={Col} controlId="formGridPassword" className="mb-3">
+            <Form.Label>Fullname </Form.Label>
+            <Form.Control
+              name="firstRefereeName"
+              required
+              type="text"
+              placeholder="Enter full name of first referee"
+            />
+            <Form.Control.Feedback type="valid">
+              Looks good!
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Row>
 
-    useEffect(() => {
-        setHealth(prev => ({ ...prev, ...{ health: data } }))
-    }, [data])
+        <Row>
+          <Form.Group as={Col} controlId="formGridPassword" className="mb-3">
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              name="firstRefereeEmail"
+              required
+              type="email"
+              placeholder="Enter first referee email"
+            />
+            <Form.Control.Feedback type="valid">
+              Looks good!
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group as={Col} controlId="formGridPassword" className="mb-3">
+            <Form.Label>Phone Number</Form.Label>
+            <Form.Control
+              name="firstRefereePhone"
+              required
+              type="tel"
+              placeholder="Enter phone number"
+            />
+            <Form.Control.Feedback type="valid">
+              Looks good!
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Row>
 
-    useEffect(() => {
-        //console.log(bio)
-        handleChange(health)
-    }, [health])
+        <Row>
+          <Form.Group as={Col} controlId="formGridPassword" className="mb-3">
+            <Form.Label>Fullname</Form.Label>
+            <Form.Control
+              name="secondRefereeName"
+              required
+              type="text"
+              placeholder="Enter full name of Second referee"
+            />
+            <Form.Control.Feedback type="valid">
+              Looks good!
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Row>
 
-    const onChange = (e) => {
-        temp[e.target.name] = e.target.value
-        setData((d) => ({ ...d, ...temp }))
-    }
-    return (
-        <>
-            <div className="container">
-                <h4 id="register">Refree Information</h4>
-                <Row>
-                    <Form.Group as={ Col } controlId="formGridPassword">
-                        <Form.Label>Fullname</Form.Label>
-                        <Form.Control required isValid type="text" placeholder="Enter full name" defaultValue="John" />
-                        <Form.Control.Feedback type="valid">Looks good!</Form.Control.Feedback>
-                    </Form.Group>
-                </Row>
-
-                <Row>
-                    <Form.Group as={ Col } controlId="formGridPassword">
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control required isValid type="email" placeholder="Enter first referee email" defaultValue="John" />
-                        <Form.Control.Feedback type="valid">Looks good!</Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group as={ Col } controlId="formGridPassword">
-                        <Form.Label>Phone Number</Form.Label>
-                        <Form.Control required isValid type="text" placeholder="Enter phone number" defaultValue="John" />
-                        <Form.Control.Feedback type="valid">Looks good!</Form.Control.Feedback>
-                    </Form.Group>
-                </Row>
-
-                <Row>
-                    <Form.Group as={ Col } controlId="formGridPassword">
-                        <Form.Label>Fullname</Form.Label>
-                        <Form.Control required isValid type="text" placeholder="Enter last name" defaultValue="John" />
-                        <Form.Control.Feedback type="valid">Looks good!</Form.Control.Feedback>
-                    </Form.Group>
-                </Row>
-
-                <Row>
-                    <Form.Group as={ Col } controlId="formGridPassword">
-                        <Form.Label>Last Name</Form.Label>
-                        <Form.Control required isValid type="text" placeholder="Enter last name" defaultValue="John" />
-                        <Form.Control.Feedback type="valid">Looks good!</Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group as={ Col } controlId="formGridPassword">
-                        <Form.Label>Other Name</Form.Label>
-                        <Form.Control required isValid type="text" placeholder="Enter last name" defaultValue="John" />
-                        <Form.Control.Feedback type="valid">Looks good!</Form.Control.Feedback>
-                    </Form.Group>
-                </Row>
-
-            </div>
-        </>
-    )
-}
+        <Row>
+          <Form.Group as={Col} controlId="formGridPassword" className="mb-3">
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              name="secondRefereeEmail"
+              required
+              type="email"
+              placeholder="Enter second referee email"
+            />
+            <Form.Control.Feedback type="valid">
+              Looks good!
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group as={Col} controlId="formGridPassword" className="mb-3">
+            <Form.Label>Phone Number</Form.Label>
+            <Form.Control
+              name="secondRefereePhone"
+              required
+              type="tel"
+              placeholder="Enter phone number"
+            />
+            <Form.Control.Feedback type="valid">
+              Looks good!
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Row>
+      </div>
+    </>
+  );
+};

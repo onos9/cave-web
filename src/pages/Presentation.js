@@ -1,109 +1,116 @@
-import React, { useEffect } from "react"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faBook, faExternalLinkAlt, faTimesCircle, faCheckCircle, faCalendarAlt, faCodeBranch, faShoppingCart, faFolder, faMapMarkedAlt, faPager, faFileCode, faDownload, faSignInAlt } from "@fortawesome/free-solid-svg-icons"
-import { faBootstrap, faGithub, faIntercom, faJs, faReact, faSass } from "@fortawesome/free-brands-svg-icons"
-import { Col, Row, Card, Image, Button, Container, ListGroup, Tooltip, OverlayTrigger, Form, Navbar, Nav, Badge } from '@themesberg/react-bootstrap'
-import { Link } from 'react-router-dom'
-import { HashLink } from 'react-router-hash-link'
-import Code from "../components/CodeEditor"
-
-import { Router } from "../router"
-import ThemesbergLogo from "../assets/img/themesberg-logo.svg"
-import MockupPresentation from "../assets/img/mockup-presentation.png"
-import ReactHero from "../assets/img/cave-hero-logo.svg"
-import MapboxImg from "../assets/img/mockup-map-presentation.png"
-import CalendarImg from "../assets/img/mockup-calendar-presentation.png"
-import ReactMockupImg from "../assets/img/react-mockup.png"
-import BS5IllustrationsImg from "../assets/img/illustrations/bs5-illustrations.svg"
-import BS5Logo from "../assets/img/technologies/bootstrap-5-logo.svg"
-import ReactLogo from "../assets/img/technologies/react-logo.svg"
-
-import pages from "../data/pages"
-import features from "../data/features"
-import typography from "../data/typography"
-import { apiV1 } from "../Constants"
-import axios from 'axios'
+import {
+  faBootstrap,
+  faGithub,
+  faIntercom,
+  faReact,
+  faSass,
+} from "@fortawesome/free-brands-svg-icons";
+import {
+  faExternalLinkAlt,
+  faFolder,
+  faPager,
+  faSignInAlt,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  Badge,
+  Button,
+  Card,
+  Col,
+  Container,
+  Image,
+  Nav,
+  Navbar,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "@themesberg/react-bootstrap";
+import axios from "axios";
+import React from "react";
+import { Link } from "react-router-dom";
+import { HashLink } from "react-router-hash-link";
+import ReactHero from "../assets/img/cave-hero-logo.svg";
+import BS5IllustrationsImg from "../assets/img/illustrations/bs5-illustrations.svg";
+import CalendarImg from "../assets/img/mockup-calendar-presentation.png";
+import MapboxImg from "../assets/img/mockup-map-presentation.png";
+import MockupPresentation from "../assets/img/mockup.jpeg";
+import Testimonial1 from "../assets/img/testimonial1.png";
+import Testimonial2 from "../assets/img/testimonial2.png";
+import Testimonial3 from "../assets/img/testimonial2.png";
+import { apiV1 } from "../Constants";
+import typography from "../data/typography";
+import { Router } from "../router";
 
 export default (state = null, action) => {
-  const code = new URLSearchParams(window.location.search).get('code')
-
-  useEffect(() => {
-    const doCode = code ? sendCode : getCodeUrl
-    doCode()
-  }, [code])
-
-  const sendCode = async () => {
-    try
-    {
-      const data = { code: code }
-      const response = await axios.post(`${apiV1}/api/v1/mail`, data)
-      console.log(response.data)
-    } catch (error)
-    {
-      console.log(error)
-    }
-  }
-
-  const getCodeUrl = async () => {
-    const resp = await axios.get(`${apiV1}/api/v1/mail`)
-    const params = new URLSearchParams(resp.data).toString()
-    const url = `https://accounts.zoho.com/oauth/v2/auth?${params}`
-    console.log(url)
-  }
-
   const PagePreview = (props) => {
-    const { name, image, link } = props
-
+    const { name, image, link } = props;
 
     return (
-      <Col xs={ 6 } className="mb-5">
-        <Card.Link as={ Link } to={ link } className="page-preview page-preview-lg scale-up-hover-2">
-          <Image src={ image } className="shadow-lg rounded scale" alt="Dashboard page preview" />
+      <Col xs={6} className="mb-5">
+        <Card.Link
+          as={Link}
+          to={link}
+          className="page-preview page-preview-lg scale-up-hover-2"
+        >
+          <Image
+            src={image}
+            className="shadow-lg rounded scale"
+            alt="Dashboard page preview"
+          />
 
           <div className="text-center show-on-hover">
             <h6 className="m-0 text-center text-white">
-              { name } <FontAwesomeIcon icon={ faExternalLinkAlt } className="ms-2" />
+              {name}{" "}
+              <FontAwesomeIcon icon={faExternalLinkAlt} className="ms-2" />
             </h6>
           </div>
         </Card.Link>
       </Col>
-    )
-  }
+    );
+  };
 
   const Feature = (props) => {
-    const { title, description, icon } = props
+    const { title, description, icon } = props;
 
     return (
-      <Col xs={ 12 } sm={ 6 } lg={ 3 }>
+      <Col xs={12} sm={6} lg={3}>
         <Card className="bg-white shadow-soft text-primary rounded mb-4">
           <div className="px-3 px-lg-4 py-5 text-center">
             <span className="icon icon-lg mb-4">
-              <FontAwesomeIcon icon={ icon } />
+              <FontAwesomeIcon icon={icon} />
             </span>
-            <h5 className="fw-bold text-primary">{ title }</h5>
-            <p>{ description }</p>
+            <h5 className="fw-bold text-primary">{title}</h5>
+            <p>{description}</p>
           </div>
         </Card>
       </Col>
-    )
-  }
+    );
+  };
 
   const FolderItem = (props) => {
-    const { name, icon, tooltip, iconColor } = props
-    const color = iconColor ? `text-${iconColor}` : ""
+    const { name, icon, tooltip, iconColor } = props;
+    const color = iconColor ? `text-${iconColor}` : "";
 
     return (
       <OverlayTrigger
-        trigger={ ['hover', 'focus'] }
+        trigger={["hover", "focus"]}
         placement="left"
-        overlay={ <Tooltip>{ tooltip }</Tooltip> }
+        overlay={<Tooltip>{tooltip}</Tooltip>}
       >
-        <li data-toggle="tooltip" data-placement="left" title="Main folder that you will be working with">
-          <FontAwesomeIcon icon={ icon ? icon : faFolder } className={ `${color} me-2` } /> { name }
+        <li
+          data-toggle="tooltip"
+          data-placement="left"
+          title="Main folder that you will be working with"
+        >
+          <FontAwesomeIcon
+            icon={icon ? icon : faFolder}
+            className={`${color} me-2`}
+          />{" "}
+          {name}
         </li>
       </OverlayTrigger>
-    )
-  }
+    );
+  };
 
   return (
     <>
@@ -116,34 +123,35 @@ export default (state = null, action) => {
         <Container className="position-relative justify-content-between px-3">
           <Navbar.Brand
             as={HashLink}
-            to="#home"
-            className="me-lg-3 d-flex align-items-center"
-          >
-            <Image src={ReactHero} height={60} width={"auto"} />
-            <span className="ms-2 brand-text d-none d-md-inline"></span>
-          </Navbar.Brand>
-
+            to={Router.Presentation.path}
+          ></Navbar.Brand>
+          <Image
+            width={100}
+            height="auto"
+            src={ReactHero}
+            className="img-responsive"
+          />
           <div className="d-flex align-items-center">
             <Navbar.Collapse id="navbar-default-primary">
               <Nav className="navbar-nav-hover align-items-lg-center">
-                <Nav.Link as={HashLink} to="#events">
-                  Events
-                </Nav.Link>
-                <Nav.Link as={HashLink} to="#pages">
-                  Courses
-                </Nav.Link>
                 <Nav.Link
-                  as={HashLink}
                   to={Router.Admission.path}
                   className="d-sm-none d-xl-inline"
                 >
                   Admissions
                 </Nav.Link>
-                <Nav.Link as={HashLink} to={Router.Registration.path}>
-                  Enrollment
+                <Nav.Link as={HashLink} to="#events">
+                  Events
                 </Nav.Link>
-                <Nav.Link as={HashLink} to="#programs">
-                  Programs
+                <Nav.Link as={HashLink} to="#about">
+                  About Us
+                </Nav.Link>
+
+                <Nav.Link as={HashLink} to="#scholarship">
+                  Scholarship
+                </Nav.Link>
+                <Nav.Link as={HashLink} to="#testimonial">
+                  Testimonial
                 </Nav.Link>
               </Nav>
             </Navbar.Collapse>
@@ -179,7 +187,7 @@ export default (state = null, action) => {
                 <Button
                   variant="secondary"
                   as={Link}
-                  to={Router.Registration.path}
+                  to={Router.Admission.path}
                   className="text-dark me-3"
                 >
                   Enroll Now{" "}
@@ -202,7 +210,7 @@ export default (state = null, action) => {
               </div>
             </Col>
           </Row>
-          <figure className="position-absolute bottom-0 left-0 w-100 d-none d-md-block mb-n2">
+          <figure style={{border:"2px solid black red"}} className="position-absolute bottom-0 left-0 w-100 d-none d-md-block mb-n2">
             <svg
               className="fill-soft"
               xmlns="http://www.w3.org/2000/svg"
@@ -281,7 +289,19 @@ export default (state = null, action) => {
               </Button>
             </Col>
             <Col lg={6} className="order-lg-1">
-              <Image src={ReactMockupImg} alt="Calendar Preview" />
+              <Image src={CalendarImg} alt="Calendar Preview" />
+            </Col>
+          </Row>
+        </Container>
+      </section>
+
+      <section className="section section-lg line-bottom-soft" id="folder">
+        <Container>
+          <Row>
+            <Col xs={12} lg={4}>
+              <div className="github-big-icon">
+                <FontAwesomeIcon icon={""} />
+              </div>
             </Col>
           </Row>
           <Row className="justify-content-between align-items-center mb-5 mb-lg-7">
@@ -302,143 +322,13 @@ export default (state = null, action) => {
               </Button>
             </Col>
             <Col lg={6} className="order-lg-1">
-              <Image src={ReactMockupImg} alt="Calendar Preview" />
+              <Image src={BS5IllustrationsImg} alt="Calendar Preview" />
             </Col>
           </Row>
         </Container>
       </section>
 
-      <section className="section section-lg bg-primary text-white">
-        <Container>
-          <Row className="justify-content-center mb-5 mb-lg-6">
-            <Col xs={12} className="text-center">
-              <h2 className="px-lg-5">{typography.faculties}</h2>
-              <p className="lead px-lg-8"></p>
-            </Col>
-          </Row>
-          <Row>
-            {features.map((feature) => (
-              <Feature key={`features-${feature.id}`} {...feature} />
-            ))}
-          </Row>
-        </Container>
-      </section>
-
-      <section className="section section-lg line-bottom-soft" id="folder">
-        <Container>
-          <Row className="justify-content-center mb-5 mb-lg-6">
-            <Col xs={12} className="text-center">
-              <h2 className="px-lg-5">{typography.courses}</h2>
-              <p className="lead px-lg-8">{typography.courses_insight}</p>
-            </Col>
-          </Row>
-          <Row className="d-flex align-items-center">
-            <Col xs={12} lg={6} className="mb-4">
-              <div className="d-none d-lg-block mt-5">
-                <h4>The perfect folder structure for your project</h4>
-                <p className="lead mb-4">
-                  The folder structure is based on the popular{" "}
-                  <code>create-react-app</code> repository using Sass source
-                  files for CSS preprocessing.
-                </p>
-                <Button
-                  as={Link}
-                  variant="secondary"
-                  size="md"
-                  to={"/#"}
-                  target="_blank"
-                  className="text-dark"
-                >
-                  <FontAwesomeIcon icon={faCodeBranch} className="me-2" />{" "}
-                  Folder Structure
-                </Button>
-              </div>
-            </Col>
-            <Col
-              xs={12}
-              lg={6}
-              className="order-lg-first d-flex justify-content-center"
-            >
-              <ListGroup className="d-block fmw-100 list-style-none folder-structure">
-                <FolderItem
-                  name="src"
-                  tooltip="Main folder that you will be working with"
-                />
-
-                <ListGroup className="list-style-none ps-4">
-                  <FolderItem
-                    name="assets"
-                    tooltip="CSS, Images, Fonts and Javascript"
-                  />
-                  <FolderItem
-                    name="components"
-                    tooltip="Custom React.js components on top of react-bootstrap"
-                  />
-                  <FolderItem
-                    name="data"
-                    tooltip="Data source for the dashboard and components"
-                  />
-                  <FolderItem
-                    name="pages"
-                    tooltip="React.js admin dashboard pages"
-                  />
-                  <FolderItem name="scss" tooltip="Sass source files" />
-                  <FolderItem
-                    name="index.js"
-                    tooltip="Main React.js file that wraps the project"
-                    icon={faJs}
-                    iconColor="secondary"
-                  />
-                  <FolderItem
-                    name="routes.js"
-                    tooltip="The file where the routes are registered at"
-                    icon={faJs}
-                    iconColor="secondary"
-                  />
-                </ListGroup>
-
-                <FolderItem
-                  name="build"
-                  tooltip="The production build of the project"
-                />
-                <FolderItem
-                  name="node_modules"
-                  tooltip="Project dependencies from package.json"
-                />
-
-                <FolderItem
-                  name="package.json"
-                  tooltip="Project details and dependencies."
-                  icon={faFileCode}
-                  iconColor="tertiary"
-                />
-                <FolderItem
-                  name="README.md"
-                  tooltip="No project can miss a README :)"
-                  icon={faFileCode}
-                  iconColor="tertiary"
-                />
-                <FolderItem
-                  name=".gitignore"
-                  tooltip="This file ensures that generated files and folder are ignored by Git. (eg. node_modules)"
-                  icon={faFileCode}
-                  iconColor="tertiary"
-                />
-              </ListGroup>
-            </Col>
-            <Col xs={12} className="mt-5 d-lg-none">
-              <h5>The perfect folder structure for your project</h5>
-              <p className="lead mb-4">
-                The folder structure is based on the popular{" "}
-                <code>create-react-app</code> repository using Sass source files
-                for CSS preprocessing.
-              </p>
-            </Col>
-          </Row>
-        </Container>
-      </section>
-
-      <section className="section section-lg bg-primary" id="getting-started">
+      <section className="section section-lg bg-primary mb-6" id="scholarship">
         <Container>
           <Row className="justify-content-center text-center text-white mb-5">
             <Col xs={12}>
@@ -511,7 +401,7 @@ export default (state = null, action) => {
           </Row>
         </Container>
       </section>
-      <section className="section section-md bg-soft pt-lg-3" id="testimonia">
+      <section className="section section-md bg-soft pt-lg-3" id="testimonial">
         <Container>
           <Row className="justify-content-between align-items-center mb-5 mb-lg-7">
             <Col lg={5} className="order-lg-2 mb-5 mb-lg-0">
@@ -531,7 +421,8 @@ export default (state = null, action) => {
             </Col>
             <Col lg={6} className="order-lg-1">
               <Image
-                src={MapboxImg}
+                rounded={true}
+                src={Testimonial1}
                 alt="MapBox Leaflet.js Custom Integration Mockup"
               />
             </Col>
@@ -554,7 +445,7 @@ export default (state = null, action) => {
               <p className="mb-4">{typography.testimonies_two_essay} </p>
             </Col>
             <Col lg={6}>
-              <Image src={CalendarImg} alt="Calendar Preview" />
+              <Image rounded={true} src={Testimonial2} alt="Calendar Preview" />
             </Col>
           </Row>
 
@@ -567,11 +458,16 @@ export default (state = null, action) => {
               <p className="mb-4">{typography.testimonies_three_essay} </p>
             </Col>
             <Col lg={6} className="col-lg-6 order-lg-1">
-              <Image src={BS5IllustrationsImg} alt="Front pages overview" />
+              <Image
+                rounded={true}
+                src={Testimonial3}
+                alt="Front pages overview"
+              />
             </Col>
           </Row>
         </Container>
       </section>
+
       <footer className="footer py-6 bg-dark text-white">
         <Container>
           <Row>
@@ -582,7 +478,7 @@ export default (state = null, action) => {
                 className="me-lg-3 mb-3 d-flex align-items-center"
               >
                 <Image src={ReactHero} />
-                <span className="ms-2 brand-text">Volt React</span>
+                <span className="ms-2 brand-text"></span>
               </Navbar.Brand>
               <p> {typography.info_details}</p>
               <p> {typography.info_details_two}</p>
@@ -593,38 +489,41 @@ export default (state = null, action) => {
               <span className="h5">{typography.site_map}</span>
               <ul className="links-vertical mt-2">
                 <li>
-                  <Card.Link target="_blank" href="https://themesberg.com/blog">
+                  <Card.Link
+                    // target="_blank"
+                    href="#"
+                  >
                     {typography.site_map_events}
                   </Card.Link>
                 </li>
                 <li>
                   <Card.Link
-                    target="_blank"
-                    href="https://themesberg.com/products"
+                    // target="_blank"
+                    href="#"
                   >
                     {typography.site_map_courses}
                   </Card.Link>
                 </li>
                 <li>
                   <Card.Link
-                    target="_blank"
-                    href="https://themesberg.com/about"
+                    // target="_blank"
+                    href="#"
                   >
                     About Us
                   </Card.Link>
                 </li>
                 <li>
                   <Card.Link
-                    target="_blank"
-                    href="https://themesberg.com/contact"
+                    // target="_blank"
+                    href="#"
                   >
                     {typography.site_map_enrollment}
                   </Card.Link>
                 </li>
                 <li>
                   <Card.Link
-                    target="_blank"
-                    href="https://themesberg.com/contact"
+                    // target="_blank"
+                    href="#"
                   >
                     {typography.site_map_programs}
                   </Card.Link>
@@ -646,8 +545,8 @@ export default (state = null, action) => {
                 </li>
                 <li>
                   <Card.Link
-                    target="_blank"
-                    href="https://themesberg.com/licensing"
+                    // target="_blank"
+                    href="#"
                   >
                     {typography.student_work_ymc}
                   </Card.Link>
@@ -691,15 +590,15 @@ export default (state = null, action) => {
           <Row>
             <Col className="mb-md-2">
               <Card.Link
-                href="https://themesberg.com"
-                target="_blank"
+                href="https://Beznet.com"
+                // target="_blank"
                 className="d-flex justify-content-center"
               >
                 <Image
-                  src={ThemesbergLogo}
+                  src={""}
                   height={35}
                   className="d-block mx-auto mb-3"
-                  alt="Themesberg Logo"
+                  alt="Beznet Logo"
                 />
               </Card.Link>
               <div
@@ -707,7 +606,7 @@ export default (state = null, action) => {
                 role="contentinfo"
               >
                 <p className="font-weight-normal font-small mb-0">
-                  Copyright © Themesberg 2019-
+                  Copyright © Beznet 2019-
                   <span className="current-year">2021</span>. All rights
                   reserved.
                 </p>
@@ -718,4 +617,4 @@ export default (state = null, action) => {
       </footer>
     </>
   );
-}
+};

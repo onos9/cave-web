@@ -1,43 +1,27 @@
-import initClass from "../initialstates/initClass";
 
 export default (state, { payload, type }) => {
   switch (type) {
-    case "CREATE_LOADING": {
+    case "LOADING": {
       return {
         ...state,
-        created: {
-          ...state.create,
-          loading: true,
-        },
+        loading: true,
+        error: false,
       };
     }
 
-    case "CREATE_SUCCESS": {
+    case "SUCCESS": {
       return {
         ...state,
-        created: {
-          ...state.create,
-          loading: false,
-          data: payload,
-        },
+        loading: false,
+        users: payload,
       };
     }
-    case "CREATE_ERROR": {
+    case "ERROR": {
       return {
         ...state,
-        created: {
-          ...state.create,
-          loading: false,
-          error: payload,
-        },
-      };
-    }
-
-    case "LOGOUT_USER": {
-      return {
-        ...state,
-        initClass,
-      };
+        loading: false,
+        error: payload,
+      }
     }
 
     case "ADD_CONTACT_LOAD": {
@@ -47,16 +31,6 @@ export default (state, { payload, type }) => {
           ...state.addContact,
           error: null,
           loading: true,
-        },
-      };
-    }
-
-    case "ADD_CONTACT_ERROR": {
-      return {
-        ...state,
-        addContact: {
-          ...state.addContact,
-          loading: false,
         },
       };
     }
