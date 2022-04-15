@@ -1,6 +1,5 @@
 import {
   faBootstrap,
-  faGithub,
   faIntercom,
   faReact,
   faSass,
@@ -25,92 +24,24 @@ import {
   Row,
   Tooltip,
 } from "@themesberg/react-bootstrap";
-import axios from "axios";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
 import ReactHero from "../assets/img/cave-hero-logo.svg";
 import BS5IllustrationsImg from "../assets/img/illustrations/bs5-illustrations.svg";
 import CalendarImg from "../assets/img/mockup-calendar-presentation.png";
-import MapboxImg from "../assets/img/mockup-map-presentation.png";
 import MockupPresentation from "../assets/img/mockup.jpeg";
 import Testimonial1 from "../assets/img/testimonial1.png";
-import Testimonial2 from "../assets/img/testimonial2.png";
-import Testimonial3 from "../assets/img/testimonial2.png";
-import { apiV1 } from "../Constants";
+import {
+  default as Testimonial2,
+  default as Testimonial3,
+} from "../assets/img/testimonial2.png";
 import typography from "../data/typography";
 import { Router } from "../router";
 
 export default (state = null, action) => {
-  const PagePreview = (props) => {
-    const { name, image, link } = props;
-
-    return (
-      <Col xs={6} className="mb-5">
-        <Card.Link
-          as={Link}
-          to={link}
-          className="page-preview page-preview-lg scale-up-hover-2"
-        >
-          <Image
-            src={image}
-            className="shadow-lg rounded scale"
-            alt="Dashboard page preview"
-          />
-
-          <div className="text-center show-on-hover">
-            <h6 className="m-0 text-center text-white">
-              {name}{" "}
-              <FontAwesomeIcon icon={faExternalLinkAlt} className="ms-2" />
-            </h6>
-          </div>
-        </Card.Link>
-      </Col>
-    );
-  };
-
-  const Feature = (props) => {
-    const { title, description, icon } = props;
-
-    return (
-      <Col xs={12} sm={6} lg={3}>
-        <Card className="bg-white shadow-soft text-primary rounded mb-4">
-          <div className="px-3 px-lg-4 py-5 text-center">
-            <span className="icon icon-lg mb-4">
-              <FontAwesomeIcon icon={icon} />
-            </span>
-            <h5 className="fw-bold text-primary">{title}</h5>
-            <p>{description}</p>
-          </div>
-        </Card>
-      </Col>
-    );
-  };
-
-  const FolderItem = (props) => {
-    const { name, icon, tooltip, iconColor } = props;
-    const color = iconColor ? `text-${iconColor}` : "";
-
-    return (
-      <OverlayTrigger
-        trigger={["hover", "focus"]}
-        placement="left"
-        overlay={<Tooltip>{tooltip}</Tooltip>}
-      >
-        <li
-          data-toggle="tooltip"
-          data-placement="left"
-          title="Main folder that you will be working with"
-        >
-          <FontAwesomeIcon
-            icon={icon ? icon : faFolder}
-            className={`${color} me-2`}
-          />{" "}
-          {name}
-        </li>
-      </OverlayTrigger>
-    );
-  };
+  const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <>
@@ -135,6 +66,7 @@ export default (state = null, action) => {
             <Navbar.Collapse id="navbar-default-primary">
               <Nav className="navbar-nav-hover align-items-lg-center">
                 <Nav.Link
+                  as={HashLink}
                   to={Router.Admission.path}
                   className="d-sm-none d-xl-inline"
                 >
@@ -157,7 +89,7 @@ export default (state = null, action) => {
             </Navbar.Collapse>
             <Button
               as={HashLink}
-              to={Router.Signin.path}
+              to={`${Router.Signin.path}/user`}
               variant="outline-white"
               className="ms-3"
             >
@@ -187,7 +119,7 @@ export default (state = null, action) => {
                 <Button
                   variant="secondary"
                   as={Link}
-                  to={Router.Admission.path}
+                  to={Router.Signup.path}
                   className="text-dark me-3"
                 >
                   Enroll Now{" "}
@@ -210,7 +142,10 @@ export default (state = null, action) => {
               </div>
             </Col>
           </Row>
-          <figure style={{border:"2px solid black red"}} className="position-absolute bottom-0 left-0 w-100 d-none d-md-block mb-n2">
+          <figure
+            style={{ border: "2px solid black red" }}
+            className="position-absolute bottom-0 left-0 w-100 d-none d-md-block mb-n2"
+          >
             <svg
               className="fill-soft"
               xmlns="http://www.w3.org/2000/svg"
@@ -222,44 +157,33 @@ export default (state = null, action) => {
         </Container>
       </section>
       <div className="section pt-0">
-        <Container className="mt-n10 mt-lg-n12 z-2">
+        <Container className="mt-lg-n12 z-2">
+          <Row className="justify-content-center ">
+            <Col xs={6} md={3} className="text-center mb-4">
+              <Link to={`${Router.ProgramDetail.path}/diploma`}>
+                <div className="icon icon-shape icon-lg bg-white shadow-lg border-light rounded-circle mb-4">
+                  <FontAwesomeIcon icon={faPager} className="text-secondary" />
+                </div>
+              </Link>
+              <h3 className="text-muted fw-bolder">{"Diploma"}</h3>
+            </Col>
+            <Col xs={6} md={3} className="text-center">
+              <Link to={`${Router.ProgramDetail.path}/pgdt`}>
+                <div className="icon icon-shape icon-lg bg-white shadow-lg border-light rounded-circle mb-4">
+                  <FontAwesomeIcon
+                    color="secondary"
+                    icon={faBootstrap}
+                    className="text-secondary"
+                  />
+                </div>
+              </Link>
+
+              <h3 className="text-muted fw-bolder">{"PGDT"}</h3>
+            </Col>
+          </Row>
           <Row className="justify-content-center">
             <Col xs={12}>
               <Image src={MockupPresentation} alt="Mockup presentation" />
-            </Col>
-          </Row>
-          <Row className="justify-content-center mt-5 mt-lg-6">
-            <Col xs={6} md={3} className="text-center mb-4">
-              <div className="icon icon-shape icon-lg bg-white shadow-lg border-light rounded-circle mb-4">
-                <FontAwesomeIcon icon={faPager} className="text-secondary" />
-              </div>
-              <h3 className="fw-bolder">{typography.graduate}</h3>
-              <p className="text-gray">{typography.graduated_student}</p>
-            </Col>
-            <Col xs={6} md={3} className="text-center mb-4">
-              <div className="icon icon-shape icon-lg bg-white shadow-lg border-light rounded-circle mb-4">
-                <FontAwesomeIcon icon={faReact} className="text-secondary" />
-              </div>
-              <h3 className="fw-bolder">{typography.missions}</h3>
-              <p className="text-gray">{typography.missions_outreach}</p>
-            </Col>
-            <Col xs={6} md={3} className="text-center">
-              <div className="icon icon-shape icon-lg bg-white shadow-lg border-light rounded-circle mb-4">
-                <FontAwesomeIcon icon={faSass} className="text-secondary" />
-              </div>
-              <h3 className="fw-bolder">{typography.practicum}</h3>
-              <p className="text-gray">{typography.ministry_practicum}</p>
-            </Col>
-            <Col xs={6} md={3} className="text-center">
-              <div className="icon icon-shape icon-lg bg-white shadow-lg border-light rounded-circle mb-4">
-                <FontAwesomeIcon
-                  color="secondary"
-                  icon={faBootstrap}
-                  className="text-secondary"
-                />
-              </div>
-              <h3 className="fw-bolder">{typography.prayers}</h3>
-              <p className="text-gray">{typography.prayer_stretch}</p>
             </Col>
           </Row>
         </Container>
@@ -300,7 +224,7 @@ export default (state = null, action) => {
           <Row>
             <Col xs={12} lg={4}>
               <div className="github-big-icon">
-                <FontAwesomeIcon icon={""} />
+                {/* <FontAwesomeIcon icon={""} /> */}
               </div>
             </Col>
           </Row>

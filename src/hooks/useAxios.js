@@ -4,14 +4,13 @@ import { GlobalContext } from "../context/Provider";
 import useRefreshToken from "./useRefreshToken";
 
 const useAxios = () => {
-  const { authState } = useContext(GlobalContext);
+  const [state, dispatch] = useContext(GlobalContext);
   const refresh = useRefreshToken();
-
   useEffect(() => {
     const requestIntercept = axios.interceptors.request.use(
       (config) => {
         if (!config.headers["Authorization"]) {
-          config.headers["Authorization"] = `Bearer ${authState?.accessToken}`;
+          config.headers["Authorization"] = `Bearer ${state?.auth?.accessToken}`;
         }
         return config;
       },
@@ -24,9 +23,9 @@ const useAxios = () => {
         const prevRequest = error?.config;
         if (error?.response?.status === 403 && !prevRequest?.sent) {
           prevRequest.sent = true;
-          //const newAccessToken = await refresh();
-          //prevRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-          //return axios(prevRequest);
+          const newAccessToken = await refresh();
+          prevRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+          return axios(prevRequest);
         }
         return Promise.reject(error);
       }
@@ -36,7 +35,7 @@ const useAxios = () => {
       axios.interceptors.request.eject(requestIntercept);
       axios.interceptors.response.eject(responseIntercept);
     };
-  }, [authState, refresh]);
+  }, [state, refresh]);
 
   return axios;
 };

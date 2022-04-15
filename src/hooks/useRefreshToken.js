@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { GlobalContext } from "../context/Provider";
 
 const useRefreshToken = () => {
-  const { setAuth } = useContext(GlobalContext);
+  const [state, setAuth] = useContext(GlobalContext);
 
   const refresh = async () => {
     setAuth({ type: "LOADING" });
@@ -11,13 +11,16 @@ const useRefreshToken = () => {
       const response = await axios.get("/auth", {
         withCredentials: true,
       });
-      setAuth({ type: "SUCCESS", payload: response?.data });
-      return response.data.accessToken;
-    } catch (error) {
+      setAuth({ type: "AUTH_SUCCESS", payload: response?.data });
+      //console.log(response);
+      return response?.data?.accessToken;
+    } catch (err) {
       const payload = err.response ? err.response?.data : "COULD NOT CONNECT";
       setAuth({ type: "ERROR", payload: payload });
+      return null;
     }
   };
+
   return refresh;
 };
 

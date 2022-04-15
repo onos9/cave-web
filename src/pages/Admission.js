@@ -42,7 +42,7 @@ export default (state = null, action) => {
         <Card.Link
           as={Link}
           to={link}
-          state={{ required: requires, program: program }}
+          state={{ required: requires, program: program, registration: true}}
           className="page-preview page-preview-lg scale-up-hover-2"
         >
           <Image
@@ -95,9 +95,6 @@ export default (state = null, action) => {
                   className="d-sm-none d-xl-inline"
                 >
                   Admissions
-                </Nav.Link>
-                <Nav.Link as={HashLink} to={Router.Registration.path}>
-                  Enrollment
                 </Nav.Link>
                 <Nav.Link as={HashLink} to="#programs">
                   Programs

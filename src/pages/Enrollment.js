@@ -18,16 +18,15 @@ import {
 } from "@themesberg/react-bootstrap";
 
 import { EnrollmentTable } from "../components/Tables";
-import { Router } from "../router";
 import useUser from "../hooks/useUser";
 
 export default () => {
   const { user, userState } = useUser();
 
   useEffect(() => {
-    const isUsers = !!userState?.users;
+    const isUsers = !!userState?.list;
     if (!isUsers) user.getAll();
-  }, [userState?.users]);
+  }, [userState?.list]);
 
   return (
     <>

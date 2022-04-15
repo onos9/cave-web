@@ -36,7 +36,7 @@ export default () => {
   const handleClose = () => setShowDefault(false);
 
   const { auth } = useAuth();
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -49,8 +49,7 @@ export default () => {
     if (data?.password.trim() === data?.confirm_passwoed.trim()) {
       setEmail(data.email);
       setShowDefault(true);
-      const from = state?.from ? state?.from : Router.Overview.path;
-      auth.signup(data, from);
+      auth.signup(data, state);
     }
   };
 
@@ -65,28 +64,21 @@ export default () => {
         >
           <Modal.Header>
             <Modal.Title className="h6">Congratulations!</Modal.Title>
-            <Button variant="close" aria-label="Close" onClick={handleClose} />
+            {/* <Button variant="close" aria-label="Close" onClick={handleClose} /> */}
           </Modal.Header>
           <Modal.Body>
             <p>
-              {`Your account has been created and a mail sent to ${email}. Please verify your email address to continue your registration`}
+              {`Your account has been created and a mail sent to <b>${email}</b>. Please verify your email address to continue your registration`}
             </p>
           </Modal.Body>
           <Modal.Footer>
             <Button
               variant="secondary"
               onClick={() =>
-                navigate(Router.Admission.path, { redirect: true })
+                navigate(Router.Presentation.path, { redirect: true })
               }
             >
               I Got It
-            </Button>
-            <Button
-              variant="link"
-              className="text-gray ms-auto"
-              onClick={handleClose}
-            >
-              Close
             </Button>
           </Modal.Footer>
         </Modal>
@@ -199,7 +191,7 @@ export default () => {
                     Already have an account?
                     <Card.Link
                       as={Link}
-                      to={Router.Signin.path}
+                      to={`${Router.Signin.path}/""`}
                       className="fw-bold"
                     >
                       {` Login here `}

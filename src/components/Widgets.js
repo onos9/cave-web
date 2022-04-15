@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleDown,
@@ -20,6 +21,7 @@ import {
   faVuejs,
 } from "@fortawesome/free-brands-svg-icons";
 import {
+  Form,
   Col,
   Row,
   Card,
@@ -27,6 +29,7 @@ import {
   Button,
   ListGroup,
   ProgressBar,
+  FormCheck,
 } from "@themesberg/react-bootstrap";
 import {
   CircleChart,
@@ -39,6 +42,7 @@ import Profile1 from "../assets/img/team/profile-picture-1.jpg";
 import ProfileCover from "../assets/img/profile-cover.jpg";
 
 import teamMembers from "../data/teamMembers";
+import useMailer from "../hooks/useMailer";
 
 export const ProfileCardWidget = () => {
   return (
@@ -65,6 +69,128 @@ export const ProfileCardWidget = () => {
         <Button variant="secondary" size="sm">
           Send Message
         </Button>
+      </Card.Body>
+    </Card>
+  );
+};
+
+export const EmailConfigCardWiget = ({ template }) => {
+  const { mailer, mailState } = useMailer();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (mailState?.credentials) {
+      const params = new URLSearchParams(mailState?.credentials).toString();
+      const url = `https://accounts.zoho.com/oauth/v2/auth?${params}`;
+      window.open(url);
+    }
+  }, [mailState?.credentials]);
+
+  useEffect(() => {
+    if (location.search) {
+      const params = Object.fromEntries(new URLSearchParams(location.search));
+      console.log(params?.code);
+      mailer.getToken(params);
+    }
+  }, [location.search]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData(document.forms.mail);
+    let data = {};
+    for (var key of formData.keys()) {
+      data = { ...data, [key]: formData.get(key) };
+    }
+    console.log(data);
+    mailer.sendMail(data);
+  };
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    mailer.getCredentials();
+  };
+
+  return (
+    <Card border="light" className=" p-0 mb-4">
+      <Card.Body className="pb-5">
+        <Card.Title className="text-center">
+          ZohoMail Api Configuration
+        </Card.Title>
+        <Form id="mail" onSubmit={handleSubmit}>
+          <Row>
+            <Col md={12} className="mb-3">
+              <Form.Group id="subject">
+                <Form.Label>Subject</Form.Label>
+                <Form.Control
+                  name="subject"
+                  required
+                  type="text"
+                  defaultValue="Test Mail"
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12} className="mb-3">
+              <Form.Group id="toAddress">
+                <Form.Label>To Address</Form.Label>
+                <Form.Control
+                  name="toAddress"
+                  required
+                  type="text"
+                  defaultValue="
+                onosbrown.saved@gmail.com"
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12} className="mb-3">
+              <Form.Group id="fromAddress">
+                <Form.Label>From Address</Form.Label>
+                <Form.Control
+                  name="fromAddress"
+                  required
+                  type="text"
+                  defaultValue="admin@adullam.ng"
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row>
+            <Form.Group as={Col} controlId="content" className="mb-3">
+              <Form.Label>Message</Form.Label>
+              <Form.Control
+                name="content"
+                as="textarea"
+                rows="3"
+                defaultValue={template}
+              />
+            </Form.Group>
+          </Row>
+          <FormCheck type="checkbox" className="d-flex mb-4">
+            <FormCheck.Input
+              value="yes"
+              name="askReceipt"
+              id="terms"
+              className="me-2"
+            />
+            <FormCheck.Label htmlFor="terms">Ask Receipt</FormCheck.Label>
+          </FormCheck>
+          <Row>
+            <Col md={9}>
+              <Button type="submit" variant="primary" size="sm">
+                <FontAwesomeIcon icon={faArrowRight} className="me-1" /> Send
+                Message
+              </Button>
+            </Col>
+            <Col md={3} className="float-end">
+              <Button onClick={handleClick} variant="outline-primary" size="sm">
+                Configure
+              </Button>
+            </Col>
+          </Row>
+        </Form>
       </Card.Body>
     </Card>
   );

@@ -1,75 +1,80 @@
 import {
   faAngleDoubleLeft,
-  faAngleDoubleRight,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Form } from "@themesberg/react-bootstrap";
-import React, { useState, useEffect } from "react";
-import {useLocation} from "react-router-dom"
-import Background from "../Registration/Background";
-import BioData from "../Registration/BioData";
-import Health from "../Registration/Health";
-import Referee from "../Registration/Referee";
-import Terms from "../Registration/Terms";
-import Qualification from "./../Registration/Qualification";
-import Done from "./Done";
-import Progress from "./Progress";
-import useAuth from "../../hooks/useAuth";
-import "./wizard.css";
+  faAngleDoubleRight, faBible, faGraduationCap, faHandshakeSlash, faNotesMedical,
+  faUser, faUserShield
+} from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Form } from "@themesberg/react-bootstrap"
+import React, { useEffect, useState } from "react"
+import useAuth from "../../hooks/useAuth"
+import useUser from "../../hooks/useUser"
+import Background from "../Registration/Background"
+import BioData from "../Registration/BioData"
+import Health from "../Registration/Health"
+import Referee from "../Registration/Referee"
+import Terms from "../Registration/Terms"
+import Qualification from "./../Registration/Qualification"
+import Done from "./Done"
+import Progress from "./Progress"
+import "./wizard.css"
+
 
 const steps = [
   {
     id: "bioData",
     Component: BioData,
     title: "Student Information",
+    Icon: faUser,
   },
   {
     id: "qualification",
     Component: Qualification,
     title: "Educational Qualification",
+    Icon: faGraduationCap,
   },
   {
     id: "background",
     Component: Background,
     title: "Spiritual Background",
+    Icon: faBible,
   },
   {
     id: "health",
     Component: Health,
     title: "Health Information",
+    Icon: faNotesMedical,
   },
   {
     id: "referees",
     Component: Referee,
     title: "Refree Information",
+    Icon: faUserShield,
   },
   {
     id: "terms",
     Component: Terms,
     title: "Terms & Conditions",
+    Icon: faHandshakeSlash,
   },
 ];
-
-const dump = {};
 
 const Wizard = () => {
   const [formData, setFormData] = useState({});
   const [showDefault, setShowDefault] = useState(false);
-  const [step, setStep] = useState(0);
+  const [stepper, setStep] = useState(0);
+  const { user } = useUser();
   const { auth, authState } = useAuth();
-  const { state } = useLocation();
+
+  const [online, setOnline] = useState(
+    authState?.user?.programOption === "Online"
+  );
 
   const handleClose = () => setShowDefault(true);
-  const nextPrevStep = (stepIndex) => setStep(step + stepIndex);
-  const handleUpdate = () => {
-    console.log(formData);
-    //auth.signin({ email: "onosbrown.saved@gmail", password: "1234" });
-    //auth.updateOne(formData, authState.user.id);
-  };
+  const nextPrevStep = (stepIndex) => setStep(stepper + stepIndex);
 
   useEffect(() => {
-    console.log(state);
-    if (step === steps.length) {
+    console.log(steps);
+    if (stepper === steps.length) {
       const referee = formData?.referees;
       formData.referees = [
         {
@@ -84,22 +89,20 @@ const Wizard = () => {
         },
       ];
       formData.terms.agree = formData.terms.agree === "on";
-      formData.programOption = state?.programOption;
-      formData.program = state?.program
       setShowDefault(true);
-      auth.updateOne(formData, authState.user.id);
+      user.updateOne(formData, authState.user.id);
     }
-  }, [step]);
+  }, [stepper]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Go back to the previous step
+    // Go back to the previous stepper
     if (!!document.activeElement.id) {
       nextPrevStep(-1);
       return;
     }
-    // Go to the next step
+    // Go to the next stepper
     nextPrevStep(1);
 
     // Get current form data
@@ -109,7 +112,7 @@ const Wizard = () => {
       data = { ...data, [key]: formData.get(key) };
     }
 
-    const form = steps.filter((s, i) => i === step)[0].id;
+    const form = steps.filter((s, i) => i === stepper)[0].id;
 
     // append current form data to state
     setFormData((prev) => ({
@@ -121,28 +124,22 @@ const Wizard = () => {
   return (
     <>
       <div id="regForm">
-        <Done
-          handleUpdate={handleUpdate}
-          handleClose={handleClose}
-          showDefault={showDefault}
-        />
-        {step < steps.length ? (
+        <Done handleClose={handleClose} showDefault={showDefault} />
+        {stepper < steps.length ? (
           <>
             <div className="all-steps" id="all-steps">
-              <Progress step={step} />
+              <Progress stepper={stepper} steps={steps} />
             </div>
 
             <div className="container">
               <Form onSubmit={handleSubmit} id="register" validated={false}>
                 {steps.map(({ Component, title }, i) =>
-                  i === step ? (
-                    <Component key={i} title={title} />
-                  ) : null
+                  i === stepper ? <Component key={i} title={title} /> : null
                 )}
 
                 <div className="nextprevious" id="nextprevious">
                   <div className="btn-nextprevious">
-                    {step > 0 ? (
+                    {stepper > 0 ? (
                       <button formNoValidate id="prevBtn">
                         <i className="material-icons">
                           <FontAwesomeIcon
@@ -152,7 +149,7 @@ const Wizard = () => {
                         </i>
                       </button>
                     ) : null}
-                    <button formNoValidate >
+                    <button formNoValidate>
                       <i className="material-icons">
                         <FontAwesomeIcon
                           color="white"

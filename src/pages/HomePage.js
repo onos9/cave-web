@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Route, Routes, Navigate, Outlet, useLocation } from "react-router-dom";
 import { Router } from "../router";
 import useAuth from "../hooks/useAuth";
+import axiosDefault from "../api/axios";
 
 // pages
 import Presentation from "./Presentation";
@@ -27,6 +28,8 @@ import Footer from "../components/Footer";
 import Preloader from "../components/Preloader";
 import RequireAuth from "../components/RequireAuth";
 import useRefreshToken from "../hooks/useRefreshToken";
+import Account from "./Account";
+import ProgramDetail from "./ProgramDetail";
 
 const ROLES = ["candidate"];
 
@@ -34,7 +37,7 @@ const RouteWithLoader = () => {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoaded(true), 100);
+    const timer = setTimeout(() => setLoaded(true), 1000);
     return () => clearTimeout(timer);
   });
 
@@ -48,7 +51,6 @@ const RouteWithLoader = () => {
 
 const RouteWithSidebar = () => {
   const [loaded, setLoaded] = useState(false);
-
   useEffect(() => {
     const timer = setTimeout(() => setLoaded(true), 1000);
     return () => clearTimeout(timer);
@@ -82,9 +84,6 @@ const RouteWithSidebar = () => {
 };
 
 export default () => {
-  const refresh = useRefreshToken();
-
-  console.log(refresh); //
   return (
     <Routes>
       {/* pages */}
@@ -92,22 +91,36 @@ export default () => {
 
       <Route path="/" element={<RouteWithLoader />}>
         <Route path={Router.Presentation.path} element={<Presentation />} />
-        <Route path={Router.Registration.path} element={<Registration />} />
         <Route path={Router.Watch.path} element={<Watch />} />
-        <Route path={Router.Signin.path} element={<Signin />} />
+        <Route path={`${Router.Signin.path}/:id`} element={<Signin />} />
         <Route path={Router.Signup.path} element={<Signup />} />
         <Route path={Router.ForgotPassword.path} element={<ForgotPassword />} />
         <Route path={Router.ResetPassword.path} element={<ResetPassword />} />
         <Route path={Router.Lock.path} element={<Lock />} />
         <Route path={Router.ServerError.path} element={<ServerError />} />
         <Route path={Router.Admission.path} element={<Admission />} />
+        <Route
+          path={`${Router.ProgramDetail.path}/:id`}
+          element={<ProgramDetail />}
+        />
+
+        <Route
+          element={<RequireAuth allowedRoles={["prospective", "admin"]} />}
+        >
+          <Route path={Router.Registration.path} element={<Registration />} />
+        </Route>
       </Route>
 
       <Route path="/platform" element={<RouteWithSidebar />}>
-        <Route element={<RequireAuth allowedRoles={ROLES} />}>
+        <Route
+          element={
+            <RequireAuth allowedRoles={["admin", "student", "teacher"]} />
+          }
+        >
           <Route path={Router.Overview.path} element={<Overview />} />
           <Route path={Router.Dashboard.path} element={<Dashboard />} />
           <Route path={Router.Enrollment.path} element={<Enrollment />} />
+          <Route path={Router.Account.path} element={<Account />} />
           <Route path={Router.Settings.path} element={<Settings />} />
         </Route>
       </Route>

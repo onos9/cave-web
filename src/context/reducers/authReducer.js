@@ -1,12 +1,3 @@
-import {
-  REGISTER_LOADING,
-  REGISTER_SUCCESS,
-  REGISTER_ERROR,
-  LOGIN_LOADING,
-  LOGIN_SUCCESS,
-  LOGIN_ERROR,
-} from "../../Constants/actionTypes";
-
 const auth = (state, { payload, type }) => {
   switch (type) {
     case "LOADING":
@@ -18,10 +9,9 @@ const auth = (state, { payload, type }) => {
 
     case "SUCCESS":
       return {
-          ...state,
-          ...payload,
+        ...state,
+        ...payload,
         loading: false,
-        
       };
 
     case "ERROR":

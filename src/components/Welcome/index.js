@@ -1,15 +1,10 @@
-import React, { useState, useEffect } from "react";
 import {
-  Form,
-  Row,
-  Col,
-  Button,
-  Container,
-  Alert,
-} from "@themesberg/react-bootstrap";
-import { useNavigate, useLocation, Navigate } from "react-router-dom";
-import "./welcome.css";
-import { Router } from "../../router";
+  Col, Row
+} from "@themesberg/react-bootstrap"
+import React, { useEffect } from "react"
+import { Navigate, useLocation, useNavigate } from "react-router-dom"
+import { Router } from "../../router"
+import "./welcome.css"
 
 export default () => {
   const { state } = useLocation();
@@ -38,22 +33,6 @@ export default () => {
                   "We will now guide you through the registration process. Please fill in all required feilds in order to complete your registration."
                 }
               </p>
-            </Col>
-          </Row>
-          <Row className="">
-            <Col xs={12}>
-              <h5 className="px-lg-0">{"Entry Requirements"}</h5>
-              {state?.required ? (
-                <ul>
-                  {state?.required.map((requirement, i) => (
-                    <li key={i}>
-                      <p>{requirement}</p>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <Navigate to={Router.Admission.path} state={{ from: location }}/>
-              )}
             </Col>
           </Row>
         </Col>

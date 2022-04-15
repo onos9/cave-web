@@ -25,10 +25,7 @@ import {
   ButtonGroup,
 } from "@themesberg/react-bootstrap";
 import { Link } from "react-router-dom";
-
-import { Router } from "../router";
 import { pageVisits, pageTraffic, pageRanking } from "../data/tables";
-import Enrollment from "../data/enrollment";
 import commands from "../data/commands";
 import useUser from "../hooks/useUser";
 
@@ -37,11 +34,11 @@ export const EnrollmentTable = () => {
   const { user, userState } = useUser();
 
   useEffect(() => {
-    if (!!userState?.users) {
-      console.log(userState);
-      setTableLength(userState?.users.length);
+    if (!!userState?.list) {
+      console.log(userState?.list);
+      setTableLength(userState?.list.length);
     }
-  }, [userState?.users]);
+  }, [userState?.list]);
 
   const TableRow = (props) => {
     const { bioData, email } = props;
@@ -121,9 +118,9 @@ export const EnrollmentTable = () => {
               <th className="border-bottom">Action</th>
             </tr>
           </thead>
-          {userState?.users ? (
+          {userState?.list ? (
             <tbody>
-              {userState?.users.map((user) => (
+              {userState?.list.map((user) => (
                 <TableRow key={`enroll-${user.id}`} {...user} />
               ))}
             </tbody>

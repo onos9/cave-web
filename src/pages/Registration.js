@@ -17,33 +17,31 @@ import ReactHero from "../assets/img/cave-hero-logo.svg";
 import Welcome from "../components/Welcome";
 import Wizard from "../components/Wizard";
 import useAuth from "../hooks/useAuth";
+import useUser from "../hooks/useUser";
 import { Router } from "../router";
 
 export default () => {
   const [isForm, setIsForm] = useState(false);
-  const location = useLocation();
-  const { auth, authState } = useAuth();
-  const navigate = useNavigate();
+  const { user, userState } = useUser();
+  const { authState } = useAuth();
+
+  const [online, setOnline] = useState(
+    authState?.user?.programOption === "Online"
+  );
 
   useEffect(() => {
-    setIsForm(location.state.isForm);
-  }, [location]);
+    console.log(online);
+    if (userState?.success || online)setIsForm(true);
+  }, [userState]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(document.forms.start);
-    const programOption = formData.get("programOption");
-    if (!auth?.user) {
-      navigate(Router.Signin.path, {
-        state: {
-          path: location.pathname,
-          isForm: true,
-          programOption: programOption,
-          program: location.state.program,
-        },
-        replace: true,
-      });
+    let data = {};
+    for (var key of formData.keys()) {
+      data = { ...data, [key]: formData.get(key) };
     }
+    user.updateOne(data, authState.user.id);
   };
 
   return (
@@ -57,7 +55,7 @@ export default () => {
         <Container className="position-relative justify-content-between px-3">
           <Navbar.Brand
             as={HashLink}
-            to="#home"
+            to={Router.Presentation.path}
             className="me-lg-3 d-flex align-items-center"
           >
             <Image src={ReactHero} height={60} width={"auto"} />
@@ -80,12 +78,6 @@ export default () => {
                 >
                   Admissions
                 </Nav.Link>
-                <Nav.Link as={HashLink} to={Router.Registration.path}>
-                  Enrollment
-                </Nav.Link>
-                <Nav.Link as={HashLink} to="#programs">
-                  Programs
-                </Nav.Link>
               </Nav>
             </Navbar.Collapse>
             <Button
@@ -102,39 +94,57 @@ export default () => {
       </Navbar>
       <div className="input_group mb-10 w-75 ">
         <Container>
-          {!authState?.user && !isForm ? (
+          {isForm ? (
+            <Wizard />
+          ) : (
             <>
               <Welcome />
-              <Form id="start" onSubmit={handleSubmit}>
-                <Row className="mb-3">
-                  <Form.Group as={Col} controlId="formGridPassword">
-                    <Form.Label>Program Option</Form.Label>
-                    <fieldset>
-                      <Form.Check
-                        required
-                        type="radio"
-                        defaultValue="Online"
-                        label="Online"
-                        name="programOption"
-                      />
-                      <Form.Check
-                        required
-                        type="radio"
-                        defaultValue="OffCampus"
-                        label="Off Campus"
-                        name="programOption"
-                      />
-                    </fieldset>
-                  </Form.Group>
-                </Row>
-                <Button type="submit" variant="outline-primary" className="m-1">
-                  <FontAwesomeIcon icon={faArrowRight} className="me-2" />
-                  Get Started
-                </Button>
-              </Form>
+              <Col xm={12} sm={4}>
+                {" "}
+                <Form id="start" onSubmit={handleSubmit}>
+                  <Row className="mb-3">
+                    <Form.Group className="mb-3" controlId="formGridPassword">
+                      <Form.Label>Program Option</Form.Label>
+                      <fieldset>
+                        <Form.Check
+                          required
+                          type="radio"
+                          defaultValue="Online"
+                          label="Online"
+                          name="programOption"
+                        />
+                        <Form.Check
+                          required
+                          type="radio"
+                          defaultValue="OnCampus"
+                          label="On Campus"
+                          name="programOption"
+                        />
+                      </fieldset>
+                    </Form.Group>
+                    <Form.Group controlId="formGridClass" className="mb-3">
+                      <Form.Label>What Program are you appling for?</Form.Label>
+                      <Form.Select name="program" required>
+                        <option hidden>choose...</option>
+                        <option>PGDT</option>
+                        <option>Diploma</option>
+                      </Form.Select>
+                      <Form.Control.Feedback type="valid">
+                        Looks good!
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                  </Row>
+                  <Button
+                    type="submit"
+                    variant="outline-primary"
+                    className="m-1"
+                  >
+                    <FontAwesomeIcon icon={faArrowRight} className="me-2" />
+                    Get Started
+                  </Button>
+                </Form>
+              </Col>
             </>
-          ) : (
-            <Wizard />
           )}
         </Container>
       </div>

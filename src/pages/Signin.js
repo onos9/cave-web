@@ -20,15 +20,43 @@ import {
   InputGroup,
   Row,
 } from "@themesberg/react-bootstrap";
-import React, { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import BgImage from "../assets/img/illustrations/signin.svg";
 import useAuth from "../hooks/useAuth";
 import { Router } from "../router";
+import Preloader from "../components/Preloader";
 
 export default () => {
   const { auth, authState } = useAuth();
+  const navigate = useNavigate();
   const { state } = useLocation();
+  const [loaded, setLoaded] = useState(false);
+  const [verified, setVerified] = useState(false);
+  const { id } = useParams();
+
+  useEffect(() => {
+    if (authState?.login)
+      navigate(Router.Dashboard.path, {
+        state: state,
+        replace: true,
+      });
+    const timer = setTimeout(() => setLoaded(true), 1000);
+    return () => clearTimeout(timer);
+  }, [authState]);
+
+  useEffect(() => {
+    if (id && !authState?.isVerified) auth.verify(id);
+  }, [id, authState?.isVerified]);
+
+  useEffect(() => {
+    if (authState?.login) {
+      const to = authState?.isVerified
+        ? Router.Registration.path
+        : Router.Dashboard.path;
+      navigate(to, { replace: true });
+    }
+  }, [authState?.login]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -42,12 +70,13 @@ export default () => {
 
   return (
     <main>
+      <Preloader show={loaded ? false : true} />
       <section className="d-flex align-items-center my-5 mt-lg-6 mb-lg-5">
         <Container>
           <p className="text-center">
             <Card.Link
               as={Link}
-              to={Router.Dashboard.path}
+              to={Router.Presentation.path}
               className="text-gray-700"
             >
               <FontAwesomeIcon icon={faAngleLeft} className="me-2" /> Back to
@@ -140,14 +169,14 @@ export default () => {
                     <FontAwesomeIcon icon={faGooglePlus} />
                   </Button>
                 </div>
-                {state?.isForm ? (
+                {state?.state?.registration ? (
                   <div className="d-flex justify-content-center align-items-center mt-4">
                     <span className="fw-normal">
                       Not registered?
                       <Card.Link
                         as={Link}
                         to={Router.Signup.path}
-                        state={{ from: state?.pathname }}
+                        state={{ ...state }}
                         className="fw-bold"
                       >
                         {` Create account `}

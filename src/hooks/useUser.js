@@ -5,18 +5,18 @@ import useAxios from "./useAxios";
 import { Router } from "../router";
 
 const useUser = () => {
-  const { userState, setUser: dispatch } = useContext(GlobalContext);
+  const [state, dispatch] = useContext(GlobalContext);
   const navigate = useNavigate();
   const axios = useAxios(false);
 
-  //console.log(userState);
+  const userState = state?.user
   useDebugValue(userState, (user) => (user?.user ? "Logged In" : "Logged Out"));
 
   const dispatchLoading = () => {
     dispatch({ type: "LOADING" });
   };
   const dispatchSuccess = (res) => {
-    dispatch({ type: "SUCCESS", payload: res?.data });
+    dispatch({ type: "USER_SUCCESS", payload: res?.data });
   };
 
   const dispatchError = (err) => {
@@ -64,7 +64,7 @@ const useUser = () => {
     updateOne: (user, id) => {
       dispatchLoading();
       axios
-        .post(`/user/${id}`, user)
+        .patch(`/user/${id}`, user)
         .then((res) => {
           dispatchSuccess(res);
         })

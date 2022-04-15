@@ -1,22 +1,24 @@
 import { useContext, useDebugValue, useEffect, useState } from "react";
 import { GlobalContext } from "../context/Provider";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import useAxios from "./useAxios";
 import { Router } from "../router";
 
 const useAuth = () => {
-  const { authState, setAuth: dispatch } = useContext(GlobalContext);
+  const [state, dispatch] = useContext(GlobalContext);
   const navigate = useNavigate();
+  const location = useLocation();
   const axios = useAxios();
+  const authState = state?.auth;
 
-  //console.log(authState);
   useDebugValue(authState, (auth) => (auth?.user ? "Logged In" : "Logged Out"));
 
   const dispatchLoading = () => {
     dispatch({ type: "LOADING" });
   };
+
   const dispatchSuccess = (res) => {
-    dispatch({ type: "SUCCESS", payload: res?.data });
+    dispatch({ type: "AUTH_SUCCESS", payload: res?.data });
   };
 
   const dispatchError = (err) => {
@@ -28,10 +30,10 @@ const useAuth = () => {
     signup: (user, state) => {
       dispatchLoading();
       axios
-        .post("/auth/signup", user)
+        .put("/auth", user)
         .then((res) => {
           dispatchSuccess(res);
-          if (state) navigate(state.path, { state: state, replace: true });
+          if (state) navigate(state.pathname, { state: state, replace: true });
         })
         .catch((err) => {
           dispatchError(err);
@@ -44,7 +46,7 @@ const useAuth = () => {
         .post("/auth", user)
         .then((res) => {
           dispatchSuccess(res);
-          navigate(state?.path ? state?.path : Router.Dashboard.path, {
+          navigate(state?.pathname ? state?.pathname : Router.Dashboard.path, {
             state: state,
             replace: true,
           });
@@ -55,14 +57,24 @@ const useAuth = () => {
     },
 
     signout: (user, state) => {
-      dispatch({ type: "LOGOUT", payload: user });
-      if (state) navigate(state.path, { replace: true });
-    },
-
-    refresh: () => {
       dispatch({ type: "LOADING" });
       axios
-        .get("/auth")
+        .delete("/auth", user)
+        .then((res) => {
+          dispatchSuccess(res);
+          navigate(`${Router.Signin.path}/id`, {
+            state: { from: location, refresh: true },
+          });
+        })
+        .catch((err) => {
+          dispatchError(err);
+        });
+    },
+
+    verify: (token) => {
+      dispatch({ type: "LOADING" });
+      axios
+        .post(`/auth/${token}`)
         .then((res) => {
           dispatchSuccess(res);
         })
@@ -75,10 +87,3 @@ const useAuth = () => {
   return { auth, authState };
 };
 export default useAuth;
-
-const getCodeUrl = async () => {
-  const resp = await axios.get(`${apiV1}/api/v1/mail`);
-  const params = new URLSearchParams(resp.data).toString();
-  const url = `https://accounts.zoho.com/oauth/v2/auth?${params}`;
-  console.log(url);
-};

@@ -11,7 +11,7 @@ export default [
       `completed application form (available online, link provided directly by the admissions office)`,
       `Higher Education Certification or its equivalent (Secondary School, Technical and Trade Schools) with Five Credits – including English in at least 2 sittings or its equivalent`,
       `Two Recommendation Letters (At least one should be from a certified member of the clergy)`,
-      ` A personal narrative containing their testimony of salvation.`,
+      `A personal narrative containing their testimony of salvation.`,
     ],
   },
   {

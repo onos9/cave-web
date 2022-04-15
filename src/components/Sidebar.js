@@ -17,6 +17,7 @@ import {
   faMapPin,
   faInbox,
   faRocket,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   Nav,
@@ -199,6 +200,11 @@ export default (props = {}) => {
               <Dropdown.Divider className="my-3 border-indigo" />
               <NavItem
                 title="Account"
+                icon={faUser}
+                link={Router.Account.path}
+              />
+              <NavItem
+                title="Settings"
                 icon={faCog}
                 link={Router.Settings.path}
               />

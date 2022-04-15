@@ -48,6 +48,7 @@
     "react-datetime": "^3.0.4",
     "react-dom": "^16.13.1",
     "react-github-btn": "^1.2.0",
+    "react-html-email": "^3.0.0",
     "react-live": "^2.2.3",
     "react-notifications": "^1.7.3",
     "react-placeholder-loading": "^0.5.29",
