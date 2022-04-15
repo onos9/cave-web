@@ -24,37 +24,37 @@ const steps = [
     id: "bioData",
     Component: BioData,
     title: "Student Information",
-    Icon: faUser,
+    Icon: () => faUser,
   },
   {
     id: "qualification",
     Component: Qualification,
     title: "Educational Qualification",
-    Icon: faGraduationCap,
+    Icon: () => faGraduationCap,
   },
   {
     id: "background",
     Component: Background,
     title: "Spiritual Background",
-    Icon: faBible,
+    Icon: () => faBible,
   },
   {
     id: "health",
     Component: Health,
     title: "Health Information",
-    Icon: faNotesMedical,
+    Icon: () => faNotesMedical,
   },
   {
     id: "referees",
     Component: Referee,
     title: "Refree Information",
-    Icon: faUserShield,
+    Icon: () => faUserShield,
   },
   {
     id: "terms",
     Component: Terms,
     title: "Terms & Conditions",
-    Icon: faHandshakeSlash,
+    Icon: () => faHandshakeSlash,
   },
 ];
 
