@@ -76,7 +76,7 @@ button:focus {
   justify-content: center;
 }
 
-.step {
+.stepper {
   height: 40px;
   width: 40px;
   margin: 0 2px;
@@ -91,12 +91,12 @@ button:focus {
   opacity: 0.5;
 }
 
-.step.active {
+.stepper.active {
   opacity: 1;
   background: #262b40;
 }
 
-.step.finish {
+.stepper.finish {
   color: #fff;
   background: #262b40;
   opacity: 1;
