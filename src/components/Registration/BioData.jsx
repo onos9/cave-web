@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Row, Col, InputGroup } from "@themesberg/react-bootstrap";
 import Datetime from "react-datetime";
 import moment from "moment-timezone";
@@ -6,7 +6,11 @@ import moment from "moment-timezone";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 
-export default ({ title }) => {
+export default ({ title, values }) => {
+  const { bioData } = values;
+    // useEffect(() => {
+    //   console.log(bioData);
+    // });
   const Datepicker = ({ as }) => {
     const [date, setDate] = useState("");
 
@@ -28,7 +32,7 @@ export default ({ title }) => {
                 autoComplete={"off"}
                 name="dob"
                 type="text"
-                value={date ? moment(date).format("DD/MM/YYYY") : ""}
+                value={date ? moment(date).format("DD/MM/YYYY") : bioData?.dob}
                 placeholder="dd/mm/yyyy"
                 onFocus={openCalendar}
                 onChange={() => {}}
@@ -48,6 +52,7 @@ export default ({ title }) => {
           <Form.Group as={Col} controlId="formGridEmail">
             <Form.Label>First Name</Form.Label>
             <Form.Control
+              defaultValue={bioData?.firstName}
               name="firstName"
               required
               type="text"
@@ -61,6 +66,7 @@ export default ({ title }) => {
           <Form.Group as={Col} controlId="formGridPassword">
             <Form.Label>Last Name</Form.Label>
             <Form.Control
+              defaultValue={bioData?.lastName}
               name="lastName"
               required
               type="text"
@@ -76,13 +82,14 @@ export default ({ title }) => {
             <Form.Label>Select Gender</Form.Label>
             <fieldset>
               <Form.Check
-                defaultChecked
+                defaultChecked={bioData?.gender === "male"}
                 type="radio"
                 defaultValue="male"
                 label="Male"
                 name="gender"
               />
               <Form.Check
+                defaultChecked={bioData?.gender === "female"}
                 type="radio"
                 defaultValue="female"
                 label="Female"
@@ -94,7 +101,12 @@ export default ({ title }) => {
         <Row>
           <Form.Group as={Col} controlId="formGridEmail" className="mb-3">
             <Form.Label>Phone Number</Form.Label>
-            <Form.Control name="phone" required type="number" />
+            <Form.Control
+              defaultValue={bioData?.phone}
+              name="phone"
+              required
+              type="number"
+            />
             <Form.Control.Feedback type="invalid">
               Please choose a username.
             </Form.Control.Feedback>
@@ -104,6 +116,7 @@ export default ({ title }) => {
         <Form.Group as={Col} controlId="formGridOpend" className="mb-3">
           <Form.Label>Address</Form.Label>
           <Form.Control
+            defaultValue={bioData?.address}
             name="address"
             required
             type="text"
@@ -118,6 +131,7 @@ export default ({ title }) => {
           <Form.Group as={Col} controlId="formGridEmail">
             <Form.Label>Resident country</Form.Label>
             <Form.Control
+              defaultValue={bioData?.country}
               name="country"
               required
               type="text"
@@ -131,6 +145,7 @@ export default ({ title }) => {
           <Form.Group as={Col} controlId="formGridOpend">
             <Form.Label>State</Form.Label>
             <Form.Control
+              defaultValue={bioData?.state}
               name="state"
               required
               type="text"
@@ -146,6 +161,7 @@ export default ({ title }) => {
           <Form.Group as={Col} controlId="formGridPassword">
             <Form.Label>City</Form.Label>
             <Form.Control
+              defaultValue={bioData?.city}
               name="city"
               required
               type="text"
@@ -158,7 +174,12 @@ export default ({ title }) => {
 
           <Form.Group as={Col} controlId="formGridPassword">
             <Form.Label>Zip Code</Form.Label>
-            <Form.Control name="zipCode" required type="number" />
+            <Form.Control
+              defaultValue={bioData?.zipCode}
+              name="zipCode"
+              required
+              type="number"
+            />
             <Form.Control.Feedback type="valid">
               Looks good!
             </Form.Control.Feedback>

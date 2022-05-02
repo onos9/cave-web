@@ -80,7 +80,7 @@ export default (state = null, action) => {
                 </Nav.Link>
 
                 <Nav.Link as={HashLink} to="#scholarship">
-                  Scholarship
+                  Financial Aid
                 </Nav.Link>
                 <Nav.Link as={HashLink} to="#testimonial">
                   Testimonial

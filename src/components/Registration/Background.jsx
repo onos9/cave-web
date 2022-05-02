@@ -1,7 +1,13 @@
-import { Col, Form, Row } from "@themesberg/react-bootstrap"
-import React from "react"
+import { Col, Form, Row } from "@themesberg/react-bootstrap";
+import React, { useState } from "react";
 
 export default ({ title }) => {
+  const [disabled, setDisabled] = useState(true);
+
+  const handleChange = (e) => {
+    setDisabled(e.target.value === "No");
+  };
+
   return (
     <>
       <div className="container">
@@ -44,8 +50,8 @@ export default ({ title }) => {
 
         <Row className=" mb-3">
           <Form.Group as={Col} controlId="formGridClass" className="mb-3">
-            <Form.Label>Are you into ministry?</Form.Label>
-            <Form.Select name="intoMinistry" required>
+            <Form.Label>Do you speak in tongues?</Form.Label>
+            <Form.Select name="speakTongues" required>
               <option hidden>choose...</option>
               <option value="true">Yes</option>
               <option value="false">No</option>
@@ -55,9 +61,20 @@ export default ({ title }) => {
             </Form.Control.Feedback>
           </Form.Group>
           <Form.Group as={Col} controlId="formGridClass" className="mb-3">
-            <Form.Label>What's your call?</Form.Label>
-            <Form.Control name="godsCall" type="text" placeholder="Your call" />
-            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+            <Form.Label>Are you into ministry?</Form.Label>
+            <Form.Select name="intoMinistry" required>
+              <option hidden>choose...</option>
+              <option>No</option>
+              <option>Founder</option>
+              <option>Senior Pastor</option>
+              <option>Associate Pastor</option>
+              <option>Elder</option>
+              <option>Elder</option>
+              <option>Worker</option>
+            </Form.Select>
+            <Form.Control.Feedback type="valid">
+              Looks good!
+            </Form.Control.Feedback>
           </Form.Group>
         </Row>
         <Row>
@@ -78,17 +95,21 @@ export default ({ title }) => {
             <Form.Control
               name="reason"
               type="text"
-              placeholder="Reason for application..."
+              placeholder="Motivation for application..."
             />
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
           </Form.Group>
           <Form.Group as={Col} controlId="formGridClass" className="mb-3">
             <Form.Label>Involved with any church?</Form.Label>
-            <Form.Control
+            <Form.Select
               name="churchInvolve"
-              type="text"
-              placeholder="Church Name..."
-            />
+              required
+              onChange={(e) => handleChange(e)}
+            >
+              <option hidden>choose...</option>
+              <option>Yes</option>
+              <option>No</option>
+            </Form.Select>
             <Form.Control.Feedback type="valid">
               Looks good!
             </Form.Control.Feedback>
@@ -97,29 +118,32 @@ export default ({ title }) => {
 
         <Row className=" mb-3">
           <Form.Group as={Col} controlId="formGridClass" className="mb-3">
-            <Form.Label>Pastor's name?</Form.Label>
+            <Form.Label>Church name?</Form.Label>
             <Form.Control
-              name="pastorName"
+              disabled={disabled}
+              name="churchName"
               type="text"
-              placeholder="Enter Pastor's name'..."
+              placeholder="Enter Church's name'..."
             />
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
           </Form.Group>
           <Form.Group as={Col} controlId="formGridClass" className="mb-3">
             <Form.Label>Pastor's Email?</Form.Label>
             <Form.Control
+              disabled={disabled}
               name="pastorEmail"
-              type="email"
-              placeholder="Enter Email.."
+              type="text"
+              placeholder="Enter Church's name'..."
             />
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
           </Form.Group>
           <Form.Group as={Col} controlId="formGridClass" className="mb-3">
             <Form.Label>Pastor's Phone Number</Form.Label>
             <Form.Control
-              name="pastorPhone"
-              type="tel"
-              placeholder="Phone Number..."
+              disabled={disabled}
+              name="pastorName"
+              type="email"
+              placeholder="Enter Email.."
             />
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
           </Form.Group>

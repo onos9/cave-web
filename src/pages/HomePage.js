@@ -114,7 +114,7 @@ export default () => {
       <Route path="/platform" element={<RouteWithSidebar />}>
         <Route
           element={
-            <RequireAuth allowedRoles={["admin", "student", "teacher"]} />
+            <RequireAuth allowedRoles={["admin"]} />
           }
         >
           <Route path={Router.Overview.path} element={<Overview />} />

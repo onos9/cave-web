@@ -152,11 +152,7 @@ export default (state = null, action) => {
                   specialized knowledge and skills to understand, apply and
                   communicate the Scriptures effectively.
                 </p>
-                <Button
-                  as={Link}
-                  to={Router.Signup.path}
-                  variant="secondary"
-                >
+                <Button as={Link} to={Router.Signup.path} variant="secondary">
                   Enroll Now
                   <FontAwesomeIcon icon={faExternalLinkAlt} className="ms-1" />
                 </Button>
@@ -214,34 +210,6 @@ export default (state = null, action) => {
                 </li>
               </ul>
             </Row>
-            <Row>
-              <h2>Why Study PGDT with Adullam Bible Seminary?</h2>
-              <p className="mb-4">
-                Volt React is an admin dashboard template that is built using
-                React.js components using react hooks and a data-driven
-                structure that can kick-start your app in no time.
-              </p>
-              <ul className="ms-5">
-                <li className="mb-4">Time- and cost-efficient degree design</li>
-                <li className="mb-4">
-                  Centered on Scripture, integrating biblical interpretation
-                  with spiritual formation and ministry skills
-                </li>
-                <li className="mb-4">
-                  Learn how to communicate the Bible in a variety of practical
-                  ministry contexts
-                </li>
-                <li className="mb-4">
-                  Taught by faculty who are actively engaged in exposition
-                  through preaching, teaching, and research
-                </li>
-                <li className="mb-4">
-                  Logos Bible software is offered to registered students at no
-                  additional cost
-                </li>
-                <li className="mb-4">Nationally- and regionally-accredited</li>
-              </ul>
-            </Row>
 
             <Row>
               <h2>Admission Requirements</h2>
@@ -274,6 +242,34 @@ export default (state = null, action) => {
                 <li className="mb-4">Bible institute teacher</li>
               </ul>
             </Row>
+            <Row>
+              <h2>Program Fees</h2>
+              <p className="mb-4">
+                Volt React is an admin dashboard template that is built using
+                React.js components using react hooks and a data-driven
+                structure that can kick-start your app in no time.
+              </p>
+              <ul className="ms-5">
+                <li className="mb-4">Time- and cost-efficient degree design</li>
+                <li className="mb-4">
+                  Centered on Scripture, integrating biblical interpretation
+                  with spiritual formation and ministry skills
+                </li>
+                <li className="mb-4">
+                  Learn how to communicate the Bible in a variety of practical
+                  ministry contexts
+                </li>
+                <li className="mb-4">
+                  Taught by faculty who are actively engaged in exposition
+                  through preaching, teaching, and research
+                </li>
+                <li className="mb-4">
+                  Logos Bible software is offered to registered students at no
+                  additional cost
+                </li>
+                <li className="mb-4">Nationally- and regionally-accredited</li>
+              </ul>
+            </Row>
           </Container>
         </section>
       ) : (
@@ -290,11 +286,7 @@ export default (state = null, action) => {
                   specialized knowledge and skills to understand, apply and
                   communicate the Scriptures effectively.
                 </p>
-                <Button
-                  as={Link}
-                  to={Router.Signup.path}
-                  variant="secondary"
-                >
+                <Button as={Link} to={Router.Signup.path} variant="secondary">
                   Enroll Now
                   <FontAwesomeIcon icon={faExternalLinkAlt} className="ms-1" />
                 </Button>
@@ -352,34 +344,6 @@ export default (state = null, action) => {
                 </li>
               </ul>
             </Row>
-            <Row>
-              <h2>Why Study PGDT with Adullam Bible Seminary?</h2>
-              <p className="mb-4">
-                Volt React is an admin dashboard template that is built using
-                React.js components using react hooks and a data-driven
-                structure that can kick-start your app in no time.
-              </p>
-              <ul className="ms-5">
-                <li className="mb-4">Time- and cost-efficient degree design</li>
-                <li className="mb-4">
-                  Centered on Scripture, integrating biblical interpretation
-                  with spiritual formation and ministry skills
-                </li>
-                <li className="mb-4">
-                  Learn how to communicate the Bible in a variety of practical
-                  ministry contexts
-                </li>
-                <li className="mb-4">
-                  Taught by faculty who are actively engaged in exposition
-                  through preaching, teaching, and research
-                </li>
-                <li className="mb-4">
-                  Logos Bible software is offered to registered students at no
-                  additional cost
-                </li>
-                <li className="mb-4">Nationally- and regionally-accredited</li>
-              </ul>
-            </Row>
 
             <Row>
               <h2>Admission Requirements</h2>
@@ -410,6 +374,34 @@ export default (state = null, action) => {
                 <li className="mb-4">Para-church ministry teacher</li>
                 <li className="mb-4">Marketplace Bible teacher</li>
                 <li className="mb-4">Bible institute teacher</li>
+              </ul>
+            </Row>
+            <Row>
+              <h2>Program Fees</h2>
+              <p className="mb-4">
+                Volt React is an admin dashboard template that is built using
+                React.js components using react hooks and a data-driven
+                structure that can kick-start your app in no time.
+              </p>
+              <ul className="ms-5">
+                <li className="mb-4">Time- and cost-efficient degree design</li>
+                <li className="mb-4">
+                  Centered on Scripture, integrating biblical interpretation
+                  with spiritual formation and ministry skills
+                </li>
+                <li className="mb-4">
+                  Learn how to communicate the Bible in a variety of practical
+                  ministry contexts
+                </li>
+                <li className="mb-4">
+                  Taught by faculty who are actively engaged in exposition
+                  through preaching, teaching, and research
+                </li>
+                <li className="mb-4">
+                  Logos Bible software is offered to registered students at no
+                  additional cost
+                </li>
+                <li className="mb-4">Nationally- and regionally-accredited</li>
               </ul>
             </Row>
           </Container>

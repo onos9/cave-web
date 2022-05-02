@@ -30,7 +30,6 @@ export default () => {
   );
 
   useEffect(() => {
-    console.log(online);
     if (userState?.success || online)setIsForm(true);
   }, [userState]);
 

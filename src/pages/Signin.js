@@ -51,9 +51,10 @@ export default () => {
 
   useEffect(() => {
     if (authState?.login) {
-      const to = authState?.isVerified
-        ? Router.Registration.path
-        : Router.Dashboard.path;
+      const to =
+        authState?.isVerified && authState?.user?.role === "prospective"
+          ? Router.Registration.path
+          : Router.Dashboard.path;
       navigate(to, { replace: true });
     }
   }, [authState?.login]);

@@ -19,6 +19,7 @@ export default ({ title }) => {
         <Row>
           <Form.Group className="mb-3">
             <Form.Check
+              value="yes"
               name="agree"
               type="switch"
               required

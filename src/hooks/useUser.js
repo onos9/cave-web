@@ -88,11 +88,4 @@ const useUser = () => {
 
   return { user, userState };
 };
-export default useUser;
-
-const getCodeUrl = async () => {
-  const resp = await axios.get(`${apiV1}/api/v1/mail`);
-  const params = new URLSearchParams(resp.data).toString();
-  const url = `https://accounts.zoho.com/ouser/v2/user?${params}`;
-  console.log(url);
-};
+export default useUser

@@ -11,9 +11,9 @@ const RequireAuth = ({ allowedRoles }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (authState && !authState?.login) {
+    if (!authState?.login) {
         navigate(`${Router.Signin.path}/id`, { state: { ...location } });
-    }
+    } 
   }, [authState]);
 
   const isRole = authState?.roles?.find((role) => allowedRoles?.includes(role));

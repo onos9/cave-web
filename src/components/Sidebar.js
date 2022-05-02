@@ -34,38 +34,49 @@ import { Router } from "../router";
 import ThemesbergLogo from "../assets/img/themesberg.svg";
 import ReactHero from "../assets/img/cave-hero-logo.svg";
 import ProfilePicture from "../assets/img/team/profile-picture-3.jpg";
+import useAuth from "../hooks/useAuth";
 
 export default (props = {}) => {
+  const { auth, authState } = useAuth();
   const location = useLocation();
   const { pathname } = location;
   const [show, setShow] = useState(false);
   const showClass = show ? "show" : "";
+  const hidden = (allowedRoles) => {
+    const isShow = allowedRoles?.includes(authState?.user?.role);
+    console.log(isShow);
+    return isShow;
+  };
 
   const onCollapse = () => setShow(!show);
 
   const CollapsableNavItem = (props) => {
-    const { eventKey, title, icon, children = null } = props;
+    const { hide = false, eventKey, title, icon, children = null } = props;
     const defaultKey = pathname.indexOf(eventKey) !== -1 ? eventKey : "";
 
     return (
-      <Accordion as={Nav.Item} defaultActiveKey={defaultKey}>
-        <Accordion.Item eventKey={eventKey}>
-          <Accordion.Button
-            as={Nav.Link}
-            className="d-flex justify-content-between align-items-center"
-          >
-            <span>
-              <span className="sidebar-icon">
-                <FontAwesomeIcon icon={icon} />{" "}
-              </span>
-              <span className="sidebar-text">{title}</span>
-            </span>
-          </Accordion.Button>
-          <Accordion.Body className="multi-level">
-            <Nav className="flex-column">{children}</Nav>
-          </Accordion.Body>
-        </Accordion.Item>
-      </Accordion>
+      <>
+        {hide ? (
+          <Accordion as={Nav.Item} defaultActiveKey={defaultKey}>
+            <Accordion.Item eventKey={eventKey}>
+              <Accordion.Button
+                as={Nav.Link}
+                className="d-flex justify-content-between align-items-center"
+              >
+                <span>
+                  <span className="sidebar-icon">
+                    <FontAwesomeIcon icon={icon} />{" "}
+                  </span>
+                  <span className="sidebar-text">{title}</span>
+                </span>
+              </Accordion.Button>
+              <Accordion.Body className="multi-level">
+                <Nav className="flex-column">{children}</Nav>
+              </Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
+        ) : null}
+      </>
     );
   };
 
@@ -80,45 +91,49 @@ export default (props = {}) => {
       badgeText,
       badgeBg = "secondary",
       badgeColor = "primary",
+      hide = false,
     } = props;
     const classNames = badgeText
       ? "d-flex justify-content-start align-items-center justify-content-between"
       : "";
     const navItemClassName = link === pathname ? "active" : "";
     const linkProps = external ? { href: link } : { as: Link, to: link };
-
     return (
-      <Nav.Item className={navItemClassName} onClick={() => setShow(false)}>
-        <Nav.Link {...linkProps} target={target} className={classNames}>
-          <span>
-            {icon ? (
-              <span className="sidebar-icon">
-                <FontAwesomeIcon icon={icon} />{" "}
-              </span>
-            ) : null}
-            {image ? (
-              <Image
-                src={image}
-                width={"auto"}
-                height={50}
-                className="sidebar-icon svg-icon"
-              />
-            ) : null}
+      <>
+        {hide ? (
+          <Nav.Item className={navItemClassName} onClick={() => setShow(false)}>
+            <Nav.Link {...linkProps} target={target} className={classNames}>
+              <span>
+                {icon ? (
+                  <span className="sidebar-icon">
+                    <FontAwesomeIcon icon={icon} />{" "}
+                  </span>
+                ) : null}
+                {image ? (
+                  <Image
+                    src={image}
+                    width={"auto"}
+                    height={50}
+                    className="sidebar-icon svg-icon"
+                  />
+                ) : null}
 
-            <span className="sidebar-text">{title}</span>
-          </span>
-          {badgeText ? (
-            <Badge
-              pill
-              bg={badgeBg}
-              text={badgeColor}
-              className="badge-md notification-count ms-2"
-            >
-              {badgeText}
-            </Badge>
-          ) : null}
-        </Nav.Link>
-      </Nav.Item>
+                <span className="sidebar-text">{title}</span>
+              </span>
+              {badgeText ? (
+                <Badge
+                  pill
+                  bg={badgeBg}
+                  text={badgeColor}
+                  className="badge-md notification-count ms-2"
+                >
+                  {badgeText}
+                </Badge>
+              ) : null}
+            </Nav.Link>
+          </Nav.Item>
+        ) : null}
+      </>
     );
   };
 
@@ -177,21 +192,25 @@ export default (props = {}) => {
             </div>
             <Nav className="flex-column pt-3 pt-md-0">
               <NavItem
+                hide={hidden(Router.Presentation.allowedRoles)}
                 title=""
                 link={Router.Presentation.path}
                 image={ReactHero}
               />
               <NavItem
+                hide={hidden(Router.Dashboard.allowedRoles)}
                 title="Dashboard"
                 link={Router.Dashboard.path}
                 icon={faChartPie}
               />
               <NavItem
+                hide={hidden(Router.Overview.allowedRoles)}
                 title="Overview"
                 link={Router.Overview.path}
                 icon={faChartPie}
               />
               <NavItem
+                hide={hidden(Router.Enrollment.allowedRoles)}
                 title="Enrollment"
                 icon={faHandHoldingUsd}
                 link={Router.Enrollment.path}
@@ -199,16 +218,20 @@ export default (props = {}) => {
 
               <Dropdown.Divider className="my-3 border-indigo" />
               <NavItem
+                hide={hidden(Router.Account.allowedRoles)}
                 title="Account"
                 icon={faUser}
                 link={Router.Account.path}
               />
               <NavItem
+                hide={hidden(Router.Settings.allowedRoles)}
                 title="Settings"
                 icon={faCog}
                 link={Router.Settings.path}
               />
+
               <CollapsableNavItem
+                hide={hidden(["admin"])}
                 eventKey="examples/"
                 title="Page Examples"
                 icon={faFileAlt}
@@ -237,8 +260,8 @@ export default (props = {}) => {
                 variant="secondary"
                 className="upgrade-to-pro"
               >
-                <FontAwesomeIcon icon={faRocket} className="me-1" /> Upgrade to
-                Pro
+                <FontAwesomeIcon icon={faSignOutAlt} className="me-1" /> Sign
+                Out
               </Button>
             </Nav>
           </div>
