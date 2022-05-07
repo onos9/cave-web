@@ -74,7 +74,7 @@ export default () => {
       <Preloader show={loaded ? false : true} />
       <section className="d-flex align-items-center my-5 mt-lg-6 mb-lg-5">
         <Container>
-          <p className="text-center">
+          {/* <p className="text-center">
             <Card.Link
               as={Link}
               to={Router.Presentation.path}
@@ -83,7 +83,7 @@ export default () => {
               <FontAwesomeIcon icon={faAngleLeft} className="me-2" /> Back to
               homepage
             </Card.Link>
-          </p>
+          </p> */}
           <Row
             className="justify-content-center form-bg-image"
             style={{ backgroundImage: `url(${BgImage})` }}
