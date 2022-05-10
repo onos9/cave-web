@@ -10,8 +10,9 @@ const Reducer = (state, { payload, type }) => {
     return {
       ...state,
       [action]: {
-        ...state[action],
         ...payload,
+        ...state[action],
+        
       },
       loading: false,
     };
