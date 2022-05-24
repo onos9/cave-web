@@ -3,6 +3,7 @@ import {
   faGithub,
   faGooglePlus,
   faTwitter,
+  faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 import {
   faAngleLeft,
@@ -154,37 +155,41 @@ export default () => {
                   <Button
                     variant="outline-light"
                     className="btn-icon-only btn-pill text-facebook me-2"
+                    href="https://www.facebook.com/adullam.rcn/"
+                    target="_blank"
                   >
                     <FontAwesomeIcon icon={faFacebookF} />
                   </Button>
-                  <Button
+                  {/* <Button
                     variant="outline-light"
                     className="btn-icon-only btn-pill text-twitter me-2"
+                    href="#"
                   >
                     <FontAwesomeIcon icon={faTwitter} />
-                  </Button>
+                  </Button> */}
                   <Button
                     variant="outline-light"
                     className="btn-icon-only btn-pil text-google"
+                    href="https://youtube.com/channel/UCg7kJOsWDdksyuUv5HiIvFg"
+                    target="_blank"
                   >
-                    <FontAwesomeIcon icon={faGooglePlus} />
+                    <FontAwesomeIcon icon={faYoutube} />
                   </Button>
                 </div>
-                {state?.state?.registration ? (
-                  <div className="d-flex justify-content-center align-items-center mt-4">
-                    <span className="fw-normal">
-                      Not registered?
-                      <Card.Link
-                        as={Link}
-                        to={Router.Signup.path}
-                        state={{ ...state }}
-                        className="fw-bold"
-                      >
-                        {` Create account `}
-                      </Card.Link>
-                    </span>
-                  </div>
-                ) : null}
+
+                <div className="d-flex justify-content-center align-items-center mt-4">
+                  <span className="fw-normal">
+                    Not registered?
+                    <Card.Link
+                      as={Link}
+                      to={Router.Signup.path}
+                      state={{ ...state }}
+                      className="fw-bold"
+                    >
+                      {` Create account `}
+                    </Card.Link>
+                  </span>
+                </div>
               </div>
             </Col>
           </Row>

@@ -88,7 +88,6 @@ export default () => {
     <Routes>
       {/* pages */}
       <Route path="*" element={<NotFoundPage />} />
-
       <Route path="/" element={<RouteWithLoader />}>
         <Route path={Router.Presentation.path} element={<Presentation />} />
         <Route path={Router.Watch.path} element={<Watch />} />
@@ -103,7 +102,7 @@ export default () => {
           path={`${Router.ProgramDetail.path}/:id`}
           element={<ProgramDetail />}
         />
-
+        
         <Route
           element={<RequireAuth allowedRoles={["prospective", "admin"]} />}
         >

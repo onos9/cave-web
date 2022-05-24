@@ -1,7 +1,7 @@
 export const Router = {
   // pages
   Presentation: {
-    path: "/",
+    path: "/presentation",
     allowedRoles: ["admin", "student", "teacher", "prospective", "guest"],
   },
   Watch: {
@@ -13,7 +13,7 @@ export const Router = {
     allowedRoles: ["admin", "prospective"],
   },
   Registration: {
-    path: "/registration",
+    path: "/",
     allowedRoles: ["admin", "prospective"],
   },
   ProgramDetail: {

@@ -9,6 +9,7 @@ import {
   faFacebookF,
   faGithub,
   faTwitter,
+  faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 import {
   Col,
@@ -170,21 +171,25 @@ export default () => {
                   <Button
                     variant="outline-light"
                     className="btn-icon-only btn-pill text-facebook me-2"
+                    href="https://www.facebook.com/adullam.rcn/"
+                    target="_blank"
                   >
                     <FontAwesomeIcon icon={faFacebookF} />
                   </Button>
                   <Button
                     variant="outline-light"
                     className="btn-icon-only btn-pill text-twitter me-2"
+                    href="https://youtube.com/channel/UCg7kJOsWDdksyuUv5HiIvFg"
+                    target="_blank"
                   >
-                    <FontAwesomeIcon icon={faTwitter} />
+                    <FontAwesomeIcon icon={faYoutube} />
                   </Button>
-                  <Button
+                  {/* <Button
                     variant="outline-light"
                     className="btn-icon-only btn-pil text-dark"
                   >
                     <FontAwesomeIcon icon={faGithub} />
-                  </Button>
+                  </Button> */}
                 </div>
                 <div className="d-flex justify-content-center align-items-center mt-4">
                   <span className="fw-normal">
