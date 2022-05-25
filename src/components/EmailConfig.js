@@ -13,17 +13,6 @@ import { EmailConfigCardWiget } from "./Widgets";
 const EmailConfig = () => {
   const [template, setTemplate] = useState();
 
-  useEffect(() => {});
-
-  const getTemplate = () =>
-    renderEmail(
-      <Template
-        subject="Welcome to Adullam"
-        userName="Eric Cabrel"
-        confirmationUrl="https://adullam.ng"
-      />
-    );
-
   return (
     <div>
       <EmailConfigCardWiget template={template} />

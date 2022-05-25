@@ -43,6 +43,7 @@ import ProfileCover from "../assets/img/profile-cover.jpg";
 
 import teamMembers from "../data/teamMembers";
 import useMailer from "../hooks/useMailer";
+import { Router } from "../router"
 
 export const ProfileCardWidget = () => {
   return (
@@ -158,25 +159,44 @@ export const EmailConfigCardWiget = ({ template }) => {
             </Col>
           </Row>
           <Row>
-            <Form.Group as={Col} controlId="content" className="mb-3">
-              <Form.Label>Message</Form.Label>
-              <Form.Control
-                name="content"
-                as="textarea"
-                rows="3"
-                defaultValue={template}
-              />
-            </Form.Group>
+            <Col md={12} className="mb-3">
+              <Form.Group id="paymentCode">
+                <Form.Label>Payment Code</Form.Label>
+                <Form.Control
+                  name="paymentCode"
+                  required
+                  type="text"
+                  defaultValue="12-456375"
+                />
+              </Form.Group>
+            </Col>
           </Row>
-          <FormCheck type="checkbox" className="d-flex mb-4">
-            <FormCheck.Input
-              value="yes"
-              name="askReceipt"
-              id="terms"
-              className="me-2"
-            />
-            <FormCheck.Label htmlFor="terms">Ask Receipt</FormCheck.Label>
-          </FormCheck>
+          <Row>
+            <Col md={12} className="mb-3">
+              <Form.Group id="redirect_uri">
+                <Form.Label>Redirect URI</Form.Label>
+                <Form.Control
+                  name="redirect_uri"
+                  required
+                  type="text"
+                  defaultValue={`${process.env.REACT_APP_BASE_URI}/#${Router.Signin.path}/0123456789`}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12} className="mb-3">
+              <Form.Group id="filename">
+                <Form.Label>Template</Form.Label>
+                <Form.Control
+                  name="filename"
+                  required
+                  type="text"
+                  defaultValue="enroll.html"
+                />
+              </Form.Group>
+            </Col>
+          </Row>
           <Row>
             <Col md={9}>
               <Button type="submit" variant="primary" size="sm">

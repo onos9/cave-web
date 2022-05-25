@@ -46,7 +46,7 @@ const useAuth = () => {
         .post("/auth", user)
         .then((res) => {
           dispatchSuccess(res);
-          navigate(state?.pathname ? state?.pathname : Router.Dashboard.path, {
+          navigate(Router.Dashboard.path, {
             state: state,
             replace: true,
           });
@@ -62,9 +62,9 @@ const useAuth = () => {
         .delete("/auth", user)
         .then((res) => {
           dispatchSuccess(res);
-          navigate(`${Router.Signin.path}/id`, {
-            state: { from: location, refresh: true },
-          });
+          // navigate(`${Router.Signin.path}/id`, {
+          //   state: { from: location, refresh: true },
+          // });
         })
         .catch((err) => {
           dispatchError(err);

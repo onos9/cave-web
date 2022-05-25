@@ -37,7 +37,7 @@ export default () => {
   const { id } = useParams();
 
   useEffect(() => {
-    if (authState?.login)
+    if (authState?.login && id == "id")
       navigate(Router.Dashboard.path, {
         state: state,
         replace: true,
@@ -47,18 +47,13 @@ export default () => {
   }, [authState]);
 
   useEffect(() => {
-    if (id && !authState?.isVerified) auth.verify(id);
-  }, [id, authState?.isVerified]);
-
-  useEffect(() => {
-    if (authState?.login) {
-      const to =
-        authState?.isVerified && authState?.user?.role === "prospective"
-          ? Router.Registration.path
-          : Router.Dashboard.path;
-      navigate(to, { replace: true });
+    if (id != "id" && !authState?.isVerified) {
+      auth.verify(id);
     }
-  }, [authState?.login]);
+    if (authState?.isVerified) {
+      navigate(Router.Registration.path, { replace: true });
+    }
+  }, [authState?.isVerified]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

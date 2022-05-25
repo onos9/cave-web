@@ -6,7 +6,6 @@ import { ChoosePhotoWidget, EmailConfigCardWiget, ProfileCardWidget } from "../c
 import { GeneralInfoForm } from "../components/Forms";
 
 import Profile3 from "../assets/img/team/profile-picture-3.jpg";
-import EmailConfig from "../components/EmailConfig";
 
 
 export default () => {
@@ -87,7 +86,7 @@ export default () => {
         <Col xs={12} xl={4}>
           <Row>
             <Col xs={12}>
-              <EmailConfig />
+              <EmailConfigCardWiget />
             </Col>
             <Col xs={12}>
               <ChoosePhotoWidget

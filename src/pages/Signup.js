@@ -37,7 +37,7 @@ export default () => {
   const handleClose = () => setShowDefault(false);
 
   const { auth } = useAuth();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -69,16 +69,11 @@ export default () => {
           </Modal.Header>
           <Modal.Body>
             <p>
-              {`Your account has been created and a mail sent to <b>${email}</b>. Please verify your email address to continue your registration`}
+              {`Your account has been created and a mail sent to <strong>${email}</strong>. Please verify your email address to continue your registration`}
             </p>
           </Modal.Body>
           <Modal.Footer>
-            <Button
-              variant="secondary"
-              onClick={() =>
-                navigate(Router.Presentation.path, { redirect: true })
-              }
-            >
+            <Button variant="secondary" onClick={handleClose}>
               I Got It
             </Button>
           </Modal.Footer>

@@ -11,7 +11,7 @@ import {
   Col,
 } from "@themesberg/react-bootstrap";
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
 import ReactHero from "../assets/img/cave-hero-logo.svg";
 import Welcome from "../components/Welcome";
@@ -29,10 +29,6 @@ export default () => {
     authState?.user?.programOption === "Online"
   );
 
-  useEffect(() => {
-    if (userState?.success || online)setIsForm(true);
-  }, [userState]);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(document.forms.start);
@@ -41,6 +37,7 @@ export default () => {
       data = { ...data, [key]: formData.get(key) };
     }
     user.updateOne(data, authState.user.id);
+    setIsForm(true)
   };
 
   return (
@@ -54,41 +51,14 @@ export default () => {
         <Container className="position-relative justify-content-between px-3">
           <Navbar.Brand
             as={HashLink}
-            to={Router.Presentation.path}
+            to="https://www.adullam.ng"
             className="me-lg-3 d-flex align-items-center"
           >
             <Image src={ReactHero} height={60} width={"auto"} />
             <span className="ms-2 brand-text d-none d-md-inline"></span>
           </Navbar.Brand>
 
-          <div className="d-flex align-items-center">
-            <Navbar.Collapse id="navbar-default-primary">
-              <Nav className="navbar-nav-hover align-items-lg-center">
-                <Nav.Link as={HashLink} to="#events">
-                  Events
-                </Nav.Link>
-                <Nav.Link as={HashLink} to="#pages">
-                  Courses
-                </Nav.Link>
-                <Nav.Link
-                  as={HashLink}
-                  to={Router.Admission.path}
-                  className="d-sm-none d-xl-inline"
-                >
-                  Admissions
-                </Nav.Link>
-              </Nav>
-            </Navbar.Collapse>
-            <Button
-              as={HashLink}
-              to={Router.Signin.path}
-              variant="outline-white"
-              className="ms-3"
-            >
-              <FontAwesomeIcon icon={faSignInAlt} className="me-1" />
-              Login
-            </Button>
-          </div>
+
         </Container>
       </Navbar>
       <div className="input_group mb-10 w-75 ">

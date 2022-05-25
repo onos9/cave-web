@@ -7,15 +7,12 @@ const Reducer = (state, { payload, type }) => {
   const success = !types.includes(type);
 
   if (success) {
-    return {
+    const new_state = {
       ...state,
-      [action]: {
-        ...payload,
-        ...state[action],
-        
-      },
+      [action]: { ...payload },
       loading: false,
     };
+    return new_state;
   }
 
   return {
