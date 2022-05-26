@@ -11,16 +11,16 @@ const RequireAuth = ({ allowedRoles }) => {
   const isRole = authState?.roles?.find((role) => allowedRoles?.includes(role));
 
   useEffect(() => {
-    if (authState?.loading) setLoaded(!authState?.loading);
+    if (authState?.loading) setLoaded(authState?.loading);
   }, [authState?.loading]);
 
   useEffect(() => {
-    if (loaded && !authState?.login) {
-      navigate(Router.Signup.path, {
-        replace: true,
-      });
-    }
-  }, [loaded]);
+      if (!loaded && !authState?.login && authState) {
+        navigate(Router.Signup.path, {
+          replace: true,
+        });
+      }
+  }, [loaded, authState?.login]);
 
   return isRole && authState?.login ? (
     <Outlet />
