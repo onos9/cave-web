@@ -46,6 +46,10 @@ export const Router = {
     path: "/sign-in",
     allowedRoles: ["admin", "student", "teacher", "prospective", "guest"],
   },
+  Downloads: {
+    path: "/downloads",
+    allowedRoles: ["admin", "student", "teacher", "prospective", "guest"],
+  },
   Signup: {
     path: "/sign-up",
     allowedRoles: ["admin", "student", "teacher", "prospective", "guest"],

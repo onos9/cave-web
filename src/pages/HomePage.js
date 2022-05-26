@@ -30,6 +30,7 @@ import RequireAuth from "../components/RequireAuth";
 import useRefreshToken from "../hooks/useRefreshToken";
 import Account from "./Account";
 import ProgramDetail from "./ProgramDetail";
+import Downloads from "./Downloads"
 
 const ROLES = ["candidate"];
 
@@ -92,6 +93,7 @@ export default () => {
         <Route path={Router.Presentation.path} element={<Presentation />} />
         <Route path={Router.Watch.path} element={<Watch />} />
         <Route path={`${Router.Signin.path}/:id`} element={<Signin />} />
+        <Route path={`${Router.Downloads.path}/:id`} element={<Downloads />} />
         <Route path={Router.Signup.path} element={<Signup />} />
         <Route path={Router.ForgotPassword.path} element={<ForgotPassword />} />
         <Route path={Router.ResetPassword.path} element={<ResetPassword />} />
@@ -102,7 +104,7 @@ export default () => {
           path={`${Router.ProgramDetail.path}/:id`}
           element={<ProgramDetail />}
         />
-        
+
         <Route
           element={<RequireAuth allowedRoles={["prospective", "admin"]} />}
         >
@@ -111,11 +113,7 @@ export default () => {
       </Route>
 
       <Route path="/platform" element={<RouteWithSidebar />}>
-        <Route
-          element={
-            <RequireAuth allowedRoles={["admin"]} />
-          }
-        >
+        <Route element={<RequireAuth allowedRoles={["admin"]} />}>
           <Route path={Router.Overview.path} element={<Overview />} />
           <Route path={Router.Dashboard.path} element={<Dashboard />} />
           <Route path={Router.Enrollment.path} element={<Enrollment />} />

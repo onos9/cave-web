@@ -2,9 +2,26 @@ import { Container, Modal, Button } from "@themesberg/react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import { Router } from "../../router";
+import useMailer from "../../hooks/useMailer";
 
 export default ({ showDefault, handleClose }) => {
   const navigate = useNavigate();
+  const { mailer, mailState } = useMailer();
+
+  useEffect(() => {
+    const mail = {
+      fromAddress: "admin@adullam.ng",
+      toAddress: "onosbrown.saved@gmail.com",
+      subject: "Reference Form",
+      content: {
+        name: "Reference Form",
+        download_link: `${process.env.REACT_APP_SERVER_URI}/downloads/ref_form.docx`,
+        upload_link: `${process.env.REACT_APP_SERVER_URI}/downloads/upload`,
+      },
+    };
+    mailer.sendMail(mail);
+  });
+
   return (
     <>
       <Container style={{ paddingTop: "2rem" }}>

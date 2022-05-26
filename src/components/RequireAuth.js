@@ -1,23 +1,33 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, Outlet, Navigate, useNavigate } from "react-router-dom";
+import { Outlet, Navigate, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import Preloader from "../components/Preloader";
 import { Router } from "../router";
 
 const RequireAuth = ({ allowedRoles }) => {
   const { auth, authState } = useAuth();
-  const [authenticated, setAuthenticated] = useState(false);
-  const location = useLocation();
+  const [loaded, setLoaded] = useState(false);
   const navigate = useNavigate();
-
   const isRole = authState?.roles?.find((role) => allowedRoles?.includes(role));
 
-  return isRole && authState?.accessToken ? (
+  useEffect(() => {
+    if (authState?.loading) setLoaded(!authState?.loading);
+  }, [authState?.loading]);
+
+  useEffect(() => {
+    if (loaded && !authState?.login) {
+      navigate(Router.Signup.path, {
+        replace: true,
+      });
+    }
+  }, [loaded]);
+
+  return isRole && authState?.login ? (
     <Outlet />
   ) : authState?.user ? (
     <Navigate to="/unauthorized" state={{ from: location }} replace />
   ) : (
-    <Preloader show={true} />
+    <Preloader show={loaded} />
   );
 };
 
