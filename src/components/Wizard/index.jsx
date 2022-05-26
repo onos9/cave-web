@@ -6,23 +6,24 @@ import {
   faHandshakeSlash,
   faNotesMedical,
   faUser,
-  faUserShield,
-} from "@fortawesome/free-solid-svg-icons";
-import { CSSTransition } from "react-transition-group";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Form, Alert, Button } from "@themesberg/react-bootstrap";
-import React, { useEffect, useState } from "react";
-import useAuth from "../../hooks/useAuth";
-import useUser from "../../hooks/useUser";
-import Background from "../Registration/Background";
-import BioData from "../Registration/BioData";
-import Health from "../Registration/Health";
-import Referee from "../Registration/Referee";
-import Terms from "../Registration/Terms";
-import Qualification from "./../Registration/Qualification";
-import Done from "./Done";
-import Progress from "./Progress";
-import "./wizard.css";
+  faUserShield
+} from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Alert, Form } from "@themesberg/react-bootstrap"
+import React, { useEffect, useState } from "react"
+import { CSSTransition } from "react-transition-group"
+import useAuth from "../../hooks/useAuth"
+import useMailer from "../../hooks/useMailer"
+import useUser from "../../hooks/useUser"
+import Background from "../Registration/Background"
+import BioData from "../Registration/BioData"
+import Health from "../Registration/Health"
+import Referee from "../Registration/Referee"
+import Terms from "../Registration/Terms"
+import Qualification from "./../Registration/Qualification"
+import Done from "./Done"
+import Progress from "./Progress"
+import "./wizard.css"
 
 const initSteps = [
   {
@@ -63,6 +64,18 @@ const initSteps = [
   },
 ];
 
+const mail = {
+  fromAddress: "admin@adullam.ng",
+  toAddress: "onosbrown.saved@gmail.com",
+  subject: "Reference Form",
+  content: {
+    filename: "enroll.html",
+    name: "Reference Form",
+    download_link: `${process.env.REACT_APP_SERVER_URI}/downloads/ref_form.docx`,
+    upload_link: `${process.env.REACT_APP_SERVER_URI}/downloads/upload`,
+  },
+};
+
 const Wizard = () => {
   const [qualification, setQualification] = useState([]);
   const [formValues, setFormValues] = useState({});
@@ -72,6 +85,7 @@ const Wizard = () => {
   const [steps, setSteps] = useState(initSteps);
   const { user } = useUser();
   const { auth, authState } = useAuth();
+  const { mailer, mailState } = useMailer();
 
   const [online, setOnline] = useState(
     authState?.user?.programOption === "Online"
@@ -85,11 +99,15 @@ const Wizard = () => {
       const arr = initSteps.filter(({ id }) => id !== "health");
       setSteps(arr);
     }
+    if (stepper == steps.length - 1) {
+      mailer.sendMail(mail);
+      mail.content.filename = "referee.html"
+      mailer.sendMail(mail);
+      setShowDefault(true);
+    }
   }, [stepper]);
 
-
   const handleAdd = (d) => {
-    //console.log(d);
     setQualification((prev) => [...prev, d]);
     setShowMessage(true);
     setTimeout(() => setShowMessage(false), 3000);
@@ -103,6 +121,7 @@ const Wizard = () => {
       nextPrevStep(-1);
       return;
     }
+
     const formData = new FormData(document.forms.register);
     let data = {};
     for (var key of formData.keys()) {

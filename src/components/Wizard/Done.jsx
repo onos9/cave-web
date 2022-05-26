@@ -29,7 +29,7 @@ export default ({ showDefault, handleClose }) => {
           as={Modal.Dialog}
           centered
           show={showDefault}
-          onHide={handleClose}
+          onHide={ handleClose }
         >
           <Modal.Header>
             <Modal.Title className="h6">Congratulations!</Modal.Title>
@@ -44,7 +44,7 @@ export default ({ showDefault, handleClose }) => {
             <Button
               variant="secondary"
               onClick={() =>
-                navigate(Router.Presentation.path, { redirect: true })
+                navigate(Router.Registration.path, { redirect: true })
               }
             >
               Got It

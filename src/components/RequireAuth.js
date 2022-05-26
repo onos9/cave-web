@@ -20,7 +20,7 @@ const RequireAuth = ({ allowedRoles }) => {
           replace: true,
         });
       }
-  }, [authState?.login]);
+  }, [loaded, authState?.login]);
 
   return isRole && authState?.login ? (
     <Outlet />
