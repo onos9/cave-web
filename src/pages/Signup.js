@@ -1,33 +1,22 @@
-import React, { useState } from "react";
+import { faFacebookF, faYoutube } from "@fortawesome/free-brands-svg-icons";
+import { faEnvelope, faUnlockAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faAngleLeft,
-  faEnvelope,
-  faUnlockAlt,
-} from "@fortawesome/free-solid-svg-icons";
-import {
-  faFacebookF,
-  faGithub,
-  faTwitter,
-  faYoutube,
-} from "@fortawesome/free-brands-svg-icons";
-import {
-  Col,
-  Row,
-  Form,
-  Card,
   Button,
-  FormCheck,
+  Card,
+  Col,
   Container,
+  Form,
+  FormCheck,
   InputGroup,
   Modal,
+  Row,
 } from "@themesberg/react-bootstrap";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import { CSSTransition } from "react-transition-group";
-
-import { Router } from "../router";
+import React, { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import BgImage from "../assets/img/illustrations/signin.svg";
 import useAuth from "../hooks/useAuth";
+import { Router } from "../router";
 
 export default () => {
   const [email, setEmail] = useState();
@@ -69,7 +58,9 @@ export default () => {
           </Modal.Header>
           <Modal.Body>
             <p>
-              {`Your account has been created and a mail sent to <strong>${email}</strong>. Please verify your email address to continue your registration`}
+              Your account has been created and a mail sent to{" "}
+              <Card.Link>{email}</Card.Link>. Please verify your email address to
+              continue your registration
             </p>
           </Modal.Body>
           <Modal.Footer>
