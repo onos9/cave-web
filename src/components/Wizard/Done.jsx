@@ -1,6 +1,6 @@
 import { Container, Modal, Button } from "@themesberg/react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import React from "react";
+import React, { useEffect} from "react";
 import { Router } from "../../router";
 import useMailer from "../../hooks/useMailer";
 
