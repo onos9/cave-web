@@ -1,6 +1,6 @@
 import { Container, Modal, Button } from "@themesberg/react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import React, { useEffect} from "react";
+import React, { useEffect } from "react";
 import { Router } from "../../router";
 import useMailer from "../../hooks/useMailer";
 
@@ -19,8 +19,8 @@ export default ({ showDefault, handleClose }) => {
         upload_link: `${process.env.REACT_APP_SERVER_URI}/downloads/upload`,
       },
     };
-    mailer.sendMail(mail);
-  });
+    // mailer.sendMail(mail);
+  }, [mailer]);
 
   return (
     <>

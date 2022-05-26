@@ -87,9 +87,6 @@ const Wizard = () => {
     }
   }, [stepper]);
 
-  useEffect(() => {
-     console.log(qualification);
-   }, []);
 
   const handleAdd = (d) => {
     //console.log(d);
