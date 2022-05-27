@@ -90,7 +90,7 @@ export const EmailConfigCardWiget = ({ template }) => {
   useEffect(() => {
     if (location.search) {
       const params = Object.fromEntries(new URLSearchParams(location.search));
-      console.log(params?.code);
+      // console.log(params?.code);
       mailer.getToken(params);
     }
   }, [location.search]);
@@ -102,7 +102,7 @@ export const EmailConfigCardWiget = ({ template }) => {
     for (var key of formData.keys()) {
       data = { ...data, [key]: formData.get(key) };
     }
-    console.log(data);
+    // console.log(data);
     mailer.sendMail(data);
   };
 

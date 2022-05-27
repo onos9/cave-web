@@ -8,9 +8,6 @@ import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 
 export default ({ title, values }) => {
   const { bioData } = values;
-    // useEffect(() => {
-    //   console.log(bioData);
-    // });
   const Datepicker = ({ as }) => {
     const [date, setDate] = useState("");
 

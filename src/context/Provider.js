@@ -23,7 +23,7 @@ export const Provider = ({ children }) => {
           dispatch({ type: "ERROR", payload: payload });
         });
     }
-    if (!isEmpty) console.log(state);
+    // if (!isEmpty) console.log(state);
   }, [state]);
 
   const store = [state, dispatch];

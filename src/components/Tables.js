@@ -35,7 +35,7 @@ export const EnrollmentTable = () => {
 
   useEffect(() => {
     if (!!userState?.list) {
-      console.log(userState?.list);
+      // console.log(userState?.list);
       setTableLength(userState?.list.length);
     }
   }, [userState?.list]);

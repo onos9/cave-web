@@ -44,7 +44,7 @@ export default (props = {}) => {
   const showClass = show ? "show" : "";
   const hidden = (allowedRoles) => {
     const isShow = allowedRoles?.includes(authState?.user?.role);
-    console.log(isShow);
+    // console.log(isShow);
     return isShow;
   };
 

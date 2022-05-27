@@ -31,7 +31,7 @@ export default (state = null, action) => {
     const resp = await axios.get(`${apiV1}/api/v1/mail`);
     const params = new URLSearchParams(resp.data).toString();
     const url = `https://accounts.zoho.com/oauth/v2/auth?${params}`;
-    console.log(url);
+    // console.log(url);
   };
 
   const PagePreview = (props) => {
