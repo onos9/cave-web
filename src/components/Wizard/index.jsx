@@ -83,7 +83,7 @@ const Wizard = () => {
   const [formValues, setFormValues] = useState({});
   const [showDefault, setShowDefault] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
-  const [stepper, setStepper] = useState(0);
+  const [stepper, setStepper] = useState(3);
   const [steps, setSteps] = useState(initSteps);
   const { user } = useUser();
   const { auth, authState } = useAuth();
