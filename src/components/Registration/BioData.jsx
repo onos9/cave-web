@@ -29,7 +29,13 @@ export default ({ title, values }) => {
                 autoComplete={"off"}
                 name="dob"
                 type="text"
-                value={date ? moment(date).format("DD/MM/YYYY") : bioData?.dob}
+                value={
+                  date
+                    ? moment(date).format("DD/MM/YYYY")
+                    : bioData?.dob
+                    ? bioData?.dob
+                    : "dd/mm/yyyy"
+                }
                 placeholder="dd/mm/yyyy"
                 onFocus={openCalendar}
                 onChange={() => {}}

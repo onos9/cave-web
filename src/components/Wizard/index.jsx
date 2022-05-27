@@ -6,24 +6,24 @@ import {
   faHandshakeSlash,
   faNotesMedical,
   faUser,
-  faUserShield
-} from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Alert, Form } from "@themesberg/react-bootstrap"
-import React, { useEffect, useState } from "react"
-import { CSSTransition } from "react-transition-group"
-import useAuth from "../../hooks/useAuth"
-import useMailer from "../../hooks/useMailer"
-import useUser from "../../hooks/useUser"
-import Background from "../Registration/Background"
-import BioData from "../Registration/BioData"
-import Health from "../Registration/Health"
-import Referee from "../Registration/Referee"
-import Terms from "../Registration/Terms"
-import Qualification from "./../Registration/Qualification"
-import Done from "./Done"
-import Progress from "./Progress"
-import "./wizard.css"
+  faUserShield,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Alert, Form } from "@themesberg/react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { CSSTransition } from "react-transition-group";
+import useAuth from "../../hooks/useAuth";
+import useMailer from "../../hooks/useMailer";
+import useUser from "../../hooks/useUser";
+import Background from "../Registration/Background";
+import BioData from "../Registration/BioData";
+import Health from "../Registration/Health";
+import Referee from "../Registration/Referee";
+import Terms from "../Registration/Terms";
+import Qualification from "./../Registration/Qualification";
+import Done from "./Done";
+import Progress from "./Progress";
+import "./wizard.css";
 
 const initSteps = [
   {
@@ -64,12 +64,13 @@ const initSteps = [
   },
 ];
 
-const mail = {
-  fromAddress: "admin@adullam.ng",
+let mail = {
+  fromAddress: "support@adullam.ng",
   toAddress: "onosbrown.saved@gmail.com",
-  subject: "Reference Form",
+  subject: "Adullam Enrollment",
   content: {
     filename: "enroll.html",
+    refereeName: "",
     name: "Reference Form",
     download_link: `${process.env.REACT_APP_SERVER_URI}/downloads/ref_form.docx`,
     upload_link: `${process.env.REACT_APP_SERVER_URI}/downloads/upload`,
@@ -78,6 +79,7 @@ const mail = {
 
 const Wizard = () => {
   const [qualification, setQualification] = useState([]);
+  const [fullName, setFullName] = useState();
   const [formValues, setFormValues] = useState({});
   const [showDefault, setShowDefault] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
@@ -98,12 +100,6 @@ const Wizard = () => {
     if (online) {
       const arr = initSteps.filter(({ id }) => id !== "health");
       setSteps(arr);
-    }
-    if (stepper == steps.length - 1) {
-      mailer.sendMail(mail);
-      mail.content.filename = "referee.html"
-      mailer.sendMail(mail);
-      setShowDefault(true);
     }
   }, [stepper]);
 
@@ -134,6 +130,9 @@ const Wizard = () => {
       [form]: { ...prev[form], ...data },
     }));
 
+    if (!fullName && data?.bioData?.firstName)
+      setFullName(`${data?.bioData?.firstName} ${data?.bioData?.lastName}`);
+
     if (form === "referees") {
       data = [
         {
@@ -147,10 +146,31 @@ const Wizard = () => {
           phone: data?.secondRefereePhone,
         },
       ];
+      mail.subject = "Adullam Reference Form";
+      mail.content.filename = "referee.html";
+      mail.content.name = fullName;
+      data.forEach(function (item, index) {
+        mail.toAddress = item.email;
+        mail.content.refereeName = item.fullName;
+        mailer.sendMail(mail);
+      });
     }
 
     data = { [form]: data };
-    user.updateOne(data, authState.user.id);
+    user.updateOne(data, authState?.user?.id);
+
+    if (stepper == steps.length - 1) {
+      mail = {
+        fromAddress: "support@adullam.ng",
+        toAddress: authState?.user?.email,
+        subject: "Adullam Enrollment",
+        content: {
+          filename: "enroll.html",
+        },
+      };
+      mailer.sendMail(mail);
+      setShowDefault(true);
+    }
     nextPrevStep(1);
   };
 
@@ -201,7 +221,7 @@ const Wizard = () => {
                         </i>
                       </button>
                     ) : null}
-                    <button formNoValidate>
+                    <button>
                       <i className="material-icons">
                         <FontAwesomeIcon
                           color="white"

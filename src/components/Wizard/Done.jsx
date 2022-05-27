@@ -4,7 +4,6 @@ import React, { useEffect } from "react";
 import { Router } from "../../router";
 
 export default ({ showDefault, handleClose }) => {
-  const navigate = useNavigate();
 
   return (
     <>
@@ -13,7 +12,7 @@ export default ({ showDefault, handleClose }) => {
           as={Modal.Dialog}
           centered
           show={showDefault}
-          onHide={ handleClose }
+          onHide={handleClose}
         >
           <Modal.Header>
             <Modal.Title className="h6">Congratulations!</Modal.Title>
@@ -27,9 +26,7 @@ export default ({ showDefault, handleClose }) => {
           <Modal.Footer>
             <Button
               variant="secondary"
-              onClick={() =>
-                navigate(Router.Registration.path, { redirect: true })
-              }
+              onClick={() => window.location.reload(false)}
             >
               Got It
             </Button>
