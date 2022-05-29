@@ -7,7 +7,6 @@ import Preloader from "../components/Preloader";
 export default () => {
   const { id } = useParams();
   const [loaded, setLoaded] = useState(false);
-  const [code, setCode] = useState();
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -20,12 +19,18 @@ export default () => {
     let rows = htmlDoc.getElementsByTagName("tr");
     Array.from(rows).map((row) => {
       if (row.cells.length == 2) {
-        const field = row.cells[0].innerText.replaceAll(" ", "");
-        data[field] = row.cells[1].innerText;
+        const field = row.cells[0].innerText
+          .replaceAll(" ", "")
+          .replaceAll("\n", "")
+          .trim();
+        
+        data[field] = row.cells[1].innerText
+          .replaceAll("\n", "").trim();
       }
     });
     // data.TransactionNarration = "10-479377";
     data.redirect_uri = payload.redirect_uri;
+    console.log(data);
 
     postPaymentData(data);
   }, [id]);
@@ -61,14 +66,15 @@ export default () => {
                   </p>
                   <p className="text-danger px-lg-8">{error}</p>
                   <p className="lead px-lg-8">
-                    Please confirm that this transaction is for Application fee and applicant has
-                    included a valid payment code in the transaction naration.
+                    Please confirm that this transaction is for Application fee
+                    and applicant has included a valid payment code in the
+                    transaction naration.
                   </p>
                 </>
               ) : (
                 <p className="lead px-lg-8">
-                  The Payment has been submited successfully is being processed.
-                  An email notification will be sent to the applicant{" "}
+                  The Payment has been successfully processed and an email
+                  notification has been sent to the applicant{" "}
                 </p>
               )}
             </Col>
