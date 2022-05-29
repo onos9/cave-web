@@ -99,7 +99,7 @@ export default () => {
         <Route path={Router.ResetPassword.path} element={<ResetPassword />} />
         <Route path={Router.Lock.path} element={<Lock />} />
         <Route path={Router.ServerError.path} element={<ServerError />} />
-        <Route path={Router.Admission.path} element={<Admission />} />
+        <Route path={`${Router.Admission.path}/:id`} element={<Admission />} />
         <Route
           path={`${Router.ProgramDetail.path}/:id`}
           element={<ProgramDetail />}
