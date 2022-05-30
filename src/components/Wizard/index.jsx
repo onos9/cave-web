@@ -72,8 +72,8 @@ let mail = {
     filename: "enroll.html",
     refereeName: "",
     name: "Reference Form",
-    download_link: `${process.env.REACT_APP_SERVER_URI}/downloads/ref_form.docx`,
-    upload_link: `${process.env.REACT_APP_SERVER_URI}/downloads/upload`,
+    download_link: `${process.env.REACT_APP_SERVER_URI}/#/downloads/ref_form.docx`,
+    upload_link: `${process.env.REACT_APP_SERVER_URI}/#/downloads/upload`,
   },
 };
 
