@@ -199,7 +199,7 @@ const Wizard = ({onDone}) => {
                     </i>
                   </button>
                 ) : null}
-                <button>
+                <button formNoValidate>
                   <i className="material-icons">
                     <FontAwesomeIcon color="white" icon={faAngleDoubleRight} />
                   </i>
