@@ -6,24 +6,23 @@ import {
   faHandshakeSlash,
   faNotesMedical,
   faUser,
-  faUserShield,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Alert, Form } from "@themesberg/react-bootstrap";
-import React, { useEffect, useState } from "react";
-import { CSSTransition } from "react-transition-group";
-import useAuth from "../../hooks/useAuth";
-import useMailer from "../../hooks/useMailer";
-import useUser from "../../hooks/useUser";
-import Background from "../Registration/Background";
-import BioData from "../Registration/BioData";
-import Health from "../Registration/Health";
-import Referee from "../Registration/Referee";
-import Terms from "../Registration/Terms";
-import Qualification from "./../Registration/Qualification";
-import Done from "./Done";
-import Progress from "./Progress";
-import "./wizard.css";
+  faUserShield
+} from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Form } from "@themesberg/react-bootstrap"
+import React, { useEffect, useState } from "react"
+import useAuth from "../../hooks/useAuth"
+import useMailer from "../../hooks/useMailer"
+import useUser from "../../hooks/useUser"
+import Background from "../Registration/Background"
+import BioData from "../Registration/BioData"
+import Health from "../Registration/Health"
+import Referee from "../Registration/Referee"
+import Terms from "../Registration/Terms"
+import Qualification from "./../Registration/Qualification"
+import Progress from "./Progress"
+import "./wizard.css"
+
 
 const initSteps = [
   {
@@ -77,12 +76,10 @@ let mail = {
   },
 };
 
-const Wizard = () => {
+const Wizard = ({onDone}) => {
   const [qualification, setQualification] = useState([]);
   const [fullName, setFullName] = useState();
   const [formValues, setFormValues] = useState({});
-  const [showDefault, setShowDefault] = useState(false);
-  const [showMessage, setShowMessage] = useState(false);
   const [stepper, setStepper] = useState(0);
   const [steps, setSteps] = useState(initSteps);
   const { user } = useUser();
@@ -93,7 +90,6 @@ const Wizard = () => {
     authState?.user?.programOption === "Online"
   );
 
-  const handleClose = () => setShowDefault(true);
   const nextPrevStep = (stepIndex) => setStepper(stepper + stepIndex);
 
   useEffect(() => {
@@ -169,73 +165,50 @@ const Wizard = () => {
         },
       };
       mailer.sendMail(mail);
-      setShowDefault(true);
+      onDone(true);
     }
     nextPrevStep(1);
   };
 
   return (
     <>
-      <div id="regForm">
-        {" "}
-        <CSSTransition
-          in={showMessage}
-          timeout={300}
-          classNames="alert"
-          unmountOnExit
-        >
-          <Alert variant="success" onClose={() => setShowMessage(false)}>
-            <Alert.Heading>Credential Added Successfully</Alert.Heading>
-            <p>Fill the form again to add more credentials if any</p>
-          </Alert>
-        </CSSTransition>
-        <Done handleClose={handleClose} showDefault={showDefault} />
-        {stepper < steps.length ? (
-          <>
-            <div className="all-steps" id="all-steps">
-              <Progress stepper={stepper} steps={steps} />
-            </div>
+      {stepper < steps.length ? (
+        <>
+          <div className="all-steps" id="all-steps">
+            <Progress stepper={stepper} steps={steps} />
+          </div>
 
-            <div className="container">
-              <Form onSubmit={handleSubmit} id="register" validated={false}>
-                {steps.map(({ Component, title }, i) =>
-                  i === stepper ? (
-                    <Component
-                      handleAdd={handleAdd}
-                      key={i}
-                      title={title}
-                      values={formValues}
-                    />
-                  ) : null
-                )}
+          <Form onSubmit={handleSubmit} id="register" validated={false}>
+            {steps.map(({ Component, title }, i) =>
+              i === stepper ? (
+                <Component
+                  handleAdd={handleAdd}
+                  key={i}
+                  title={title}
+                  values={formValues}
+                />
+              ) : null
+            )}
 
-                <div className="nextprevious" id="nextprevious">
-                  <div className="btn-nextprevious">
-                    {stepper > 0 ? (
-                      <button formNoValidate id="prevBtn">
-                        <i className="material-icons">
-                          <FontAwesomeIcon
-                            color="white"
-                            icon={faAngleDoubleLeft}
-                          />
-                        </i>
-                      </button>
-                    ) : null}
-                    <button>
-                      <i className="material-icons">
-                        <FontAwesomeIcon
-                          color="white"
-                          icon={faAngleDoubleRight}
-                        />
-                      </i>
-                    </button>
-                  </div>
-                </div>
-              </Form>
+            <div className="nextprevious" id="nextprevious">
+              <div className="btn-nextprevious">
+                {stepper > 0 ? (
+                  <button formNoValidate id="prevBtn">
+                    <i className="material-icons">
+                      <FontAwesomeIcon color="white" icon={faAngleDoubleLeft} />
+                    </i>
+                  </button>
+                ) : null}
+                <button formNoValidate>
+                  <i className="material-icons">
+                    <FontAwesomeIcon color="white" icon={faAngleDoubleRight} />
+                  </i>
+                </button>
+              </div>
             </div>
-          </>
-        ) : null}
-      </div>
+          </Form>
+        </>
+      ) : null}
     </>
   );
 };

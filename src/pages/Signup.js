@@ -177,7 +177,7 @@ export default () => {
                     <FontAwesomeIcon icon={faGithub} />
                   </Button> */}
                 </div>
-                <div className="d-flex justify-content-center align-items-center mt-4">
+                {/* <div className="d-flex justify-content-center align-items-center mt-4">
                   <span className="fw-normal">
                     Already have an account?
                     <Card.Link
@@ -188,7 +188,7 @@ export default () => {
                       {` Login here `}
                     </Card.Link>
                   </span>
-                </div>
+                </div> */}
               </div>
             </Col>
           </Row>
