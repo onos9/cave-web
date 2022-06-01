@@ -171,7 +171,7 @@ export default ({ title }) => {
           <Form.Control
             disabled={disabled}
             name="pastorEmail"
-            type="text"
+            type="email"
             placeholder="Enter Church's name'..."
           />
           <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
@@ -182,7 +182,7 @@ export default ({ title }) => {
         <Form.Control
           disabled={disabled}
           name="pastorName"
-          type="email"
+          type="tel"
           placeholder="Enter Email.."
         />
         <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
