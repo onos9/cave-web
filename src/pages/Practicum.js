@@ -56,17 +56,15 @@ export default () => {
 
   const handleClose = () => setShowDefault(false);
   const handleTabSelection = (key) => setTabKey(key);
+  const handleSignOut = () => window.location.reload(false);
   const handleAdd = () => {
     setTempData((prev) => [...prev, temp]);
+    document.getElementById(tabKey).reset();
   };
 
   const handleChange = ({ target }) => {
     const { name, value } = target;
     setTemp((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSelected = (e) => {
-    console.log(e);
   };
 
   const handleSubmit = (e) => {
@@ -153,7 +151,6 @@ export default () => {
     <main>
       <section className="d-flex align-items-center my-5 mt-lg-6 mb-lg-5">
         <Container>
-          {" "}
           <Alert
             show={showMessage}
             variant="success"
@@ -222,6 +219,7 @@ export default () => {
                                   name="fullName"
                                   autoFocus
                                   type="text"
+                                  defaultValue={logBookState?.logBook?.fullName}
                                   placeholder="John Doe"
                                 />
                               </InputGroup>
@@ -239,6 +237,9 @@ export default () => {
                                   name="matricNumber"
                                   autoFocus
                                   type="text"
+                                  defaultValue={
+                                    logBookState?.logBook?.matricNumber
+                                  }
                                   placeholder="Enter Matric Number..."
                                 />
                               </InputGroup>
@@ -274,6 +275,7 @@ export default () => {
                                   name="converts"
                                   autoFocus
                                   type="number"
+                                  defaultValue={logBookState?.logBook?.converts}
                                   placeholder="Enter number of souls that commited to Jesus..."
                                 />
                               </InputGroup>
@@ -291,6 +293,7 @@ export default () => {
                                   name="location"
                                   autoFocus
                                   type="text"
+                                  defaultValue={logBookState?.logBook?.location}
                                   placeholder="Enter the location of envangelism"
                                 />
                               </InputGroup>
@@ -424,6 +427,9 @@ export default () => {
                                   name="prayerLocation"
                                   autoFocus
                                   type="text"
+                                  defaultValue={
+                                    logBookState?.logBook?.prayerLocation
+                                  }
                                   placeholder="Enter Loaction "
                                 />
                               </InputGroup>
@@ -613,6 +619,14 @@ export default () => {
 
                         <Button variant="primary" type="submit">
                           Save
+                        </Button>
+                        <Button
+                          className="float-end m-1"
+                          variant="light"
+                          type="button"
+                          onClick={handleSignOut}
+                        >
+                          Sign Out
                         </Button>
                       </Form>
                     </Tab.Pane>
