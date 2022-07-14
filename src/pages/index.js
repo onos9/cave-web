@@ -27,10 +27,12 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Preloader from "../components/Preloader";
 import RequireAuth from "../components/RequireAuth";
-import useRefreshToken from "../hooks/useRefreshToken";
 import Account from "./Account";
 import ProgramDetail from "./ProgramDetail";
 import Downloads from "./Downloads"
+import Course from "./Course"
+import CourseList from "./CourseList"
+import Practicum from "./Practicum"
 
 const ROLES = ["candidate"];
 
@@ -89,12 +91,13 @@ export default () => {
     <Routes>
       {/* pages */}
       <Route path="*" element={<NotFoundPage />} />
-      <Route path="/" element={<RouteWithLoader />}>
+      <Route path="/platform" element={<RouteWithLoader />}>
         <Route path={Router.Presentation.path} element={<Presentation />} />
         <Route path={Router.Watch.path} element={<Watch />} />
         <Route path={`${Router.Signin.path}/:id`} element={<Signin />} />
         <Route path={`${Router.Downloads.path}/:id`} element={<Downloads />} />
-        <Route path={Router.Signup.path} element={<Signup />} />
+        <Route path={`${Router.Signup.path}/:id`} element={<Signup />} />
+        <Route path={Router.Practicum.path} element={<Practicum />} />
         <Route path={Router.ForgotPassword.path} element={<ForgotPassword />} />
         <Route path={Router.ResetPassword.path} element={<ResetPassword />} />
         <Route path={Router.Lock.path} element={<Lock />} />
@@ -112,8 +115,10 @@ export default () => {
         </Route>
       </Route>
 
-      <Route path="/platform" element={<RouteWithSidebar />}>
+      <Route path="/" element={<RouteWithSidebar />}>
         <Route element={<RequireAuth allowedRoles={["admin"]} />}>
+          <Route path={Router.Course.path} element={<Course />} />
+          <Route path={Router.CourseList.path} element={<CourseList />} />
           <Route path={Router.Overview.path} element={<Overview />} />
           <Route path={Router.Dashboard.path} element={<Dashboard />} />
           <Route path={Router.Enrollment.path} element={<Enrollment />} />

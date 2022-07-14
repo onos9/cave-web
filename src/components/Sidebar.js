@@ -204,33 +204,25 @@ export default (props = {}) => {
                 icon={faChartPie}
               />
               <NavItem
-                hide={hidden(Router.Overview.allowedRoles)}
-                title="Overview"
-                link={Router.Overview.path}
-                icon={faChartPie}
+                hide={hidden(Router.CourseList.allowedRoles)}
+                title="Log Book"
+                link={Router.CourseList.path}
+                icon={faBook}
               />
-              <NavItem
-                hide={hidden(Router.Enrollment.allowedRoles)}
-                title="Enrollment"
-                icon={faHandHoldingUsd}
-                link={Router.Enrollment.path}
-              />
-
-              <Dropdown.Divider className="my-3 border-indigo" />
-              <NavItem
-                hide={hidden(Router.Account.allowedRoles)}
-                title="Account"
-                icon={faUser}
-                link={Router.Account.path}
-              />
-              <NavItem
-                hide={hidden(Router.Settings.allowedRoles)}
-                title="Settings"
-                icon={faCog}
-                link={Router.Settings.path}
-              />
-
               <CollapsableNavItem
+                hide={hidden(Router.CourseList.allowedRoles)}
+                eventKey="examples/"
+                title="Course"
+                icon={faFileAlt}
+              >
+                <NavItem
+                  hide={hidden(Router.CourseList.allowedRoles)}
+                  title="Practicum"
+                  link={Router.CourseList.path}
+                />
+              </CollapsableNavItem>
+
+              {/* <CollapsableNavItem
                 hide={hidden(["admin"])}
                 eventKey="examples/"
                 title="Page Examples"
@@ -252,7 +244,7 @@ export default (props = {}) => {
                   title="500 Server Error"
                   link={Router.ServerError.path}
                 />
-              </CollapsableNavItem>
+              </CollapsableNavItem> */}
 
               <Button
                 as={Link}

@@ -1,4 +1,9 @@
-import { faFacebookF, faYoutube } from "@fortawesome/free-brands-svg-icons";
+import {
+  faFacebookF,
+  faGithub,
+  faYoutube,
+} from "@fortawesome/free-brands-svg-icons";
+import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { faEnvelope, faUnlockAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -12,21 +17,40 @@ import {
   Modal,
   Row,
 } from "@themesberg/react-bootstrap";
-import React, { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import BgImage from "../assets/img/illustrations/signin.svg";
 import useAuth from "../hooks/useAuth";
 import { Router } from "../router";
+import axios from "../api/axios";
 
 export default () => {
+  const { auth, authState } = useAuth();
   const [email, setEmail] = useState();
   const [showDefault, setShowDefault] = useState(false);
+  const [logbook, setLogbook] = useState(false);
   const { state } = useLocation();
+  const { id } = useParams();
+
+  useEffect(() => {
+    if (id === "logbook") {
+      setLogbook(true);
+    }
+  }, [id]);
 
   const handleClose = () => setShowDefault(false);
 
-  const { auth } = useAuth();
-  const navigate = useNavigate();
+  const tempSignup = (data, state) => {
+    axios
+      .post("/auth/temp", data, { withCredentials: true })
+      .then((res) => {
+        console.log(res?.data);
+      })
+      .catch((err) => {
+        const payload = err.response ? err.response?.data : "COULD NOT CONNECT";
+        console.log(payload);
+      });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -36,11 +60,16 @@ export default () => {
       data = { ...data, [key]: formData.get(key) };
     }
 
-    if (data?.password.trim() === data?.confirm_passwoed.trim()) {
-      setEmail(data.email);
-      setShowDefault(true);
-      auth.signup(data, state);
+    if (data?.password.trim() !== data?.confirm_passwoed.trim()) {
+      return;
     }
+    setEmail(data.email);
+    if (logbook) {
+      tempSignup(data, state);
+      return;
+    }
+    auth.signup(data, state);
+    setShowDefault(true);
   };
 
   return (
@@ -59,8 +88,8 @@ export default () => {
           <Modal.Body>
             <p>
               Your account has been created and a mail sent to{" "}
-              <Card.Link>{email}</Card.Link>. Please verify your email address to
-              continue your registration
+              <Card.Link>{email}</Card.Link>. Please verify your email address
+              to continue your registration
             </p>
           </Modal.Body>
           <Modal.Footer>
@@ -94,62 +123,137 @@ export default () => {
                 <div className="text-center text-md-center mb-4 mt-md-0">
                   <h3 className="mb-0">Create an account</h3>
                 </div>
-                <Form id="signup" className="mt-4" onSubmit={handleSubmit}>
-                  <Form.Group id="email" className="mb-4">
-                    <Form.Label>Your Email</Form.Label>
-                    <InputGroup>
-                      <InputGroup.Text>
-                        <FontAwesomeIcon icon={faEnvelope} />
-                      </InputGroup.Text>
-                      <Form.Control
-                        name="email"
-                        autoFocus
-                        required
-                        type="email"
-                        placeholder="example@company.com"
-                      />
-                    </InputGroup>
-                  </Form.Group>
-                  <Form.Group id="password" className="mb-4">
-                    <Form.Label>Your Password</Form.Label>
-                    <InputGroup>
-                      <InputGroup.Text>
-                        <FontAwesomeIcon icon={faUnlockAlt} />
-                      </InputGroup.Text>
-                      <Form.Control
-                        name="password"
-                        required
-                        type="password"
-                        placeholder="Password"
-                      />
-                    </InputGroup>
-                  </Form.Group>
-                  <Form.Group id="confirmPassword" className="mb-4">
-                    <Form.Label>Confirm Password</Form.Label>
-                    <InputGroup>
-                      <InputGroup.Text>
-                        <FontAwesomeIcon icon={faUnlockAlt} />
-                      </InputGroup.Text>
-                      <Form.Control
-                        name="confirm_passwoed"
-                        required
-                        type="password"
-                        placeholder="Confirm Password"
-                      />
-                    </InputGroup>
-                  </Form.Group>
-                  <FormCheck type="checkbox" className="d-flex mb-4">
-                    <FormCheck.Input required id="terms" className="me-2" />
-                    <FormCheck.Label htmlFor="terms">
-                      I agree to the <Card.Link>terms and conditions</Card.Link>
-                    </FormCheck.Label>
-                  </FormCheck>
+                {logbook ? (
+                  <Form id="signup" className="mt-4" onSubmit={handleSubmit}>
+                    <Form.Group id="full-name" className="mb-4">
+                      <Form.Label>Full Nmae</Form.Label>
+                      <InputGroup>
+                        <InputGroup.Text>
+                          <FontAwesomeIcon icon={faUser} />
+                        </InputGroup.Text>
+                        <Form.Control
+                          name="fullName"
+                          autoFocus
+                          required
+                          type="text"
+                          placeholder="John Doe"
+                        />
+                      </InputGroup>
+                    </Form.Group>
+                    <Form.Group id="email" className="mb-4">
+                      <Form.Label>Your Email</Form.Label>
+                      <InputGroup>
+                        <InputGroup.Text>
+                          <FontAwesomeIcon icon={faEnvelope} />
+                        </InputGroup.Text>
+                        <Form.Control
+                          name="email"
+                          autoFocus
+                          required
+                          type="email"
+                          placeholder="example@company.com"
+                        />
+                      </InputGroup>
+                    </Form.Group>
+                    <Form.Group id="password" className="mb-4">
+                      <Form.Label>Your Password</Form.Label>
+                      <InputGroup>
+                        <InputGroup.Text>
+                          <FontAwesomeIcon icon={faUnlockAlt} />
+                        </InputGroup.Text>
+                        <Form.Control
+                          name="password"
+                          required
+                          type="password"
+                          placeholder="Password"
+                        />
+                      </InputGroup>
+                    </Form.Group>
+                    <Form.Group id="confirmPassword" className="mb-4">
+                      <Form.Label>Confirm Password</Form.Label>
+                      <InputGroup>
+                        <InputGroup.Text>
+                          <FontAwesomeIcon icon={faUnlockAlt} />
+                        </InputGroup.Text>
+                        <Form.Control
+                          name="confirm_passwoed"
+                          required
+                          type="password"
+                          placeholder="Confirm Password"
+                        />
+                      </InputGroup>
+                    </Form.Group>
+                    <FormCheck type="checkbox" className="d-flex mb-4">
+                      <FormCheck.Input required id="terms" className="me-2" />
+                      <FormCheck.Label htmlFor="terms">
+                        I agree to the{" "}
+                        <Card.Link>terms and conditions</Card.Link>
+                      </FormCheck.Label>
+                    </FormCheck>
 
-                  <Button variant="primary" type="submit" className="w-100">
-                    Sign up
-                  </Button>
-                </Form>
+                    <Button variant="primary" type="submit" className="w-100">
+                      Sign up
+                    </Button>
+                  </Form>
+                ) : (
+                  <Form id="signup" className="mt-4" onSubmit={handleSubmit}>
+                    <Form.Group id="email" className="mb-4">
+                      <Form.Label>Your Email</Form.Label>
+                      <InputGroup>
+                        <InputGroup.Text>
+                          <FontAwesomeIcon icon={faEnvelope} />
+                        </InputGroup.Text>
+                        <Form.Control
+                          name="email"
+                          autoFocus
+                          required
+                          type="email"
+                          placeholder="example@company.com"
+                        />
+                      </InputGroup>
+                    </Form.Group>
+                    <Form.Group id="password" className="mb-4">
+                      <Form.Label>Your Password</Form.Label>
+                      <InputGroup>
+                        <InputGroup.Text>
+                          <FontAwesomeIcon icon={faUnlockAlt} />
+                        </InputGroup.Text>
+                        <Form.Control
+                          name="password"
+                          required
+                          type="password"
+                          placeholder="Password"
+                        />
+                      </InputGroup>
+                    </Form.Group>
+                    <Form.Group id="confirmPassword" className="mb-4">
+                      <Form.Label>Confirm Password</Form.Label>
+                      <InputGroup>
+                        <InputGroup.Text>
+                          <FontAwesomeIcon icon={faUnlockAlt} />
+                        </InputGroup.Text>
+                        <Form.Control
+                          name="confirm_passwoed"
+                          required
+                          type="password"
+                          placeholder="Confirm Password"
+                        />
+                      </InputGroup>
+                    </Form.Group>
+                    <FormCheck type="checkbox" className="d-flex mb-4">
+                      <FormCheck.Input required id="terms" className="me-2" />
+                      <FormCheck.Label htmlFor="terms">
+                        I agree to the{" "}
+                        <Card.Link>terms and conditions</Card.Link>
+                      </FormCheck.Label>
+                    </FormCheck>
 
+                    <Button variant="primary" type="submit" className="w-100">
+                      Sign up
+                    </Button>
+                  </Form>
+                )}
+                {/* 
                 <div className="mt-3 mb-4 text-center">
                   <span className="fw-normal">or</span>
                 </div>
@@ -170,19 +274,19 @@ export default () => {
                   >
                     <FontAwesomeIcon icon={faYoutube} />
                   </Button>
-                  {/* <Button
+                  <Button
                     variant="outline-light"
                     className="btn-icon-only btn-pil text-dark"
                   >
                     <FontAwesomeIcon icon={faGithub} />
-                  </Button> */}
+                  </Button>
                 </div>
-                {/* <div className="d-flex justify-content-center align-items-center mt-4">
+                <div className="d-flex justify-content-center align-items-center mt-4">
                   <span className="fw-normal">
                     Already have an account?
                     <Card.Link
                       as={Link}
-                      to={`${Router.Signin.path}/""`}
+                      to={`${Router.Signin.path}/"user"`}
                       className="fw-bold"
                     >
                       {` Login here `}

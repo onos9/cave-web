@@ -1,61 +1,73 @@
 export const Router = {
   // pages
   Presentation: {
-    path: "/presentation",
+    path: "/platform/presentation",
     allowedRoles: ["admin", "student", "teacher", "prospective", "guest"],
   },
   Watch: {
-    path: "/watch",
+    path: "/platform/watch",
     allowedRoles: ["admin", "student", "teacher"],
   },
   Admission: {
-    path: "/admission",
+    path: "/platform/admission",
     allowedRoles: ["admin", "prospective"],
   },
   Registration: {
-    path: "/",
+    path: "/platform/registration",
     allowedRoles: ["admin", "prospective"],
   },
   ProgramDetail: {
-    path: "/program",
+    path: "/platform/program",
     allowedRoles: ["admin", "student", "teacher", "prospective", "guest"],
   },
 
   Overview: {
-    path: "/platform/overview",
+    path: "/overview",
     allowedRoles: ["admin", "student", "teacher"],
   },
   Dashboard: {
-    path: "/platform/dashboard",
+    path: "/",
     allowedRoles: ["admin", "student", "teacher"],
   },
   Enrollment: {
-    path: "/platform/Enrollment",
+    path: "/enrollment",
+    allowedRoles: ["admin", "prospective"],
+  },
+  CourseList: {
+    path: "/courseList",
+    allowedRoles: ["admin", "prospective"],
+  },
+  Course: {
+    path: "/course",
     allowedRoles: ["admin", "prospective"],
   },
   Settings: {
-    path: "/platform/settings",
+    path: "/settings",
     allowedRoles: ["admin"],
   },
   Account: {
-    path: "/platform/account",
+    path: "/account",
     allowedRoles: ["admin", "student", "teacher", "prospective"],
   },
 
   Signin: {
-    path: "/sign-in",
+    path: "/platform/sign-in",
     allowedRoles: ["admin", "student", "teacher", "prospective", "guest"],
   },
   Downloads: {
-    path: "/downloads",
+    path: "/platform/downloads",
     allowedRoles: ["admin", "student", "teacher", "prospective", "guest"],
   },
   Signup: {
-    path: "/sign-up",
+    path: "/platform/sign-up",
+    allowedRoles: ["admin", "student", "teacher", "prospective", "guest"],
+  },
+  Practicum: {
+    path: "/platform/practicum",
     allowedRoles: ["admin", "student", "teacher", "prospective", "guest"],
   },
   Lock: {
-    path: "/lock",
+    path: "/platform/lock",
     allowedRoles: ["admin", "student", "teacher", "prospective", "guest"],
   },
   NotFound: {
@@ -63,15 +75,15 @@ export const Router = {
     allowedRoles: ["admin", "student", "teacher", "prospective", "guest"],
   },
   ServerError: {
-    path: "/500",
+    path: "/platform/500",
     allowedRoles: ["admin", "student", "teacher", "prospective", "guest"],
   },
   ForgotPassword: {
-    path: "/forgot-password",
+    path: "/platform/forgot-password",
     allowedRoles: ["admin", "student", "teacher", "prospective", "guest"],
   },
   ResetPassword: {
-    path: "/reset-password",
+    path: "/platform/reset-password",
     allowedRoles: ["admin", "student", "teacher", "prospective", "guest"],
   },
 }; 

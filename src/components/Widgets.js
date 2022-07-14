@@ -565,7 +565,7 @@ export const RankingWidget = () => {
   );
 };
 
-export const SalesValueWidget = (props) => {
+export const CompletedCourseWidget = (props) => {
   const { title, value, percentage } = props;
   const percentageIcon = percentage < 0 ? faAngleDown : faAngleUp;
   const percentageColor = percentage < 0 ? "text-danger" : "text-success";
@@ -575,7 +575,7 @@ export const SalesValueWidget = (props) => {
       <Card.Header className="d-flex flex-row align-items-center flex-0">
         <div className="d-block">
           <h5 className="fw-normal mb-2">{title}</h5>
-          <h3>${value}</h3>
+          <h3>{value}</h3>
           <small className="fw-bold mt-2">
             <span className="me-2">Yesterday</span>
             <FontAwesomeIcon
@@ -611,7 +611,7 @@ export const SalesValueWidgetPhone = (props) => {
       <Card.Header className="d-md-flex flex-row align-items-center flex-0">
         <div className="d-block mb-3 mb-md-0">
           <h5 className="fw-normal mb-2">{title}</h5>
-          <h3>${value}</h3>
+          <h3>{value}</h3>
           <small className="fw-bold mt-2">
             <span className="me-2">Yesterday</span>
             <FontAwesomeIcon

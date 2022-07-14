@@ -16,7 +16,7 @@ const RequireAuth = ({ allowedRoles }) => {
 
   useEffect(() => {
       if (!loaded && !authState?.login && authState) {
-        navigate(Router.Signup.path, {
+        navigate(Router.Signin.path+"/kglas4", {
           replace: true,
         });
       }

@@ -37,7 +37,7 @@ export default () => {
   const { id } = useParams();
 
   useEffect(() => {
-    if (authState?.login && id == "id")
+    if (authState?.login)
       navigate(Router.Dashboard.path, {
         state: state,
         replace: true,
@@ -47,7 +47,7 @@ export default () => {
   }, [authState]);
 
   useEffect(() => {
-    if (id != "id" && !authState?.isVerified) {
+    if (id != "user" && !authState?.isVerified) {
       auth.verify(id);
     }
     if (authState?.isVerified) {
@@ -92,6 +92,7 @@ export default () => {
                 <div className="text-center text-md-center mb-4 mt-md-0">
                   <h3 className="mb-0">Sign in to our platform</h3>
                 </div>
+                
                 <Form id="signin" className="mt-4" onSubmit={handleSubmit}>
                   <Form.Group id="email" className="mb-4">
                     <Form.Label>Your Email</Form.Label>

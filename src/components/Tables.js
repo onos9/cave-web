@@ -1,5 +1,3 @@
-import React, { useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleDown,
   faAngleUp,
@@ -7,41 +5,56 @@ import {
   faArrowUp,
   faEdit,
   faEllipsisH,
+  faEllipsisV,
   faExternalLinkAlt,
   faEye,
   faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  Col,
-  Row,
-  Nav,
-  Card,
-  Image,
   Button,
-  Table,
-  Dropdown,
-  ProgressBar,
-  Pagination,
   ButtonGroup,
+  Card,
+  Col,
+  Dropdown,
+  Image,
+  Nav,
+  Pagination,
+  ProgressBar,
+  Row,
+  Table,
 } from "@themesberg/react-bootstrap";
+import moment from "moment-timezone";
+import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { pageVisits, pageTraffic, pageRanking } from "../data/tables";
 import commands from "../data/commands";
-import useUser from "../hooks/useUser";
+import { pageRanking, pageTraffic } from "../data/tables";
+import useLogBook from "../hooks/useLogBook";
+import { Router } from "../router";
 
 export const EnrollmentTable = () => {
   const [tableLength, setTableLength] = useState(0);
-  const { user, userState } = useUser();
+  const { logBook, logBookState } = useLogBook();
+  const [logBookList, setLogBookList] = useState();
+  const apiCall = useRef(false);
 
   useEffect(() => {
-    if (!!userState?.list) {
-      // console.log(userState?.list);
-      setTableLength(userState?.list.length);
+    if (apiCall.current === false) {
+      logBook.getAll();
+      return () => (apiCall.current = true)
     }
-  }, [userState?.list]);
+  }, []);
+
+  useEffect(() => {
+    if (logBookState) {
+      console.log(logBookState?.list);
+      setLogBookList(logBookState?.list);
+      setTableLength(logBookState?.list.length);
+    }
+  }, [logBookState]);
 
   const TableRow = (props) => {
-    const { bioData, email } = props;
+    const { fullName, matricNumber, book, created_at } = props;
     const status = "Pending";
     const statusVariant =
       status === "Accepted"
@@ -56,20 +69,17 @@ export const EnrollmentTable = () => {
       <tr>
         <td>
           <Card.Link as={Link} to={"Router.Account.path"} className="fw-normal">
-            {`${bioData?.firstName} ${bioData?.lastName}`}
+            {fullName}
           </Card.Link>
         </td>
         <td>
-          <span className="fw-normal">{email}</span>
+          <span className="fw-normal">{matricNumber}</span>
         </td>
         <td>
-          <span className="fw-normal">{"Online/OnCampus"}</span>
+          <span className="fw-normal">{book}</span>
         </td>
         <td>
-          <span className="fw-normal">{"Diploma/PGD"}</span>
-        </td>
-        <td>
-          <span className="fw-normal">{bioData?.country}</span>
+          <span className="fw-normal">{moment(created_at).fromNow()}</span>
         </td>
         <td>
           <span className={`fw-normal text-${statusVariant}`}>{status}</span>
@@ -87,15 +97,15 @@ export const EnrollmentTable = () => {
               </span>
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item>
+              <Dropdown.Item href={Router.Course.path}>
                 <FontAwesomeIcon icon={faEye} className="me-2" /> View Details
               </Dropdown.Item>
-              <Dropdown.Item>
+              {/* <Dropdown.Item>
                 <FontAwesomeIcon icon={faEdit} className="me-2" /> Accept
               </Dropdown.Item>
               <Dropdown.Item className="text-danger">
                 <FontAwesomeIcon icon={faTrashAlt} className="me-2" /> Reject
-              </Dropdown.Item>
+              </Dropdown.Item> */}
             </Dropdown.Menu>
           </Dropdown>
         </td>
@@ -110,18 +120,17 @@ export const EnrollmentTable = () => {
           <thead>
             <tr>
               <th className="border-bottom">Full Name</th>
-              <th className="border-bottom">Email</th>
-              <th className="border-bottom">Program</th>
-              <th className="border-bottom">Program Option</th>
-              <th className="border-bottom">Country</th>
+              <th className="border-bottom">Matric Number</th>
+              <th className="border-bottom">Book Read</th>
+              <th className="border-bottom">Time</th>
               <th className="border-bottom">Status</th>
               <th className="border-bottom">Action</th>
             </tr>
           </thead>
-          {userState?.list ? (
+          {logBookState?.list ? (
             <tbody>
-              {userState?.list.map((user) => (
-                <TableRow key={`enroll-${user.id}`} {...user} />
+              {logBookState?.list.map((logbook) => (
+                <TableRow key={`enroll-${logbook.id}`} {...logbook} />
               ))}
             </tbody>
           ) : null}
@@ -164,23 +173,27 @@ const ValueChange = ({ value, suffix }) => {
   );
 };
 
-export const PageVisitsTable = () => {
+export const PageVisitsTable = ({ practicum }) => {
   const TableRow = (props) => {
-    const { pageName, views, returnValue, bounceRate } = props;
+    const { fullName, matricNumber, book, created_at } = props;
+    const bounceRate = 42.55;
     const bounceIcon = bounceRate < 0 ? faArrowDown : faArrowUp;
     const bounceTxtColor = bounceRate < 0 ? "text-danger" : "text-success";
 
     return (
       <tr>
-        <th scope="row">{pageName}</th>
-        <td>{views}</td>
-        <td>${returnValue}</td>
+        <th scope="row">{fullName}</th>
+        <td>{matricNumber}</td>
+        <td>{book}</td>
         <td>
-          <FontAwesomeIcon
-            icon={bounceIcon}
-            className={`${bounceTxtColor} me-3`}
-          />
-          {Math.abs(bounceRate)}%
+          <Link to={Router.Enrollment.path}>
+            <FontAwesomeIcon
+              icon={faEllipsisV}
+              className={`${bounceTxtColor} me-3`}
+            />
+          </Link>
+
+          {moment(created_at).fromNow()}
         </td>
       </tr>
     );
@@ -191,7 +204,7 @@ export const PageVisitsTable = () => {
       <Card.Header>
         <Row className="align-items-center">
           <Col>
-            <h5>Page visits</h5>
+            <h5>Practicums</h5>
           </Col>
           <Col className="text-end">
             <Button variant="secondary" size="sm">
@@ -203,15 +216,15 @@ export const PageVisitsTable = () => {
       <Table responsive className="align-items-center table-flush">
         <thead className="thead-light">
           <tr>
-            <th scope="col">Page name</th>
-            <th scope="col">Page Views</th>
-            <th scope="col">Page Value</th>
-            <th scope="col">Bounce rate</th>
+            <th scope="col">Name</th>
+            <th scope="col">Matric Number</th>
+            <th scope="col">Book Read</th>
+            <th scope="col">Time</th>
           </tr>
         </thead>
         <tbody>
-          {pageVisits.map((pv) => (
-            <TableRow key={`page-visit-${pv.id}`} {...pv} />
+          {practicum?.map((pc) => (
+            <TableRow key={`page-visit-${pc.id}`} {...pc} />
           ))}
         </tbody>
       </Table>

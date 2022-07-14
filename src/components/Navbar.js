@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBell,
@@ -23,17 +23,25 @@ import {
 } from "@themesberg/react-bootstrap";
 
 import NOTIFICATIONS_DATA from "../data/notifications";
-import Profile3 from "../assets/img/team/profile-picture-3.jpg";
+import Profile3 from "../assets/img/team/profile-picture-3.png";
 import { Router } from "../router";
 import useAuth from "../hooks/useAuth";
 
 export default (props) => {
-  const { auth } = useAuth();
+  const { auth, authState } = useAuth();
   const [notifications, setNotifications] = useState(NOTIFICATIONS_DATA);
+  const [user, setUser] = useState();
+
   const areNotificationsRead = notifications.reduce(
     (acc, notif) => acc && notif.read,
     true
   );
+
+  useEffect(() => {
+    if (!!authState) {
+      setUser(authState?.user);
+    }
+  }, [authState]);
 
   const markNotificationsAsRead = () => {
     setTimeout(() => {
@@ -123,12 +131,12 @@ export default (props) => {
               <Dropdown.Toggle as={Nav.Link} className="pt-1 px-0">
                 <div className="media d-flex align-items-center">
                   <Image
-                    src={Profile3}
+                    src={user?.avatar ? user?.avatar : Profile3}
                     className="user-avatar md-avatar rounded-circle"
                   />
                   <div className="media-body ms-2 text-dark align-items-center d-none d-lg-block">
                     <span className="mb-0 font-small fw-bold">
-                      Bonnie Green
+                      {user?.email}
                     </span>
                   </div>
                 </div>
