@@ -57,7 +57,7 @@ export default () => {
       setTabKey("evangelism");
     }
 
-    console.log(logBookState);
+    // console.log(logBookState);
   }, [logBookState]);
 
   useEffect(() => {
@@ -79,7 +79,7 @@ export default () => {
   const handleFormDataChange = ({ target }) => {
     const { name, value } = target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    console.log(formData);
+    // console.log(formData);
   };
 
   const handleChange = ({ target }) => {
@@ -143,7 +143,7 @@ export default () => {
     }
 
     logBook.updateOne(data, logBookState?.logBook?.id);
-    
+
     const alertType = tabKey[0].toUpperCase() + tabKey.slice(1);
     setAlertTitle(`${alertType} updated successfully!`);
     setAlertMessage(`Add more if any`);
@@ -643,7 +643,7 @@ export default () => {
                       </InputGroup>
                     </Form.Group>
                     <Form.Group id="Matric Number" className="mb-4">
-                      <Form.Label>Full Name</Form.Label>
+                      <Form.Label>Matric Number</Form.Label>
                       <InputGroup>
                         <InputGroup.Text>
                           <FontAwesomeIcon icon={faIdCard} />
