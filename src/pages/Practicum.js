@@ -643,7 +643,7 @@ export default () => {
                       </InputGroup>
                     </Form.Group>
                     <Form.Group id="Matric Number" className="mb-4">
-                      <Form.Label>Matric Number</Form.Label>
+                      <Form.Label>Full Name</Form.Label>
                       <InputGroup>
                         <InputGroup.Text>
                           <FontAwesomeIcon icon={faIdCard} />
