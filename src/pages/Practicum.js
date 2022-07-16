@@ -3,7 +3,11 @@ import {
   faGithub,
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
-import { faCalendarAlt, faUser } from "@fortawesome/free-regular-svg-icons";
+import {
+  faCalendarAlt,
+  faIdCard,
+  faUser,
+} from "@fortawesome/free-regular-svg-icons";
 import {
   faEnvelope,
   faLocationArrow,
@@ -42,24 +46,40 @@ export default () => {
   const [temp, setTemp] = useState({});
   const [tempData, setTempData] = useState([]);
   const [date, setDate] = useState("");
-  const [showMessage, setShowMessage] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertTitle, setAlertTitle] = useState();
+  const [alertMessage, setAlertMessage] = useState();
+  const [formData, setFormData] = useState();
 
   useEffect(() => {
     if (logBookState?.login) {
       setLogbook(true);
-      setTabKey("info");
+      setTabKey("evangelism");
     }
+
     console.log(logBookState);
-    const timer = setTimeout(() => setShowMessage(false), 3000);
-    return () => clearTimeout(timer);
   }, [logBookState]);
 
-  const handleClose = () => setShowDefault(false);
+  useEffect(() => {
+    // if (alertTitle) setShowAlert(true);
+  }, [alertMessage, alertTitle]);
+
   const handleTabSelection = (key) => setTabKey(key);
   const handleSignOut = () => window.location.reload(false);
-  const handleAdd = () => {
+
+  const handleAdd = (btn) => {
     setTempData((prev) => [...prev, temp]);
     document.getElementById(tabKey).reset();
+    setAlertTitle(`${btn} added successfully!`);
+    setAlertMessage(`Add more if any`);
+    setShowAlert(true);
+    setTimeout(() => setShowAlert(false), 3000);
+  };
+
+  const handleFormDataChange = ({ target }) => {
+    const { name, value } = target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    console.log(formData);
   };
 
   const handleChange = ({ target }) => {
@@ -69,9 +89,9 @@ export default () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formData = new FormData(document.forms[tabKey]);
+
     let data = {};
-    let exercise = [];
+    const formData = new FormData(document.forms[tabKey]);
     for (var key of formData.keys()) {
       data = { ...data, [key]: formData.get(key) };
     }
@@ -82,39 +102,58 @@ export default () => {
       return;
     }
 
-    const name =
-      tabKey === "evangelism"
-        ? "convertInfo"
-        : tabKey === "exercise"
-        ? "exercise"
-        : tabKey === "prayer"
-        ? "prayerWalk"
-        : null;
+    if (tabKey === "evangelism") {
+      data = {
+        evangelism: [
+          {
+            converts: data.converts,
+            location: data.evangelismLocation,
+            date: data.evangelismDate,
+            convertInfo: tempData,
+          },
+        ],
+      };
+    }
+
+    if (tabKey === "prayer") {
+      data = {
+        prayer: [
+          {
+            location: data.prayerLocation,
+            date: data.prayerDate,
+            description: data.description,
+          },
+        ],
+      };
+    }
 
     if (tabKey === "exercise") {
       data = {
-        bibleRead: tempData,
-        day: data.day,
-        author: data.author,
-        bookTitle: data.bookTitle,
-        prayerTime: data.prayerTime,
-        noPages: data.noPages,
+        exercise: [
+          {
+            bibleRead: tempData,
+            day: data.day,
+            author: data.author,
+            bookTitle: data.bookTitle,
+            prayerTime: data.prayerTime,
+            noPages: data.noPages,
+          },
+        ],
       };
-      exercise.push(data);
-      logBook.updateOne({ exercise: exercise }, logBookState?.logBook?.id);
-      setTempData([]);
-      setTemp({});
-      setShowMessage(true);
-      return;
     }
 
-    data[name] = tempData;
+    logBook.updateOne(data, logBookState?.logBook?.id);
+    
+    const alertType = tabKey[0].toUpperCase() + tabKey.slice(1);
+    setAlertTitle(`${alertType} updated successfully!`);
+    setAlertMessage(`Add more if any`);
+    setShowAlert(true);
+    setTimeout(() => setShowAlert(false), 3000);
+
+    setDate({});
+    setFormData({});
     setTempData([]);
     setTemp({});
-
-    console.log(data);
-    logBook.updateOne(data, logBookState?.logBook?.id);
-    setShowMessage(true);
   };
 
   const Datepicker = ({ date, setDate, as, name, onChange }) => {
@@ -138,7 +177,7 @@ export default () => {
                 value={date ? moment(date).format("DD/MM/YYYY") : "dd/mm/yyyy"}
                 placeholder="dd/mm/yyyy"
                 onFocus={openCalendar}
-                onChange={onChange}
+                onChange={() => {}}
               />
             </InputGroup>
           )}
@@ -149,31 +188,27 @@ export default () => {
 
   return (
     <main>
+      <Alert
+        className="m-4 w-25 position-absolute top-0 end-0 fade-in-right"
+        show={showAlert}
+        variant="success"
+      >
+        <Alert.Heading>{alertTitle}</Alert.Heading>
+        <p>{alertMessage}</p>
+      </Alert>
       <section className="d-flex align-items-center my-5 mt-lg-6 mb-lg-5">
         <Container>
-          <Alert
-            show={showMessage}
-            variant="success"
-            onClose={() => setShowMessage(false)}
-          >
-            <Alert.Heading>LogBook Updated Successfully</Alert.Heading>
-          </Alert>
-          <Row className="justify-content-center">
-            <div className="mb-4 mb-lg-0 bg-white shadow-soft border rounded border-light p-lg-5 w-100">
-              <div className="text-center text-md-center mb-4 mt-md-0">
-                <h3 className="mb-0">Practicum LogBook</h3>
-              </div>
-              {logbook ? (
+          {logbook ? (
+            <Row className="justify-content-center">
+              <div className="mb-4 mb-lg-0 bg-white shadow-soft border rounded border-light p-lg-5 w-100">
+                <div className="text-center text-md-center mb-4 mt-md-0">
+                  <h3 className="mb-0">Practicum LogBook</h3>
+                </div>
                 <Tab.Container
-                  defaultActiveKey="info"
+                  defaultActiveKey="evangelism"
                   onSelect={handleTabSelection}
                 >
                   <Nav fill variant="pills" className="flex-column flex-sm-row">
-                    <Nav.Item>
-                      <Nav.Link eventKey="info" className="mb-sm-3 mb-md-0">
-                        Student Information
-                      </Nav.Link>
-                    </Nav.Item>
                     <Nav.Item>
                       <Nav.Link
                         eventKey="evangelism"
@@ -194,64 +229,6 @@ export default () => {
                     </Nav.Item>
                   </Nav>
                   <Tab.Content>
-                    <Tab.Pane eventKey="info" className="py-4">
-                      <Form
-                        id="info"
-                        className="mt-4 justify-content-center"
-                        onSubmit={handleSubmit}
-                      >
-                        <div className="text-left text-md-left mb-4 mt-md-0">
-                          <p className="mb-0">
-                            Enter your student details here
-                          </p>
-                        </div>
-                        <hr />
-                        <Row>
-                          <Col
-                            xs={6}
-                            className="align-items-center justify-content-center"
-                          >
-                            <Form.Group id="full-name" className="mb-4">
-                              <Form.Label>Full Name</Form.Label>
-                              <InputGroup>
-                                <InputGroup.Text></InputGroup.Text>
-                                <Form.Control
-                                  name="fullName"
-                                  autoFocus
-                                  type="text"
-                                  defaultValue={logBookState?.logBook?.fullName}
-                                  placeholder="John Doe"
-                                />
-                              </InputGroup>
-                            </Form.Group>
-                          </Col>
-                          <Col
-                            xs={6}
-                            className="align-items-center justify-content-center"
-                          >
-                            <Form.Group id="maric-number" className="mb-4">
-                              <Form.Label>Matric Number</Form.Label>
-                              <InputGroup>
-                                <InputGroup.Text></InputGroup.Text>
-                                <Form.Control
-                                  name="matricNumber"
-                                  autoFocus
-                                  type="text"
-                                  defaultValue={
-                                    logBookState?.logBook?.matricNumber
-                                  }
-                                  placeholder="Enter Matric Number..."
-                                />
-                              </InputGroup>
-                            </Form.Group>
-                          </Col>
-                        </Row>
-
-                        <Button variant="primary" type="submit">
-                          Save
-                        </Button>
-                      </Form>
-                    </Tab.Pane>
                     <Tab.Pane eventKey="evangelism" className="py-4">
                       <Form
                         id="evangelism"
@@ -264,7 +241,7 @@ export default () => {
                         <hr />
                         <Row>
                           <Col
-                            xs={6}
+                            xs={4}
                             className="align-items-center justify-content-center"
                           >
                             <Form.Group id="converts" className="mb-4">
@@ -275,14 +252,15 @@ export default () => {
                                   name="converts"
                                   autoFocus
                                   type="number"
-                                  defaultValue={logBookState?.logBook?.converts}
-                                  placeholder="Enter number of souls that commited to Jesus..."
+                                  defaultValue={formData?.converts}
+                                  placeholder="Enter Number of converts..."
+                                  onChange={handleFormDataChange}
                                 />
                               </InputGroup>
                             </Form.Group>
                           </Col>
                           <Col
-                            xs={6}
+                            xs={4}
                             className="align-items-center justify-content-center"
                           >
                             <Form.Group id="location" className="mb-4">
@@ -290,40 +268,27 @@ export default () => {
                               <InputGroup>
                                 <InputGroup.Text></InputGroup.Text>
                                 <Form.Control
-                                  name="location"
+                                  name="evangelismLocation"
                                   autoFocus
                                   type="text"
-                                  defaultValue={logBookState?.logBook?.location}
+                                  defaultValue={formData?.evangelismLocation}
                                   placeholder="Enter the location of envangelism"
+                                  onChange={handleFormDataChange}
                                 />
                               </InputGroup>
                             </Form.Group>
                           </Col>
-                        </Row>
 
-                        <Row className="mb-0">
-                          <Col
-                            xs={10}
-                            className="align-items-center justify-content-center mb-0"
-                          >
-                            <h5>Contact details of converts</h5>
-                          </Col>
-                          <Col
-                            xs={2}
-                            className="align-items-center justify-content-center mb-0"
-                          >
-                            <Button
-                              onClick={handleAdd}
-                              size="sm"
-                              variant="outline-gray"
-                            >
-                              Add convert
-                            </Button>
-                          </Col>
+                          <Datepicker
+                            as={Col}
+                            xs={4}
+                            date={date}
+                            setDate={setDate}
+                            name="evangelismDate"
+                          />
                         </Row>
-
+                        <h5>Contact details of converts</h5>
                         <hr />
-
                         <Row>
                           <Col
                             xs={6}
@@ -394,6 +359,14 @@ export default () => {
                                 />
                               </InputGroup>
                             </Form.Group>
+                            <Button
+                              className="float-end"
+                              onClick={() => handleAdd("Convert")}
+                              size="sm"
+                              variant="outline-gray"
+                            >
+                              Add convert
+                            </Button>
                           </Col>
                         </Row>
 
@@ -435,32 +408,26 @@ export default () => {
                               </InputGroup>
                             </Form.Group>
                           </Col>
+                          <Datepicker
+                            as={Col}
+                            date={date}
+                            setDate={setDate}
+                            onChange={handleChange}
+                            name="prayerDate"
+                          />
                         </Row>
                         <hr />
                         <Row>
                           <Col xs={12} className="">
-                            <Datepicker
-                              date={date}
-                              setDate={setDate}
-                              onChange={handleChange}
-                              name="prayerDate"
-                            />
                             <Form.Group className="mb-3">
                               <Form.Label>Description</Form.Label>
                               <Form.Control
                                 onChange={handleChange}
                                 name="description"
+                                rows={4}
                                 as="textarea"
                               />
                             </Form.Group>
-                            <Button
-                              className="float-end mb-3"
-                              variant="outline-gray"
-                              size="sm"
-                              onClick={handleAdd}
-                            >
-                              Add prayer walk
-                            </Button>
                           </Col>
                         </Row>
 
@@ -478,11 +445,15 @@ export default () => {
                         <hr />
                         <Form.Group controlId="formGridClass" className="mb-3">
                           <Form.Label>Day of the week</Form.Label>
-                          <Form.Select name="day">
+                          <Form.Select
+                            onChange={handleFormDataChange}
+                            name="day"
+                            value={formData?.day}
+                          >
                             <option hidden>Select Day</option>
                             <option value="Monday">Monday</option>
                             <option value="Tuesday">Tuesday</option>
-                            <option value="Tuesday">Wednesday</option>
+                            <option value="Wednesday">Wednesday</option>
                             <option value="Thursday">Thursday</option>
                             <option value="Friday">Friday</option>
                             <option value="Saturday">Saturday</option>
@@ -535,7 +506,7 @@ export default () => {
                                 <Button
                                   variant="outline-gray"
                                   size="sm"
-                                  onClick={handleAdd}
+                                  onClick={() => handleAdd("Bible")}
                                 >
                                   Add Bible
                                 </Button>
@@ -555,6 +526,8 @@ export default () => {
                                   <InputGroup>
                                     <InputGroup.Text></InputGroup.Text>
                                     <Form.Control
+                                      onChange={handleFormDataChange}
+                                      defaultValue={formData?.prayerTime}
                                       name="prayerTime"
                                       autoFocus
                                       type="text"
@@ -578,6 +551,8 @@ export default () => {
                                   <InputGroup>
                                     <InputGroup.Text></InputGroup.Text>
                                     <Form.Control
+                                      onChange={handleFormDataChange}
+                                      defaultValue={formData?.author}
                                       name="author"
                                       autoFocus
                                       type="text"
@@ -594,6 +569,8 @@ export default () => {
                                   <InputGroup>
                                     <InputGroup.Text></InputGroup.Text>
                                     <Form.Control
+                                      onChange={handleFormDataChange}
+                                      defaultValue={formData?.bookTitle}
                                       name="bookTitle"
                                       autoFocus
                                       type="text"
@@ -605,6 +582,8 @@ export default () => {
                                   <InputGroup>
                                     <InputGroup.Text></InputGroup.Text>
                                     <Form.Control
+                                      onChange={handleFormDataChange}
+                                      defaultValue={formData?.noPages}
                                       name="noPages"
                                       autoFocus
                                       type="text"
@@ -632,31 +611,75 @@ export default () => {
                     </Tab.Pane>
                   </Tab.Content>
                 </Tab.Container>
-              ) : (
-                <Form id="logbook" className="mt-4" onSubmit={handleSubmit}>
-                  <Form.Group id="email" className="mb-4">
-                    <Form.Label>Your Email</Form.Label>
-                    <InputGroup>
-                      <InputGroup.Text>
-                        <FontAwesomeIcon icon={faEnvelope} />
-                      </InputGroup.Text>
-                      <Form.Control
-                        name="email"
-                        required
-                        autoFocus
-                        type="email"
-                        placeholder="example@company.com"
-                      />
-                    </InputGroup>
-                  </Form.Group>
+              </div>
+            </Row>
+          ) : (
+            <Row
+              className="justify-content-center form-bg-image"
+              style={{ backgroundImage: `url(${BgImage})` }}
+            >
+              <Col
+                xs={12}
+                className="d-flex align-items-center justify-content-center"
+              >
+                <div className="bg-white shadow-soft border rounded border-light p-4 p-lg-5 w-100 fmxw-500">
+                  <div className="text-center text-md-center mb-4 mt-md-0">
+                    <h3 className="mb-0">Sign in to your logbook</h3>
+                  </div>
 
-                  <Button variant="primary" type="submit">
-                    Go to LogBook
-                  </Button>
-                </Form>
-              )}
-            </div>
-          </Row>
+                  <Form id="logbook" className="mt-4" onSubmit={handleSubmit}>
+                    <Form.Group id="full-name" className="mb-4">
+                      <Form.Label>Full name</Form.Label>
+                      <InputGroup>
+                        <InputGroup.Text>
+                          <FontAwesomeIcon icon={faUser} />
+                        </InputGroup.Text>
+                        <Form.Control
+                          name="fullName"
+                          required
+                          type="text"
+                          placeholder="Enter your name in full"
+                        />
+                      </InputGroup>
+                    </Form.Group>
+                    <Form.Group id="Matric Number" className="mb-4">
+                      <Form.Label>Full Name</Form.Label>
+                      <InputGroup>
+                        <InputGroup.Text>
+                          <FontAwesomeIcon icon={faIdCard} />
+                        </InputGroup.Text>
+                        <Form.Control
+                          name="matricNumber"
+                          required
+                          type="text"
+                          placeholder="Enter your matric number"
+                        />
+                      </InputGroup>
+                    </Form.Group>
+                    <Form.Group id="email" className="mb-4">
+                      <Form.Label>Your Email</Form.Label>
+                      <InputGroup>
+                        <InputGroup.Text>
+                          <FontAwesomeIcon icon={faEnvelope} />
+                        </InputGroup.Text>
+                        <Form.Control
+                          name="email"
+                          autoFocus
+                          required
+                          type="email"
+                          placeholder="example@company.com"
+                        />
+                      </InputGroup>
+                    </Form.Group>
+
+                    <Button variant="primary" type="submit" className="w-100">
+                      Go to logbook
+                    </Button>
+                  </Form>
+                </div>
+              </Col>
+            </Row>
+          )}
         </Container>
       </section>
     </main>
