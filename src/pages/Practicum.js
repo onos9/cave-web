@@ -42,7 +42,7 @@ export default () => {
   const [email, setEmail] = useState();
   const [tabKey, setTabKey] = useState("logbook");
   const [showDefault, setShowDefault] = useState(false);
-  const [logbook, setLogbook] = useState(true);
+  const [logbook, setLogbook] = useState(false);
   const [temp, setTemp] = useState({});
   const [tempData, setTempData] = useState([]);
   const [date, setDate] = useState("");
@@ -640,6 +640,21 @@ export default () => {
                         />
                       </InputGroup>
                     </Form.Group>
+                    <Form.Group id="email" className="mb-4">
+                      <Form.Label>Email</Form.Label>
+                      <InputGroup>
+                        <InputGroup.Text>
+                          <FontAwesomeIcon icon={faEnvelope} />
+                        </InputGroup.Text>
+                        <Form.Control
+                          name="email"
+                          autoFocus
+                          required
+                          type="email"
+                          placeholder="example@company.com"
+                        />
+                      </InputGroup>
+                    </Form.Group>
                     <Form.Group id="matricNumber" className="mb-4">
                       <Form.Label>Matric Number</Form.Label>
                       <InputGroup>
@@ -654,34 +669,16 @@ export default () => {
                         />
                       </InputGroup>
                     </Form.Group>
-                    <Form.Group id="programOption" className="mb-4">
+                    <Form.Group controlId="formGridClass" className="mb-4">
                       <Form.Label>Program Option</Form.Label>
-                      <InputGroup>
-                        <InputGroup.Text>
-                          <FontAwesomeIcon icon={faIdCard} />
-                        </InputGroup.Text>
-                        <Form.Control
-                          name="programOption"
-                          required
-                          type="text"
-                          placeholder="Enter your matric number"
-                        />
-                      </InputGroup>
-                    </Form.Group>
-                    <Form.Group id="email" className="mb-4">
-                      <Form.Label>Your Email</Form.Label>
-                      <InputGroup>
-                        <InputGroup.Text>
-                          <FontAwesomeIcon icon={faEnvelope} />
-                        </InputGroup.Text>
-                        <Form.Control
-                          name="email"
-                          autoFocus
-                          required
-                          type="email"
-                          placeholder="example@company.com"
-                        />
-                      </InputGroup>
+                      <Form.Select
+                        onChange={handleFormDataChange}
+                        name="programOption"
+                      >
+                        <option hidden>Select Program Option</option>
+                        <option value="PGDT">PGDT</option>
+                        <option value="Diploma">Diploma</option>
+                      </Form.Select>
                     </Form.Group>
                     <Button variant="primary" type="submit" className="w-100">
                       Go to logbook
