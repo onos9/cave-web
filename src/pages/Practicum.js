@@ -42,7 +42,7 @@ export default () => {
   const [email, setEmail] = useState();
   const [tabKey, setTabKey] = useState("logbook");
   const [showDefault, setShowDefault] = useState(false);
-  const [logbook, setLogbook] = useState(false);
+  const [logbook, setLogbook] = useState(true);
   const [temp, setTemp] = useState({});
   const [tempData, setTempData] = useState([]);
   const [date, setDate] = useState("");
@@ -109,6 +109,7 @@ export default () => {
             converts: data.converts,
             location: data.evangelismLocation,
             date: data.evangelismDate,
+            testimonies: data.testimonies,
             convertInfo: tempData,
           },
         ],
@@ -369,6 +370,20 @@ export default () => {
                             </Button>
                           </Col>
                         </Row>
+                        <Row>
+                          <Col xs={12} className="">
+                            <Form.Group className="mb-3">
+                              <Form.Label>Testimonies</Form.Label>
+                              <Form.Control
+                                onChange={handleChange}
+                                name="testimonies"
+                                rows={4}
+                                as="textarea"
+                                defaultValue="Testimonies of heallings, miracles, deliverance etc"
+                              />
+                            </Form.Group>
+                          </Col>
+                        </Row>
 
                         <Button variant="primary" type="submit">
                           Save
@@ -461,141 +476,124 @@ export default () => {
                           </Form.Select>
                         </Form.Group>
                         <div className="text-left text-md-left mb-4 mt-md-0">
-                          <h5 className="mb-0">{`Enter daily exercise (Bible reading, daily prayer time and literature)`}</h5>
+                          <p className="mb-0">{`Enter daily exercise (Bible reading, daily prayer time and literature)`}</p>
                         </div>
                         <hr />
+                        <Row>
+                          <Col
+                            xs={6}
+                            className="align-items-center justify-content-center"
+                          >
+                            <Form.Group id="book" className="mb-4">
+                              <InputGroup>
+                                <InputGroup.Text></InputGroup.Text>
+                                <Form.Control
+                                  name="book"
+                                  autoFocus
+                                  type="text"
+                                  placeholder="Book"
+                                  onChange={handleChange}
+                                />
+                              </InputGroup>
+                            </Form.Group>
+                          </Col>
+                          <Col
+                            xs={6}
+                            className="align-items-center justify-content-center"
+                          >
+                            <Form.Group id="chapter" className="mb-4">
+                              <InputGroup>
+                                <InputGroup.Text></InputGroup.Text>
+                                <Form.Control
+                                  name="chapter"
+                                  autoFocus
+                                  type="text"
+                                  placeholder="Chapter"
+                                  onChange={handleChange}
+                                />
+                              </InputGroup>
+                            </Form.Group>
+                            <Button
+                              className="float-end mb-4"
+                              onClick={() => handleAdd("Bible")}
+                              size="sm"
+                              variant="outline-gray"
+                            >
+                              Add bible
+                            </Button>
+                          </Col>
+                        </Row>
                         <Row>
                           <Col
                             xs={4}
                             className="align-items-center justify-content-center"
                           >
-                            <Row>
-                              <Col
-                                xs={12}
-                                className="align-items-center justify-content-center"
-                              >
-                                <Form.Group id="book" className="mb-4">
-                                  <InputGroup>
-                                    <InputGroup.Text></InputGroup.Text>
-                                    <Form.Control
-                                      name="book"
-                                      autoFocus
-                                      type="text"
-                                      placeholder="Book"
-                                      onChange={handleChange}
-                                    />
-                                  </InputGroup>
-                                </Form.Group>
-                              </Col>
-                              <Col
-                                xs={12}
-                                className="align-items-center justify-content-center"
-                              >
-                                <Form.Group id="chapter" className="mb-4">
-                                  <InputGroup>
-                                    <InputGroup.Text></InputGroup.Text>
-                                    <Form.Control
-                                      name="chapter"
-                                      autoFocus
-                                      type="text"
-                                      placeholder="Chapter"
-                                      onChange={handleChange}
-                                    />
-                                  </InputGroup>
-                                </Form.Group>
-                                <Button
-                                  variant="outline-gray"
-                                  size="sm"
-                                  onClick={() => handleAdd("Bible")}
-                                >
-                                  Add Bible
-                                </Button>
-                              </Col>
-                            </Row>
+                            <Form.Group id="author" className="mb-4">
+                              <InputGroup>
+                                <InputGroup.Text></InputGroup.Text>
+                                <Form.Control
+                                  onChange={handleFormDataChange}
+                                  defaultValue={formData?.author}
+                                  name="author"
+                                  autoFocus
+                                  type="text"
+                                  placeholder="Author"
+                                />
+                              </InputGroup>
+                            </Form.Group>
                           </Col>
                           <Col
                             xs={4}
                             className="align-items-center justify-content-center"
                           >
-                            <Row>
-                              <Col
-                                xs={12}
-                                className="align-items-center justify-content-center"
-                              >
-                                <Form.Group id="prayer-time" className="mb-4">
-                                  <InputGroup>
-                                    <InputGroup.Text></InputGroup.Text>
-                                    <Form.Control
-                                      onChange={handleFormDataChange}
-                                      defaultValue={formData?.prayerTime}
-                                      name="prayerTime"
-                                      autoFocus
-                                      type="text"
-                                      placeholder="Prayer Time (Hrs)"
-                                    />
-                                  </InputGroup>
-                                </Form.Group>
-                              </Col>
-                            </Row>
+                            <Form.Group id="book-title" className="mb-4">
+                              <InputGroup>
+                                <InputGroup.Text></InputGroup.Text>
+                                <Form.Control
+                                  onChange={handleFormDataChange}
+                                  defaultValue={formData?.bookTitle}
+                                  name="bookTitle"
+                                  autoFocus
+                                  type="text"
+                                  placeholder="Book Title"
+                                />
+                              </InputGroup>
+                            </Form.Group>
                           </Col>
+                          <Form.Group as={Col} id="no-pages" className="mb-4">
+                            <InputGroup>
+                              <InputGroup.Text></InputGroup.Text>
+                              <Form.Control
+                                onChange={handleFormDataChange}
+                                defaultValue={formData?.noPages}
+                                name="noPages"
+                                autoFocus
+                                type="text"
+                                placeholder="Number of Pages"
+                              />
+                            </InputGroup>
+                          </Form.Group>
+                        </Row>
+                        <Row>
                           <Col
                             xs={4}
                             className="align-items-center justify-content-center"
                           >
-                            <Row>
-                              <Col
-                                xs={12}
-                                className="align-items-center justify-content-center"
-                              >
-                                <Form.Group id="author" className="mb-4">
-                                  <InputGroup>
-                                    <InputGroup.Text></InputGroup.Text>
-                                    <Form.Control
-                                      onChange={handleFormDataChange}
-                                      defaultValue={formData?.author}
-                                      name="author"
-                                      autoFocus
-                                      type="text"
-                                      placeholder="Author"
-                                    />
-                                  </InputGroup>
-                                </Form.Group>
-                              </Col>
-                              <Col
-                                xs={12}
-                                className="align-items-center justify-content-center"
-                              >
-                                <Form.Group id="book-title" className="mb-4">
-                                  <InputGroup>
-                                    <InputGroup.Text></InputGroup.Text>
-                                    <Form.Control
-                                      onChange={handleFormDataChange}
-                                      defaultValue={formData?.bookTitle}
-                                      name="bookTitle"
-                                      autoFocus
-                                      type="text"
-                                      placeholder="Book Title"
-                                    />
-                                  </InputGroup>
-                                </Form.Group>
-                                <Form.Group id="no-pages" className="mb-4">
-                                  <InputGroup>
-                                    <InputGroup.Text></InputGroup.Text>
-                                    <Form.Control
-                                      onChange={handleFormDataChange}
-                                      defaultValue={formData?.noPages}
-                                      name="noPages"
-                                      autoFocus
-                                      type="text"
-                                      placeholder="Number of Pages"
-                                    />
-                                  </InputGroup>
-                                </Form.Group>
-                              </Col>
-                            </Row>
+                            <Form.Group id="prayer-time" className="mb-4">
+                              <InputGroup>
+                                <InputGroup.Text></InputGroup.Text>
+                                <Form.Control
+                                  onChange={handleFormDataChange}
+                                  defaultValue={formData?.prayerTime}
+                                  name="prayerTime"
+                                  autoFocus
+                                  type="text"
+                                  placeholder="Prayer Time (Hrs)"
+                                />
+                              </InputGroup>
+                            </Form.Group>
                           </Col>
                         </Row>
-
                         <Button variant="primary" type="submit">
                           Save
                         </Button>
@@ -642,7 +640,7 @@ export default () => {
                         />
                       </InputGroup>
                     </Form.Group>
-                    <Form.Group id="Matric Number" className="mb-4">
+                    <Form.Group id="matricNumber" className="mb-4">
                       <Form.Label>Matric Number</Form.Label>
                       <InputGroup>
                         <InputGroup.Text>
@@ -650,6 +648,20 @@ export default () => {
                         </InputGroup.Text>
                         <Form.Control
                           name="matricNumber"
+                          required
+                          type="text"
+                          placeholder="Enter your matric number"
+                        />
+                      </InputGroup>
+                    </Form.Group>
+                    <Form.Group id="programOption" className="mb-4">
+                      <Form.Label>Program Option</Form.Label>
+                      <InputGroup>
+                        <InputGroup.Text>
+                          <FontAwesomeIcon icon={faIdCard} />
+                        </InputGroup.Text>
+                        <Form.Control
+                          name="programOption"
                           required
                           type="text"
                           placeholder="Enter your matric number"
@@ -671,7 +683,6 @@ export default () => {
                         />
                       </InputGroup>
                     </Form.Group>
-
                     <Button variant="primary" type="submit" className="w-100">
                       Go to logbook
                     </Button>
