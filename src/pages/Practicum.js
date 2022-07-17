@@ -57,7 +57,7 @@ export default () => {
       setTabKey("evangelism");
     }
 
-    // console.log(logBookState);
+    console.log(logBookState);
   }, [logBookState]);
 
   useEffect(() => {
