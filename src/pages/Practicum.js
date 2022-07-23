@@ -1,4 +1,11 @@
 import { faCalendarAlt, faIdCard } from "@fortawesome/free-regular-svg-icons";
+import {
+  faCode,
+  faInfo,
+  faKey,
+  faLock,
+  faPassport,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Alert,
@@ -14,7 +21,7 @@ import {
 import moment from "moment-timezone";
 import { useEffect, useState } from "react";
 import Datetime from "react-datetime";
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom";
 import BgImage from "../assets/img/illustrations/signin.svg";
 import useAuth from "../hooks/useAuth";
 import useLogBook from "../hooks/useLogBook";
@@ -24,11 +31,9 @@ import { Router } from "../router";
 export default () => {
   const { logBook, logBookState } = useLogBook();
   const { auth, authState } = useAuth();
-  const { user, userState } = useUser();
   const [email, setEmail] = useState();
   const [tabKey, setTabKey] = useState("logbook");
   const [showDefault, setShowDefault] = useState(false);
-  const [logbook, setLogbook] = useState(false);
   const [temp, setTemp] = useState({});
   const [tempData, setTempData] = useState([]);
   const [date, setDate] = useState("");
@@ -36,26 +41,33 @@ export default () => {
   const [alertTitle, setAlertTitle] = useState();
   const [alertMessage, setAlertMessage] = useState();
   const [formData, setFormData] = useState();
-  const navigate = useNavigate()
+  const [currentLogBook, setCurrentLogBook] = useState();
+  const navigate = useNavigate();
+  const { logbook } = useParams();
 
   useEffect(() => {
-    if (!authState?.login) {
-      navigate(`${Router.Signin.path}/logbook`);
-    }
+    if (logBookState?.success) navigate(`${Router.Practicum.path}/logbook`);
 
-    if (logBookState?.login) {
-      setLogbook(true);
-      setTabKey("evangelism");
+    if (!authState?.login && authState)
+      navigate(`${Router.Signin.path}/logbook`);
+
+    if (authState?.login && !logbook)
+      setTabKey(logbook ? "evangelism" : "logbook");
+
+    if (logBookState?.success) {
+      const curr = logBookState?.logBooks?.filter(
+        (logBook) => logBook?.reviewed == false
+      );
+      setCurrentLogBook(!!curr ? curr[0] : logBookState?.logBook);
+      console.log(logBookState);
     }
-    console.log(authState);
+    if (authState?.login && !logBookState)
+      logBook.getOneByUserId(authState?.user.id);
   }, [logBookState, authState?.login]);
 
-  useEffect(() => {
-    // if (alertTitle) setShowAlert(true);
-  }, [alertMessage, alertTitle]);
-
   const handleTabSelection = (key) => setTabKey(key);
-  const handleSignOut = () => window.location.reload(false);
+  const handleSignOut = () =>
+    auth.signout(authState?.user, { params: "logbook" });
 
   const handleAdd = (btn) => {
     setTempData((prev) => [...prev, temp]);
@@ -69,7 +81,6 @@ export default () => {
   const handleFormDataChange = ({ target }) => {
     const { name, value } = target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    // console.log(formData);
   };
 
   const handleChange = ({ target }) => {
@@ -87,8 +98,10 @@ export default () => {
     }
 
     if (!logbook) {
-      setEmail(data.email);
-      user.updateOne(authState?.user?.id);
+      data.userID = authState?.user.id;
+      data.status = "Pending";
+      // data.role = "student";
+      logBook.create(data);
       return;
     }
 
@@ -120,20 +133,11 @@ export default () => {
 
     if (tabKey === "exercise") {
       data = {
-        exercise: [
-          {
-            bibleRead: tempData,
-            day: data.day,
-            author: data.author,
-            bookTitle: data.bookTitle,
-            prayerTime: data.prayerTime,
-            noPages: data.noPages,
-          },
-        ],
+        exercise: [{ ...data }],
       };
     }
 
-    logBook.updateOne(data, logBookState?.logBook?.id);
+    logBook.updateOne(data, currentLogBook?.id);
 
     const alertType = tabKey[0].toUpperCase() + tabKey.slice(1);
     setAlertTitle(`${alertType} updated successfully!`);
@@ -189,7 +193,7 @@ export default () => {
       </Alert>
       <section className="d-flex align-items-center my-5 mt-lg-6 mb-lg-5">
         <Container>
-          {logbook ? (
+          {!!logbook ? (
             <Row className="justify-content-center">
               <div className="mb-4 mb-lg-0 bg-white shadow-soft border rounded border-light p-lg-5 w-100">
                 <div className="text-center text-md-center mb-4 mt-md-0">
@@ -369,7 +373,7 @@ export default () => {
                                 name="testimonies"
                                 rows={4}
                                 as="textarea"
-                                defaultValue="Testimonies of heallings, miracles, deliverance etc"
+                                placeholder="Testimonies of heallings, miracles, deliverance etc"
                               />
                             </Form.Group>
                           </Col>
@@ -388,7 +392,7 @@ export default () => {
                       >
                         <div className="text-left text-md-left mb-4 mt-md-0">
                           <p className="mb-0">
-                            {`Report on prayer walk activity (nature of teritory, miracles, challenge, testimonies, etc)`}
+                            {`Report on prayer walk activity`}
                           </p>
                         </div>
 
@@ -431,6 +435,7 @@ export default () => {
                                 name="description"
                                 rows={4}
                                 as="textarea"
+                                placeholder="nature of teritory, miracles, challenge, testimonies, etc"
                               />
                             </Form.Group>
                           </Col>
@@ -472,34 +477,51 @@ export default () => {
                         <Form.Label>Bible Reading</Form.Label>
                         <Row>
                           <Col
-                            xs={6}
+                            xs={4}
                             className="align-items-center justify-content-center"
                           >
-                            <Form.Group id="book" className="mb-4">
+                            <Form.Group id="no-chapter" className="mb-4">
                               <InputGroup>
                                 <InputGroup.Text></InputGroup.Text>
                                 <Form.Control
-                                  name="book"
+                                  name="chapters"
                                   autoFocus
-                                  type="text"
-                                  placeholder="Book and chapter read"
+                                  type="number"
+                                  placeholder="No. of chapters read"
                                   onChange={handleChange}
                                 />
                               </InputGroup>
                             </Form.Group>
                           </Col>
                           <Col
-                            xs={6}
+                            xs={4}
+                            className="align-items-center justify-content-center"
+                          >
+                            <Form.Group id="start-chapter" className="mb-4">
+                              <InputGroup>
+                                <InputGroup.Text></InputGroup.Text>
+                                <Form.Control
+                                  name="startChapter"
+                                  autoFocus
+                                  type="text"
+                                  placeholder="Start chapter"
+                                  onChange={handleChange}
+                                />
+                              </InputGroup>
+                            </Form.Group>
+                          </Col>
+                          <Col
+                            xs={4}
                             className="align-items-center justify-content-center"
                           >
                             <Form.Group id="chapter" className="mb-4">
                               <InputGroup>
                                 <InputGroup.Text></InputGroup.Text>
                                 <Form.Control
-                                  name="chapter"
+                                  name="endChapter"
                                   autoFocus
                                   type="text"
-                                  placeholder="No. of chapters read"
+                                  placeholder="End chapter"
                                   onChange={handleChange}
                                 />
                               </InputGroup>
@@ -512,6 +534,27 @@ export default () => {
                             >
                               Add bible
                             </Button> */}
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col
+                            xs={4}
+                            className="align-items-center justify-content-center"
+                          >
+                            <Form.Group id="prayer-time" className="mb-4">
+                              <Form.Label>Tongue Exercise</Form.Label>
+                              <InputGroup>
+                                <InputGroup.Text></InputGroup.Text>
+                                <Form.Control
+                                  onChange={handleFormDataChange}
+                                  defaultValue={formData?.prayerTime}
+                                  name="prayerTime"
+                                  autoFocus
+                                  type="text"
+                                  placeholder="Prayer Time (Hrs)"
+                                />
+                              </InputGroup>
+                            </Form.Group>
                           </Col>
                         </Row>
                         <Form.Label>Literature Reading</Form.Label>
@@ -566,27 +609,6 @@ export default () => {
                             </InputGroup>
                           </Form.Group>
                         </Row>
-                        <Row>
-                          <Col
-                            xs={4}
-                            className="align-items-center justify-content-center"
-                          >
-                            <Form.Group id="prayer-time" className="mb-4">
-                              <Form.Label>Tongue Exercise</Form.Label>
-                              <InputGroup>
-                                <InputGroup.Text></InputGroup.Text>
-                                <Form.Control
-                                  onChange={handleFormDataChange}
-                                  defaultValue={formData?.prayerTime}
-                                  name="prayerTime"
-                                  autoFocus
-                                  type="text"
-                                  placeholder="Prayer Time (Hrs)"
-                                />
-                              </InputGroup>
-                            </Form.Group>
-                          </Col>
-                        </Row>
                         <Button variant="primary" type="submit">
                           Save
                         </Button>
@@ -620,25 +642,43 @@ export default () => {
 
                   <Form id="logbook" className="mt-4" onSubmit={handleSubmit}>
                     <Form.Group id="matricNumber" className="mb-4">
-                      <Form.Label>Matric Number</Form.Label>
+                      <Form.Label>Course Name</Form.Label>
                       <InputGroup>
                         <InputGroup.Text>
-                          <FontAwesomeIcon icon={faIdCard} />
+                          <FontAwesomeIcon icon={faInfo} />
                         </InputGroup.Text>
                         <Form.Control
-                          name="matricNumber"
+                          name="courseName"
                           required
                           type="text"
-                          placeholder="Enter your matric number"
+                          placeholder="Enter course Name"
+                        />
+                      </InputGroup>
+                    </Form.Group>
+                    <Form.Group id="course-code" className="mb-4">
+                      <Form.Label>Course Code</Form.Label>
+                      <InputGroup>
+                        <InputGroup.Text>
+                          <FontAwesomeIcon icon={faLock} />
+                        </InputGroup.Text>
+                        <Form.Control
+                          name="courseCode"
+                          required
+                          type="text"
+                          placeholder="Enter course Code"
                         />
                       </InputGroup>
                     </Form.Group>
                     <Form.Group controlId="formGridClass" className="mb-4">
-                      <Form.Label>Program Option</Form.Label>
-                      <Form.Select name="programOption">
-                        <option hidden>Select Program Option</option>
-                        <option value="PGDT">PGDT</option>
-                        <option value="Diploma">Diploma</option>
+                      <Form.Label>Group</Form.Label>
+                      <Form.Select name="group">
+                        <option hidden>Select Group</option>
+                        <option value="1">Group 1</option>
+                        <option value="2">Group 2</option>
+                        <option value="3">Group 3</option>
+                        <option value="4">Group 4</option>
+                        <option value="5">Group 5</option>
+                        <option value="6">Group 6</option>
                       </Form.Select>
                     </Form.Group>
                     <Button variant="primary" type="submit" className="w-100">

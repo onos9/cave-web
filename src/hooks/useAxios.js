@@ -9,39 +9,36 @@ const useAxios = () => {
   const refresh = useRefreshToken();
   const axiosCall = useRef(false);
   useEffect(() => {
-    if (!axiosCall.current) {
-      const requestIntercept = axios.interceptors.request.use(
-        (config) => {
-          if (!config.headers["Authorization"]) {
-            config.headers[
-              "Authorization"
-            ] = `Bearer ${state?.auth?.accessToken}`;
-          }
-          return config;
-        },
-        (error) => Promise.reject(error)
-      );
-
-      const responseIntercept = axios.interceptors.response.use(
-        (response) => response,
-        async (error) => {
-          const prevRequest = error?.config;
-          if (error?.response?.status === 403 && !prevRequest?.sent) {
-            prevRequest.sent = true;
-            const newAccessToken = await refresh();
-            prevRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-            return axios(prevRequest);
-          }
-          return Promise.reject(error);
+    const requestIntercept = axios.interceptors.request.use(
+      (config) => {
+        if (!config.headers["Authorization"]) {
+          config.headers[
+            "Authorization"
+          ] = `Bearer ${state?.auth?.accessToken}`;
         }
-      );
+        return config;
+      },
+      (error) => Promise.reject(error)
+    );
 
-      return () => {
-        axiosCall.current = true;
-        axios.interceptors.request.eject(requestIntercept);
-        axios.interceptors.response.eject(responseIntercept);
-      };
-    }
+    const responseIntercept = axios.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        const prevRequest = error?.config;
+        if (error?.response?.status === 403 && !prevRequest?.sent) {
+          prevRequest.sent = true;
+          const newAccessToken = await refresh();
+          prevRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+          return axios(prevRequest);
+        }
+        return Promise.reject(error);
+      }
+    );
+
+    return () => {
+      axios.interceptors.request.eject(requestIntercept);
+      axios.interceptors.response.eject(responseIntercept);
+    };
   }, [state, refresh]);
 
   return axios;

@@ -1,77 +1,63 @@
-import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBoxOpen,
   faCartArrowDown,
   faChartPie,
   faChevronDown,
   faClipboard,
-  faCommentDots,
-  faFileAlt,
-  faPlus,
   faRocket,
   faStore,
 } from "@fortawesome/free-solid-svg-icons";
-import { Col, Row, Button, Dropdown } from "@themesberg/react-bootstrap";
-import { ChoosePhotoWidget, ProfileCardWidget } from "../components/Widgets";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  Button,
+  Col,
+  Dropdown,
+  Row,
+  Card,
+} from "@themesberg/react-bootstrap";
+import {
+  Badge,
+  ListGroup,
+} from "react-bootstrap";
+import React, { useRef, useEffect } from "react";
 import { GeneralInfoForm } from "../components/Forms";
+import { ChoosePhotoWidget, ProfileCardWidget } from "../components/Widgets";
+import { Nav, Tab } from '@themesberg/react-bootstrap';
 
 import Profile3 from "../assets/img/team/profile-picture-3.jpg";
+import useLogBook from "../hooks/useLogBook";
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
 
 export default () => {
+  const { logBook, logBookState } = useLogBook();
+  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { id } = useParams();
+  const apiCall = useRef(false);
+  const user = JSON.parse(searchParams.get("user"))
+  
+  useEffect(() => {
+    if (apiCall.current === false) {
+      logBook.getOne(id);
+      return () => (apiCall.current = true);
+    }
+  }, []);
+
   return (
     <>
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-        <Dropdown>
-          <Dropdown.Toggle
-            as={Button}
-            variant="secondary"
-            className="text-dark me-2"
-          >
-            <FontAwesomeIcon icon={faPlus} className="me-2" />
-            <span>New</span>
-          </Dropdown.Toggle>
-          <Dropdown.Menu className="dashboard-dropdown dropdown-menu-left mt-2">
-            <Dropdown.Item>
-              <FontAwesomeIcon icon={faFileAlt} className="me-2" /> Document
-            </Dropdown.Item>
-            <Dropdown.Item>
-              <FontAwesomeIcon icon={faCommentDots} className="me-2" /> Message
-            </Dropdown.Item>
-            <Dropdown.Item>
-              <FontAwesomeIcon icon={faBoxOpen} className="me-2" /> Product
-            </Dropdown.Item>
-
-            <Dropdown.Divider />
-
-            <Dropdown.Item>
-              <FontAwesomeIcon icon={faRocket} className="text-danger me-2" />{" "}
-              Subscription Plan
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-
         <div className="d-flex">
           <Dropdown>
             <Dropdown.Toggle as={Button} variant="primary">
-              <FontAwesomeIcon icon={faClipboard} className="me-2" /> Reports
+              <FontAwesomeIcon icon={faClipboard} className="me-2" /> Action
               <span className="icon icon-small ms-1">
                 <FontAwesomeIcon icon={faChevronDown} />
               </span>
             </Dropdown.Toggle>
             <Dropdown.Menu className="dashboard-dropdown dropdown-menu-left mt-1">
               <Dropdown.Item>
-                <FontAwesomeIcon icon={faBoxOpen} className="me-2" /> Products
-              </Dropdown.Item>
-              <Dropdown.Item>
-                <FontAwesomeIcon icon={faStore} className="me-2" /> Customers
-              </Dropdown.Item>
-              <Dropdown.Item>
-                <FontAwesomeIcon icon={faCartArrowDown} className="me-2" />{" "}
-                Orders
-              </Dropdown.Item>
-              <Dropdown.Item>
-                <FontAwesomeIcon icon={faChartPie} className="me-2" /> Console
+                <FontAwesomeIcon icon={faBoxOpen} className="me-2" />{" "}
+                Acknowledge
               </Dropdown.Item>
 
               <Dropdown.Divider />
@@ -81,7 +67,7 @@ export default () => {
                   icon={faRocket}
                   className="text-success me-2"
                 />{" "}
-                All Reports
+                Close Logbook
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
@@ -90,19 +76,82 @@ export default () => {
 
       <Row>
         <Col xs={12} xl={8}>
-          <GeneralInfoForm />
+          <Card border="light" className="bg-white shadow-sm mb-4">
+            <Card.Body>
+              <h5 className="mb-4">Evangelism</h5>
+              <p>
+                Photo booth stumptown tote bag Banksy, elit small batch freegan
+                sed. Craft beer elit seitan exercitation, photo booth et 8-bit
+                kale chips proident chillwave deep v laborum. Aliquip veniam
+                delectus, Marfa eiusmod Pinterest in do umami readymade swag.
+              </p>
+            </Card.Body>
+          </Card>
+          <Card border="light" className="bg-white shadow-sm mb-4">
+            <Card.Body>
+              <h5 className="mb-4">Prayer Walk</h5>
+              <ListGroup as="ol" numbered>
+                <ListGroup.Item
+                  as="li"
+                  className="d-flex justify-content-between align-items-start"
+                >
+                  <div className="ms-2 me-auto">
+                    <div className="fw-bold">Subheading</div>
+                    Cras justo odio
+                  </div>
+                  <Badge bg="primary" pill>
+                    14
+                  </Badge>
+                </ListGroup.Item>
+                <ListGroup.Item
+                  as="li"
+                  className="d-flex justify-content-between align-items-start"
+                >
+                  <div className="ms-2 me-auto">
+                    <div className="fw-bold">Subheading</div>
+                    Cras justo odio
+                  </div>
+                  <Badge bg="primary" pill>
+                    14
+                  </Badge>
+                </ListGroup.Item>
+                <ListGroup.Item
+                  as="li"
+                  className="d-flex justify-content-between align-items-start"
+                >
+                  <div className="ms-2 me-auto">
+                    <div className="fw-bold">Subheading</div>
+                    Cras justo odio
+                  </div>
+                  <Badge bg="primary" pill>
+                    14
+                  </Badge>
+                </ListGroup.Item>
+              </ListGroup>
+            </Card.Body>
+          </Card>
+          <Card border="light" className="bg-white shadow-sm mb-4">
+            <Card.Body>
+              <h5 className="mb-4">Daily Exercise</h5>
+              <p>
+                Day handsome addition horrible sensible goodness two contempt.
+                Evening for married his account removal. Estimable me disposing
+                of be moonlight cordially curiosity.
+              </p>
+            </Card.Body>
+          </Card>
         </Col>
 
         <Col xs={12} xl={4}>
           <Row>
             <Col xs={12}>
-              <ProfileCardWidget />
+              <ProfileCardWidget user={user} />
             </Col>
             <Col xs={12}>
-              <ChoosePhotoWidget
+              {/* <ChoosePhotoWidget
                 title="Select profile photo"
                 photo={Profile3}
-              />
+              /> */}
             </Col>
           </Row>
         </Col>

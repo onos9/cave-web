@@ -32,30 +32,25 @@ import { pageRanking, pageTraffic } from "../data/tables";
 import useLogBook from "../hooks/useLogBook";
 import { Router } from "../router";
 
-export const EnrollmentTable = () => {
-  const [tableLength, setTableLength] = useState(0);
+export const EnrollmentTable = (props) => {
   const { logBook, logBookState } = useLogBook();
-  const [logBookList, setLogBookList] = useState();
   const apiCall = useRef(false);
 
   useEffect(() => {
     if (apiCall.current === false) {
       logBook.getAll();
-      return () => (apiCall.current = true)
+      return () => (apiCall.current = true);
     }
   }, []);
 
-  useEffect(() => {
-    if (logBookState) {
-      // console.log(logBookState?.list);
-      setLogBookList(logBookState?.list);
-      setTableLength(logBookState?.list.length);
-    }
-  }, [logBookState]);
-
-  const TableRow = (props) => {
-    const { fullName, matricNumber, email, programOption, created_at } = props;
-    const status = "Pending";
+  const TableRow = ({
+    courseCode,
+    courseName,
+    group,
+    status,
+    id,
+    created_at,
+  }) => {
     const statusVariant =
       status === "Accepted"
         ? "success"
@@ -68,24 +63,27 @@ export const EnrollmentTable = () => {
     return (
       <tr>
         <td>
-          <Card.Link as={Link} to={"Router.Account.path"} className="fw-normal">
-            {fullName}
+          <Card.Link
+            as={Link}
+            to={`${Router.Course.path}/${id}?${new URLSearchParams({
+              user: JSON.stringify(props),
+            }).toString()}`}
+            className="fw-normal"
+          >
+            {courseName}
           </Card.Link>
         </td>
         <td>
-          <span className="fw-normal">{email}</span>
+          <span className="fw-normal">{courseCode}</span>
         </td>
         <td>
-          <span className="fw-normal">{matricNumber}</span>
-        </td>
-        <td>
-          <span className="fw-normal">{programOption}</span>
-        </td>
-        <td>
-          <span className="fw-normal">{moment(created_at).fromNow()}</span>
+          <span className="fw-normal">{group}</span>
         </td>
         <td>
           <span className={`fw-normal text-${statusVariant}`}>{status}</span>
+        </td>
+        <td>
+          <span className="fw-normal">{moment(created_at).fromNow()}</span>
         </td>
         <td>
           <Dropdown as={ButtonGroup}>
@@ -117,15 +115,18 @@ export const EnrollmentTable = () => {
   };
 
   return (
-    <Card border="light" className="table-wrapper table-responsive shadow-sm">
+    <Card
+      border="light"
+      className="pt-4 mb-4 table-wrapper table-responsive shadow-sm"
+    >
       <Card.Body className="pt-0">
+        <Card.Title>{props.fullName}</Card.Title>
         <Table hover className="user-table align-items-center">
           <thead>
             <tr>
-              <th className="border-bottom">Full Name</th>
-              <th className="border-bottom">Email</th>
-              <th className="border-bottom">Matric Number</th>
-              <th className="border-bottom">Program Option</th>
+              <th className="border-bottom">Course Name</th>
+              <th className="border-bottom">Course Code</th>
+              <th className="border-bottom">Group</th>
               <th className="border-bottom">Status</th>
               <th className="border-bottom">Time</th>
               <th className="border-bottom">Action</th>
@@ -152,7 +153,9 @@ export const EnrollmentTable = () => {
             </Pagination>
           </Nav>
           <small className="fw-bold">
-            Showing <b>{tableLength}</b> out of <b>25</b> entries
+            Showing{" "}
+            <b>{logBookState?.list?.length ? logBookState?.list?.length : 0}</b>{" "}
+            out of <b>25</b> entries
           </small>
         </Card.Footer>
       </Card.Body>

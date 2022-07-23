@@ -4,7 +4,7 @@ import {
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
-import { faEnvelope, faUnlockAlt } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faIdCard, faUnlockAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
@@ -145,6 +145,28 @@ export default () => {
                           placeholder="example@company.com"
                         />
                       </InputGroup>
+                    </Form.Group>
+                    <Form.Group id="matricNumber" className="mb-4">
+                      <Form.Label>Matric Number</Form.Label>
+                      <InputGroup>
+                        <InputGroup.Text>
+                          <FontAwesomeIcon icon={faIdCard} />
+                        </InputGroup.Text>
+                        <Form.Control
+                          name="matricNumber"
+                          required
+                          type="text"
+                          placeholder="Enter your matric number"
+                        />
+                      </InputGroup>
+                    </Form.Group>
+                    <Form.Group controlId="formGridClass" className="mb-4">
+                      <Form.Label>Program Option</Form.Label>
+                      <Form.Select name="programOption">
+                        <option hidden>Select Program Option</option>
+                        <option value="PGDT">PGDT</option>
+                        <option value="Diploma">Diploma</option>
+                      </Form.Select>
                     </Form.Group>
                     <Form.Group id="password" className="mb-4">
                       <Form.Label>Your Password</Form.Label>

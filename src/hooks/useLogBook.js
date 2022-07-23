@@ -50,10 +50,10 @@ const useLogBook = () => {
         });
     },
 
-    getByEmail: (email, state) => {
+    getOneByUserId: (id, state) => {
       dispatchLoading();
       axios
-        .get(`/logBook/${email}`)
+        .get(`/logBook/user/${id}`)
         .then((res) => {
           dispatchSuccess(res);
         })

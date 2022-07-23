@@ -97,6 +97,7 @@ export default () => {
         <Route path={`${Router.Signin.path}/:id`} element={<Signin />} />
         <Route path={`${Router.Downloads.path}/:id`} element={<Downloads />} />
         <Route path={`${Router.Signup.path}/:type`} element={<Signup />} />
+        <Route path={`${Router.Practicum.path}/:logbook`} element={<Practicum />} />
         <Route path={Router.Practicum.path} element={<Practicum />} />
         <Route path={Router.ForgotPassword.path} element={<ForgotPassword />} />
         <Route path={Router.ResetPassword.path} element={<ResetPassword />} />
@@ -117,7 +118,7 @@ export default () => {
 
       <Route path="/" element={<RouteWithSidebar />}>
         <Route element={<RequireAuth allowedRoles={["admin"]} />}>
-          <Route path={Router.Course.path} element={<Course />} />
+          <Route path={`${Router.Course.path}/:id`} element={<Course />} />
           <Route path={Router.CourseList.path} element={<CourseList />} />
           <Route path={Router.Overview.path} element={<Overview />} />
           <Route path={Router.Dashboard.path} element={<Dashboard />} />

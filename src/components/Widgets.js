@@ -38,14 +38,14 @@ import {
   SalesValueChartphone,
 } from "./Charts";
 
-import Profile1 from "../assets/img/team/profile-picture-1.jpg";
+import Profile3 from "../assets/img/team/profile-picture-3.svg";
 import ProfileCover from "../assets/img/profile-cover.jpg";
 
 import teamMembers from "../data/teamMembers";
 import useMailer from "../hooks/useMailer";
-import { Router } from "../router"
+import { Router } from "../router";
 
-export const ProfileCardWidget = () => {
+export const ProfileCardWidget = ({ user }) => {
   return (
     <Card border="light" className="text-center p-0 mb-4">
       <div
@@ -54,22 +54,21 @@ export const ProfileCardWidget = () => {
       />
       <Card.Body className="pb-5">
         <Card.Img
-          src={Profile1}
+          src={Profile3}
           alt="Neil Portrait"
           className="user-avatar large-avatar rounded-circle mx-auto mt-n7 mb-4"
+          style={{ backgroundColor: "#bbc1d0" }}
         />
-        <Card.Title>Neil Sims</Card.Title>
-        <Card.Subtitle className="fw-normal">
-          Senior Software Engineer
-        </Card.Subtitle>
-        <Card.Text className="text-gray mb-4">New York, USA</Card.Text>
+        <Card.Title>{user.fullName}</Card.Title>
+        <Card.Subtitle className="fw-normal">{user.role}</Card.Subtitle>
+        <Card.Text className="text-gray mb-4">{user.matricNumber}</Card.Text>
 
-        <Button variant="primary" size="sm" className="me-2">
+        {/* <Button variant="primary" size="sm" className="me-2">
           <FontAwesomeIcon icon={faUserPlus} className="me-1" /> Connect
         </Button>
         <Button variant="secondary" size="sm">
           Send Message
-        </Button>
+        </Button> */}
       </Card.Body>
     </Card>
   );

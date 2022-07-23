@@ -194,7 +194,7 @@ export default (props = {}) => {
               <NavItem
                 hide={hidden(Router.Dashboard.allowedRoles)}
                 title=""
-                link={Router.Dashboard.path}
+                link={""}
                 image={ReactHero}
               />
               <NavItem
@@ -203,16 +203,11 @@ export default (props = {}) => {
                 link={Router.Dashboard.path}
                 icon={faChartPie}
               />
-              <NavItem
-                hide={hidden(Router.CourseList.allowedRoles)}
-                title="Log Book"
-                link={Router.CourseList.path}
-                icon={faBook}
-              />
+              <Dropdown.Divider className="my-3 border-indigo" />
               <CollapsableNavItem
                 hide={hidden(Router.CourseList.allowedRoles)}
-                eventKey="examples/"
-                title="Course"
+                eventKey="courses/"
+                title="Courses"
                 icon={faFileAlt}
               >
                 <NavItem
@@ -221,30 +216,6 @@ export default (props = {}) => {
                   link={Router.CourseList.path}
                 />
               </CollapsableNavItem>
-
-              {/* <CollapsableNavItem
-                hide={hidden(["admin"])}
-                eventKey="examples/"
-                title="Page Examples"
-                icon={faFileAlt}
-              >
-                <NavItem title="Sign In" link={Router.Signin.path} />
-                <NavItem title="Sign Up" link={Router.Signup.path} />
-                <NavItem
-                  title="Forgot password"
-                  link={Router.ForgotPassword.path}
-                />
-                <NavItem
-                  title="Reset password"
-                  link={Router.ResetPassword.path}
-                />
-                <NavItem title="Lock" link={Router.Lock.path} />
-                <NavItem title="404 Not Found" link={Router.NotFound.path} />
-                <NavItem
-                  title="500 Server Error"
-                  link={Router.ServerError.path}
-                />
-              </CollapsableNavItem> */}
 
               <Button
                 as={Link}

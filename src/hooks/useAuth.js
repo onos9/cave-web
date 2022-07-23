@@ -62,7 +62,7 @@ const useAuth = () => {
         .delete("/auth", user)
         .then((res) => {
           dispatchSuccess(res);
-          navigate(`${Router.Signin.path}/id`, {
+          navigate(`${Router.Signin.path}/${state.params}`, {
             state: { from: location, refresh: true },
           });
         })

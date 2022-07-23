@@ -43,7 +43,9 @@ export default () => {
             <Breadcrumb.Item active>LogBook</Breadcrumb.Item>
           </Breadcrumb>
           <h4>Log Book</h4>
-          <p className="mb-0">Student Practicum loogbook for PGDT and Diploma</p>
+          <p className="mb-0">
+            Student Practicum loogbook for PGDT and Diploma
+          </p>
         </div>
         <div className="btn-toolbar mb-2 mb-md-0">
           <ButtonGroup>
@@ -96,8 +98,13 @@ export default () => {
           </Col>
         </Row>
       </div>
-
-      <EnrollmentTable />
+      {userState?.list ? (
+        <div>
+          {userState?.list.map((user) => (
+            <EnrollmentTable key={`user-${user.id}`} {...user} />
+          ))}
+        </div>
+      ) : null}
     </>
   );
 };
