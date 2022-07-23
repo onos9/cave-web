@@ -61,7 +61,7 @@ const useUser = () => {
         });
     },
 
-    updateOne: (user, id) => {
+    updateOne: (id, user) => {
       dispatchLoading();
       axios
         .patch(`/user/${id}`, user)

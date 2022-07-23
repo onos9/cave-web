@@ -1,4 +1,3 @@
-import React from "react";
 
 const types = ["LOADING", "ERROR"];
 
@@ -12,6 +11,7 @@ const Reducer = (state, { payload, type }) => {
       [action]: { ...payload },
       loading: false,
     };
+    // console.log(new_state);
     return new_state;
   }
 

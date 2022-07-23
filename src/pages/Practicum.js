@@ -1,44 +1,30 @@
-import {
-  faFacebookF,
-  faGithub,
-  faYoutube,
-} from "@fortawesome/free-brands-svg-icons";
-import {
-  faCalendarAlt,
-  faIdCard,
-  faUser,
-} from "@fortawesome/free-regular-svg-icons";
-import {
-  faEnvelope,
-  faLocationArrow,
-  faUnlockAlt,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCalendarAlt, faIdCard } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  Alert,
   Button,
-  Card,
   Col,
   Container,
   Form,
-  FormCheck,
   InputGroup,
-  Modal,
-  Row,
   Nav,
+  Row,
   Tab,
-  Alert,
 } from "@themesberg/react-bootstrap";
-import React, { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import moment from "moment-timezone";
+import { useEffect, useState } from "react";
+import Datetime from "react-datetime";
+import { useNavigate } from "react-router-dom"
 import BgImage from "../assets/img/illustrations/signin.svg";
 import useAuth from "../hooks/useAuth";
-import { Router } from "../router";
 import useLogBook from "../hooks/useLogBook";
-import Datetime from "react-datetime";
-import moment from "moment-timezone";
+import useUser from "../hooks/useUser";
+import { Router } from "../router";
 
 export default () => {
   const { logBook, logBookState } = useLogBook();
+  const { auth, authState } = useAuth();
+  const { user, userState } = useUser();
   const [email, setEmail] = useState();
   const [tabKey, setTabKey] = useState("logbook");
   const [showDefault, setShowDefault] = useState(false);
@@ -50,15 +36,19 @@ export default () => {
   const [alertTitle, setAlertTitle] = useState();
   const [alertMessage, setAlertMessage] = useState();
   const [formData, setFormData] = useState();
+  const navigate = useNavigate()
 
   useEffect(() => {
+    if (!authState?.login) {
+      navigate(`${Router.Signin.path}/logbook`);
+    }
+
     if (logBookState?.login) {
       setLogbook(true);
       setTabKey("evangelism");
     }
-
-    // console.log(logBookState);
-  }, [logBookState]);
+    console.log(authState);
+  }, [logBookState, authState?.login]);
 
   useEffect(() => {
     // if (alertTitle) setShowAlert(true);
@@ -98,7 +88,7 @@ export default () => {
 
     if (!logbook) {
       setEmail(data.email);
-      logBook.create(data);
+      user.updateOne(authState?.user?.id);
       return;
     }
 
@@ -479,6 +469,7 @@ export default () => {
                           <p className="mb-0">{`Enter daily exercise (Bible reading, daily prayer time and literature)`}</p>
                         </div>
                         <hr />
+                        <Form.Label>Bible Reading</Form.Label>
                         <Row>
                           <Col
                             xs={6}
@@ -491,7 +482,7 @@ export default () => {
                                   name="book"
                                   autoFocus
                                   type="text"
-                                  placeholder="Book"
+                                  placeholder="Book and chapter read"
                                   onChange={handleChange}
                                 />
                               </InputGroup>
@@ -508,21 +499,22 @@ export default () => {
                                   name="chapter"
                                   autoFocus
                                   type="text"
-                                  placeholder="Chapter"
+                                  placeholder="No. of chapters read"
                                   onChange={handleChange}
                                 />
                               </InputGroup>
                             </Form.Group>
-                            <Button
+                            {/* <Button
                               className="float-end mb-4"
                               onClick={() => handleAdd("Bible")}
                               size="sm"
                               variant="outline-gray"
                             >
                               Add bible
-                            </Button>
+                            </Button> */}
                           </Col>
                         </Row>
+                        <Form.Label>Literature Reading</Form.Label>
                         <Row>
                           <Col
                             xs={4}
@@ -580,6 +572,7 @@ export default () => {
                             className="align-items-center justify-content-center"
                           >
                             <Form.Group id="prayer-time" className="mb-4">
+                              <Form.Label>Tongue Exercise</Form.Label>
                               <InputGroup>
                                 <InputGroup.Text></InputGroup.Text>
                                 <Form.Control
@@ -622,39 +615,10 @@ export default () => {
               >
                 <div className="bg-white shadow-soft border rounded border-light p-4 p-lg-5 w-100 fmxw-500">
                   <div className="text-center text-md-center mb-4 mt-md-0">
-                    <h3 className="mb-0">Sign in to your logbook</h3>
+                    <h3 className="mb-0">Create Logbook</h3>
                   </div>
 
                   <Form id="logbook" className="mt-4" onSubmit={handleSubmit}>
-                    <Form.Group id="full-name" className="mb-4">
-                      <Form.Label>Full name</Form.Label>
-                      <InputGroup>
-                        <InputGroup.Text>
-                          <FontAwesomeIcon icon={faUser} />
-                        </InputGroup.Text>
-                        <Form.Control
-                          name="fullName"
-                          required
-                          type="text"
-                          placeholder="Enter your name in full"
-                        />
-                      </InputGroup>
-                    </Form.Group>
-                    <Form.Group id="email" className="mb-4">
-                      <Form.Label>Email</Form.Label>
-                      <InputGroup>
-                        <InputGroup.Text>
-                          <FontAwesomeIcon icon={faEnvelope} />
-                        </InputGroup.Text>
-                        <Form.Control
-                          name="email"
-                          autoFocus
-                          required
-                          type="email"
-                          placeholder="example@company.com"
-                        />
-                      </InputGroup>
-                    </Form.Group>
                     <Form.Group id="matricNumber" className="mb-4">
                       <Form.Label>Matric Number</Form.Label>
                       <InputGroup>
@@ -671,10 +635,7 @@ export default () => {
                     </Form.Group>
                     <Form.Group controlId="formGridClass" className="mb-4">
                       <Form.Label>Program Option</Form.Label>
-                      <Form.Select
-                        onChange={handleFormDataChange}
-                        name="programOption"
-                      >
+                      <Form.Select name="programOption">
                         <option hidden>Select Program Option</option>
                         <option value="PGDT">PGDT</option>
                         <option value="Diploma">Diploma</option>

@@ -28,29 +28,19 @@ export default () => {
   const { auth, authState } = useAuth();
   const [email, setEmail] = useState();
   const [showDefault, setShowDefault] = useState(false);
-  const [logbook, setLogbook] = useState(false);
+  const navigate = useNavigate();
   const { state } = useLocation();
-  const { id } = useParams();
+  const { type } = useParams();
 
   useEffect(() => {
-    if (id === "logbook") {
-      setLogbook(true);
-    }
-  }, [id]);
+    if (authState?.login && type == "logbook")
+      navigate(Router.Practicum.path, {
+        state: state,
+        replace: true,
+      });
+  }, [authState?.login]);
 
   const handleClose = () => setShowDefault(false);
-
-  const tempSignup = (data, state) => {
-    axios
-      .post("/auth/temp", data, { withCredentials: true })
-      .then((res) => {
-        console.log(res?.data);
-      })
-      .catch((err) => {
-        const payload = err.response ? err.response?.data : "COULD NOT CONNECT";
-        console.log(payload);
-      });
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -64,8 +54,9 @@ export default () => {
       return;
     }
     setEmail(data.email);
-    if (logbook) {
-      tempSignup(data, state);
+
+    if (type == "logbook") {
+      auth.signup(data, state, type);
       return;
     }
     auth.signup(data, state);
@@ -123,10 +114,10 @@ export default () => {
                 <div className="text-center text-md-center mb-4 mt-md-0">
                   <h3 className="mb-0">Create an account</h3>
                 </div>
-                {logbook ? (
+                {type == "logbook" ? (
                   <Form id="signup" className="mt-4" onSubmit={handleSubmit}>
                     <Form.Group id="full-name" className="mb-4">
-                      <Form.Label>Full Nmae</Form.Label>
+                      <Form.Label>Full Name</Form.Label>
                       <InputGroup>
                         <InputGroup.Text>
                           <FontAwesomeIcon icon={faUser} />
@@ -197,6 +188,21 @@ export default () => {
                   </Form>
                 ) : (
                   <Form id="signup" className="mt-4" onSubmit={handleSubmit}>
+                    <Form.Group id="fullName" className="mb-4">
+                      <Form.Label>Fullname</Form.Label>
+                      <InputGroup>
+                        <InputGroup.Text>
+                          <FontAwesomeIcon icon={faUser} />
+                        </InputGroup.Text>
+                        <Form.Control
+                          name="fullName"
+                          autoFocus
+                          required
+                          type="text"
+                          placeholder="Enter Fullname"
+                        />
+                      </InputGroup>
+                    </Form.Group>
                     <Form.Group id="email" className="mb-4">
                       <Form.Label>Your Email</Form.Label>
                       <InputGroup>

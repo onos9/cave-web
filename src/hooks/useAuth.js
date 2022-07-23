@@ -27,10 +27,10 @@ const useAuth = () => {
   };
 
   const auth = {
-    signup: (user, state) => {
+    signup: (user, state, type) => {
       dispatchLoading();
       axios
-        .put("/auth", user)
+        .put(`/auth/${type}`, user)
         .then((res) => {
           dispatchSuccess(res);
           if (state) navigate(state.pathname, { state: state, replace: true });
@@ -46,7 +46,7 @@ const useAuth = () => {
         .post("/auth", user)
         .then((res) => {
           dispatchSuccess(res);
-          navigate(Router.Dashboard.path, {
+          navigate(state?.route, {
             state: state,
             replace: true,
           });

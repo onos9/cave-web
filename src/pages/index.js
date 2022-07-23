@@ -96,7 +96,7 @@ export default () => {
         <Route path={Router.Watch.path} element={<Watch />} />
         <Route path={`${Router.Signin.path}/:id`} element={<Signin />} />
         <Route path={`${Router.Downloads.path}/:id`} element={<Downloads />} />
-        <Route path={`${Router.Signup.path}/:id`} element={<Signup />} />
+        <Route path={`${Router.Signup.path}/:type`} element={<Signup />} />
         <Route path={Router.Practicum.path} element={<Practicum />} />
         <Route path={Router.ForgotPassword.path} element={<ForgotPassword />} />
         <Route path={Router.ResetPassword.path} element={<ResetPassword />} />

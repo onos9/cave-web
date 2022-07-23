@@ -192,9 +192,9 @@ export default (props = {}) => {
             </div>
             <Nav className="flex-column pt-3 pt-md-0">
               <NavItem
-                hide={hidden(Router.Presentation.allowedRoles)}
+                hide={hidden(Router.Dashboard.allowedRoles)}
                 title=""
-                link={Router.Presentation.path}
+                link={Router.Dashboard.path}
                 image={ReactHero}
               />
               <NavItem

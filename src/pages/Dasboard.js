@@ -45,7 +45,7 @@ export default () => {
   }, []);
 
   useEffect(() => {
-    console.log(logBookState?.list);
+    // console.log(logBookState?.list);
     if (logBookState) {
       //console.log(logBookState?.list);
       setLogBookList(logBookState?.list);

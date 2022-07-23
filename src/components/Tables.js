@@ -47,14 +47,14 @@ export const EnrollmentTable = () => {
 
   useEffect(() => {
     if (logBookState) {
-      console.log(logBookState?.list);
+      // console.log(logBookState?.list);
       setLogBookList(logBookState?.list);
       setTableLength(logBookState?.list.length);
     }
   }, [logBookState]);
 
   const TableRow = (props) => {
-    const { fullName, matricNumber, book, created_at } = props;
+    const { fullName, matricNumber, email, programOption, created_at } = props;
     const status = "Pending";
     const statusVariant =
       status === "Accepted"
@@ -73,10 +73,13 @@ export const EnrollmentTable = () => {
           </Card.Link>
         </td>
         <td>
+          <span className="fw-normal">{email}</span>
+        </td>
+        <td>
           <span className="fw-normal">{matricNumber}</span>
         </td>
         <td>
-          <span className="fw-normal">{book}</span>
+          <span className="fw-normal">{programOption}</span>
         </td>
         <td>
           <span className="fw-normal">{moment(created_at).fromNow()}</span>
@@ -120,10 +123,11 @@ export const EnrollmentTable = () => {
           <thead>
             <tr>
               <th className="border-bottom">Full Name</th>
+              <th className="border-bottom">Email</th>
               <th className="border-bottom">Matric Number</th>
-              <th className="border-bottom">Book Read</th>
-              <th className="border-bottom">Time</th>
+              <th className="border-bottom">Program Option</th>
               <th className="border-bottom">Status</th>
+              <th className="border-bottom">Time</th>
               <th className="border-bottom">Action</th>
             </tr>
           </thead>
