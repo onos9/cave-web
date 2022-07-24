@@ -14,11 +14,9 @@ import {
   Dropdown,
   Row,
   Card,
-} from "@themesberg/react-bootstrap";
-import {
   Badge,
   ListGroup,
-} from "react-bootstrap";
+} from "@themesberg/react-bootstrap";
 import React, { useRef, useEffect } from "react";
 import { GeneralInfoForm } from "../components/Forms";
 import { ChoosePhotoWidget, ProfileCardWidget } from "../components/Widgets";
@@ -42,7 +40,7 @@ export default () => {
       return () => (apiCall.current = true);
     }
   }, []);
-  
+
 
   return (
     <>

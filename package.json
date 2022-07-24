@@ -43,7 +43,6 @@
     "moment-timezone": "^0.5.31",
     "node-sass": "^7.0.1",
     "react": "^16.14.0",
-    "react-bootstrap": "^2.4.0",
     "react-chartist": "^0.14.4",
     "react-copy-to-clipboard": "^5.0.3",
     "react-datetime": "^3.0.4",
