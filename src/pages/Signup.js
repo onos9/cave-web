@@ -168,6 +168,9 @@ export default () => {
                         <option hidden>Select Program Option</option>
                         <option value="PGDT">PGDT</option>
                         <option value="Diploma">Diploma</option>
+                        <option value="Returning Student">
+                          Returning Student
+                        </option>
                       </Form.Select>
                     </Form.Group>
                     <Form.Group id="password" className="mb-4">
