@@ -51,7 +51,9 @@ export default () => {
         (logBook) => logBook?.status == "Open"
       );
       setCurrentLogBook(curr?.length == 1 ? curr[0] : logBookState?.logBook);
-      if (curr?.length == 1) navigate(`${Router.Practicum.path}/logbook`);
+      console.log(curr);
+      if (curr?.length == 1 || !!logBookState?.logBook)
+        navigate(`${Router.Practicum.path}/logbook`);
     }
 
     if (!authState?.login && authState)
