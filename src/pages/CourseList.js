@@ -30,6 +30,10 @@ export default () => {
     setUserList(userState?.list?.filter((user) => user.role === "student"));
   }, [userState?.list]);
 
+  const handleCloseAll = () => {
+    
+  }
+
   return (
     <>
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
@@ -51,8 +55,12 @@ export default () => {
         </div>
         <div className="btn-toolbar mb-2 mb-md-0">
           <ButtonGroup>
-            <Button variant="outline-primary" size="sm">
-              Share
+            <Button
+              onClick={handleCloseAll}
+              variant="outline-primary"
+              size="sm"
+            >
+              Close All
             </Button>
             <Button variant="outline-primary" size="sm">
               Export
@@ -83,7 +91,10 @@ export default () => {
                   <FontAwesomeIcon icon={faCog} />
                 </span>
               </Dropdown.Toggle>
-              <Dropdown.Menu className="dropdown-menu-xs dropdown-menu-right" align="xl:left">
+              <Dropdown.Menu
+                className="dropdown-menu-xs dropdown-menu-right"
+                align="xl:left"
+              >
                 <Dropdown.Item className="fw-bold text-dark">
                   Show
                 </Dropdown.Item>

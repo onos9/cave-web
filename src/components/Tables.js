@@ -51,14 +51,7 @@ export const EnrollmentTable = (props) => {
     id,
     created_at,
   }) => {
-    const statusVariant =
-      status === "Accepted"
-        ? "success"
-        : status === "Pending"
-        ? "warning"
-        : status === "Reject"
-        ? "danger"
-        : "primary";
+    const statusVariant = status === "Open" ? "success" : "danger";
 
     return (
       <tr>
@@ -77,7 +70,7 @@ export const EnrollmentTable = (props) => {
           <span className="fw-normal">{courseCode}</span>
         </td>
         <td>
-          <span className="fw-normal">{group}</span>
+          <span className="fw-normal">{`Group ${group}`}</span>
         </td>
         <td>
           <span className={`fw-normal text-${statusVariant}`}>{status}</span>
