@@ -1,26 +1,29 @@
 import {
-  faBoxOpen, faChevronDown,
-  faClipboard, faRocket
-} from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+  faBoxOpen,
+  faChevronDown,
+  faClipboard,
+  faRocket,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
   Card,
   Col,
-  Dropdown, Row, Table
-} from "@themesberg/react-bootstrap"
-import moment from "moment-timezone"
-import React, { useEffect, useRef } from "react"
-import { useLocation, useParams, useSearchParams } from "react-router-dom"
-import {
-  ProfileCardWidget
-} from "../components/Widgets"
-import useLogBook from "../hooks/useLogBook"
+  Dropdown,
+  Row,
+  Table,
+} from "@themesberg/react-bootstrap";
+import moment from "moment-timezone";
+import React, { useEffect, useRef, useState } from "react";
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
+import { ProfileCardWidget } from "../components/Widgets";
+import useLogBook from "../hooks/useLogBook";
 
 export default () => {
   const { logBook, logBookState } = useLogBook();
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [logs, setLogs] = useState("evangelism");
   const { id } = useParams();
   const apiCall = useRef(false);
   const user = JSON.parse(searchParams.get("user"));
@@ -31,6 +34,11 @@ export default () => {
       return () => (apiCall.current = true);
     }
   }, []);
+
+  const handleMenuSelect = (eventkey) => {
+    console.log(logBookState);
+    setLogs(eventkey);
+  };
 
   const Evangelism = ({ list }) => {
     console.log(list);
@@ -46,6 +54,8 @@ export default () => {
     };
     return (
       <>
+        <h4 className="pt-4 mb-4">Evangelism</h4>
+        {/* <p className="mb-0">Student Practicum loogbook for PGDT and Diploma</p> */}
         {list?.map((evangelism, i) => (
           <Card
             key={`evang-${i}`}
@@ -53,11 +63,14 @@ export default () => {
             className="pt-4 mb-4 table-wrapper table-responsive shadow-sm"
           >
             <Card.Body border="light" className="shadow-sm">
-              <Card.Header className="border-bottom border-light d-flex justify-content-between">
-                {moment(evangelism?.date).fromNow()}
-                <p>{evangelism?.location}</p>
-              </Card.Header>
-              <Table hover className="user-table align-items-center">
+              <Card.Title>
+                {moment(evangelism?.date).format("MMMM d, YYYY")}
+              </Card.Title>
+              <p>{evangelism?.location}</p>
+              <Table
+                hover
+                className="border-top border-bottom border-light mb-3 user-table align-items-center"
+              >
                 <thead>
                   <tr>
                     <th className="border-bottom">Name</th>
@@ -72,10 +85,11 @@ export default () => {
                   ))}
                 </tbody>
               </Table>
-              <p className="float-end text-info">
-                Total: {evangelism?.convertInfo?.length}
+              <p className="float-end text-dark mb-3">
+                Total Convert: {evangelism?.convertInfo?.length}
               </p>
-              <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
+              <Card.Footer className="border-0 d-flex flex-column">
+                <p className="lead">Testimonies</p>
                 <p>{evangelism?.testimonies}</p>
               </Card.Footer>
             </Card.Body>
@@ -87,26 +101,25 @@ export default () => {
   const Prayer = ({ list }) => {
     return (
       <>
+        <h4 className="pt-4 mb-4">Prayer</h4>
+        {/* <p className="mb-0">Student Practicum loogbook for PGDT and Diploma</p> */}
         {list?.map((prayer, i) => (
           <Card
             key={`pry-${i}`}
             border="light"
             className="pt-4 mb-4 table-wrapper table-responsive shadow-sm"
           >
-            <Card.Body className="pt-0">
-              <Card.Title className="m-4 mb-0">Prayer Walk</Card.Title>
-              <p>{moment(created_at).fromNow()}</p>
-              <Table hover className="user-table align-items-center">
-                <thead>
-                  <tr className="border-bottom">Description</tr>
-                </thead>
-                <tbody>
-                  <tr className="border-bottom">{prayer?.description}</tr>
-                </tbody>
-              </Table>
-              <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
-                <p>{""}</p>
-              </Card.Footer>
+            <Card.Body border="light" className="shadow-sm">
+              <Card.Title>
+                {moment(prayer?.date).format("MMMM d, YYYY")}
+              </Card.Title>
+              {console.log(prayer?.date)}
+              <p className="border-bottom border-light pb-1">
+                {prayer?.location}
+              </p>
+
+              <p className="lead">Description</p>
+              <Card.Text>{prayer?.description}</Card.Text>
             </Card.Body>
           </Card>
         ))}
@@ -117,6 +130,8 @@ export default () => {
   const Exercise = ({ list }) => {
     return (
       <>
+        <h4 className="pt-4 mb-4">Exercise</h4>
+        {/* <p className="mb-0">Student Practicum loogbook for PGDT and Diploma</p> */}
         {list?.map((exercise, i) => (
           <Card
             key={`exe-${i}`}
@@ -124,37 +139,68 @@ export default () => {
             className="pt-4 mb-4 table-wrapper table-responsive shadow-sm"
           >
             <Card.Body className="pt-0">
-              <Card.Title className="m-4 mb-0">Daily Exercise</Card.Title>
+              <Card.Title>Daily Exercise</Card.Title>
               <p>{exercise?.day}</p>
 
               <Table hover className="user-table align-items-center">
-                <thead>
-                  <tr className="border-bottom">
-                    <th className="border-0" style={{ width: "5%" }}>
-                      Start Chapter
-                    </th>
-                    <th className="border-0" style={{ width: "5%" }}>
-                      Start Chapter
-                    </th>
-                    <th className="border-0" style={{ width: "5%" }}>
-                      End Chapter
-                    </th>
-                  </tr>
-                </thead>
                 <tbody>
                   <tr className="border-bottom">
                     <td className="border-0" style={{ width: "5%" }}>
-                      <code>{exercise?.chapters}</code>
+                      Number of Chapters
                     </td>
                     <td className="border-0" style={{ width: "5%" }}>
-                      <code>{exercise?.startChapter}</code>
+                      {exercise?.chapters}
+                    </td>
+                  </tr>
+                  <tr className="border-bottom">
+                    <td className="border-0" style={{ width: "5%" }}>
+                      Start Chapter
                     </td>
                     <td className="border-0" style={{ width: "5%" }}>
-                      <code>{exercise?.endChapter}</code>
+                      {exercise?.startChapter}
+                    </td>
+                  </tr>
+                  <tr className="border-bottom">
+                    <td className="border-0" style={{ width: "5%" }}>
+                      End Chapter
+                    </td>
+                    <td className="border-0" style={{ width: "5%" }}>
+                      {exercise?.endChapter}
+                    </td>
+                  </tr>
+                  <tr className="border-bottom">
+                    <td className="border-0" style={{ width: "5%" }}>
+                      Tongue Exercise
+                    </td>
+                    <td className="border-0" style={{ width: "5%" }}>
+                      {exercise?.prayerTime}
+                    </td>
+                  </tr>
+                  <tr className="border-bottom">
+                    <td className="border-0" style={{ width: "5%" }}>
+                      Book Title
+                    </td>
+                    <td className="border-0" style={{ width: "5%" }}>
+                      {exercise?.bookTitle}
+                    </td>
+                  </tr>
+                  <tr className="border-bottom">
+                    <td className="border-0" style={{ width: "5%" }}>
+                      Book Author
+                    </td>
+                    <td className="border-0" style={{ width: "5%" }}>
+                      {exercise?.author}
+                    </td>
+                  </tr>
+                  <tr className="border-bottom">
+                    <td className="border-0" style={{ width: "5%" }}>
+                      Number of Pages Read
+                    </td>
+                    <td className="border-0" style={{ width: "5%" }}>
+                      {exercise?.noPages}
                     </td>
                   </tr>
                 </tbody>
-                <tfoot></tfoot>
               </Table>
 
               <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
@@ -171,7 +217,7 @@ export default () => {
     <>
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
         <div className="d-flex">
-          <Dropdown>
+          <Dropdown onSelect={handleMenuSelect}>
             <Dropdown.Toggle as={Button} variant="primary">
               <FontAwesomeIcon icon={faClipboard} className="me-2" /> Logs
               <span className="icon icon-small ms-1">
@@ -179,20 +225,20 @@ export default () => {
               </span>
             </Dropdown.Toggle>
             <Dropdown.Menu className="dashboard-dropdown dropdown-menu-left mt-1">
-              <Dropdown.Item>
+              <Dropdown.Item eventKey="evangelism">
                 <FontAwesomeIcon icon={faBoxOpen} className="me-2" /> Evangelism
               </Dropdown.Item>
 
               <Dropdown.Divider />
 
-              <Dropdown.Item>
+              <Dropdown.Item eventKey="prayer">
                 <FontAwesomeIcon
                   icon={faRocket}
                   className="text-success me-2"
                 />
                 Prayer Walk
               </Dropdown.Item>
-              <Dropdown.Item>
+              <Dropdown.Item eventKey="exercise">
                 <FontAwesomeIcon
                   icon={faRocket}
                   className="text-success me-2"
@@ -206,7 +252,13 @@ export default () => {
 
       <Row>
         <Col xs={12} xl={8}>
-          <Evangelism list={logBookState?.logBook?.evangelism} />
+          {logs == "evangelism" ? (
+            <Evangelism list={logBookState?.logBook?.evangelism} />
+          ) : logs == "prayer" ? (
+            <Prayer list={logBookState?.logBook?.prayer} />
+          ) : (
+            <Exercise list={logBookState?.logBook?.exercise} />
+          )}
         </Col>
 
         <Col xs={12} xl={4}>

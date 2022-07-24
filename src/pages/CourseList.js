@@ -83,7 +83,7 @@ export default () => {
                   <FontAwesomeIcon icon={faCog} />
                 </span>
               </Dropdown.Toggle>
-              <Dropdown.Menu className="dropdown-menu-xs dropdown-menu-right">
+              <Dropdown.Menu className="dropdown-menu-xs dropdown-menu-right" align="xl:left">
                 <Dropdown.Item className="fw-bold text-dark">
                   Show
                 </Dropdown.Item>
