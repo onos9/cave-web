@@ -59,7 +59,7 @@ export default () => {
         (logBook) => logBook?.reviewed == false
       );
       setCurrentLogBook(!!curr ? curr[0] : logBookState?.logBook);
-      console.log(logBookState);
+      // console.log(logBookState);
     }
     if (authState?.login && !logBookState)
       logBook.getOneByUserId(authState?.user.id);
@@ -99,8 +99,8 @@ export default () => {
 
     if (!logbook) {
       data.userID = authState?.user.id;
-      data.status = "Pending";
-      // data.role = "student";
+      data.status = "Open";
+      data.role = "student";
       logBook.create(data);
       return;
     }
@@ -235,7 +235,7 @@ export default () => {
                         </div>
                         <hr />
                         <Row>
-                          <Col
+                          {/* <Col
                             xs={4}
                             className="align-items-center justify-content-center"
                           >
@@ -253,7 +253,7 @@ export default () => {
                                 />
                               </InputGroup>
                             </Form.Group>
-                          </Col>
+                          </Col> */}
                           <Col
                             xs={4}
                             className="align-items-center justify-content-center"

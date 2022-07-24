@@ -13,7 +13,7 @@ const RequireAuth = ({ allowedRoles }) => {
     <Outlet />
   ) : !authState?.login ? (
     <Navigate
-      to={!state?.route ? `${Router.Signin.path}/user` : `/${state.route}`}
+      to={!state?.route ? `${Router.Signin.path}/user` : `/${state?.route}`}
       state={{ from: location }}
     />
   ) : authState?.user ? (
