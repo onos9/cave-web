@@ -185,7 +185,7 @@ export default () => {
   return (
     <main>
       <Alert
-        className="m-4 w-25 position-absolute top-0 end-0 fade-in-right"
+        className="m-4 w-25 position-fixed top-0 end-0 fade-in-right"
         show={showAlert}
         variant="success"
       >

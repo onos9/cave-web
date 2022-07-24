@@ -31,7 +31,7 @@ export default (props = {}) => {
   const { pathname } = location;
   const [show, setShow] = useState(false);
   const showClass = show ? "show" : "";
-  
+
   const hidden = (allowedRoles) =>
     allowedRoles?.includes(authState?.user?.role);
 
@@ -209,6 +209,7 @@ export default (props = {}) => {
                 to={""}
                 variant="secondary"
                 className="upgrade-to-pro"
+                onClick={() => auth.signout()}
               >
                 <FontAwesomeIcon icon={faSignOutAlt} className="me-1" /> Sign
                 Out
