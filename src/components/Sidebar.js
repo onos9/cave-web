@@ -1,40 +1,29 @@
-import React, { useState } from "react";
-import SimpleBar from "simplebar-react";
-import { useLocation } from "react-router-dom";
-import { CSSTransition } from "react-transition-group";
+import {
+  faBookReader,
+  faChartPie,
+  faFileAlt,
+  faSignOutAlt,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faBook,
-  faBoxOpen,
-  faChartPie,
-  faCog,
-  faFileAlt,
-  faHandHoldingUsd,
-  faSignOutAlt,
-  faTable,
-  faTimes,
-  faCalendarAlt,
-  faMapPin,
-  faInbox,
-  faRocket,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
-import {
-  Nav,
+  Accordion,
   Badge,
-  Image,
   Button,
   Dropdown,
-  Accordion,
+  Image,
+  Nav,
   Navbar,
 } from "@themesberg/react-bootstrap";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { CSSTransition } from "react-transition-group";
+import SimpleBar from "simplebar-react";
 
-import { Router } from "../router";
-import ThemesbergLogo from "../assets/img/themesberg.svg";
 import ReactHero from "../assets/img/cave-hero-logo.svg";
 import ProfilePicture from "../assets/img/team/profile-picture-3.jpg";
 import useAuth from "../hooks/useAuth";
+import { Router } from "../router";
 
 export default (props = {}) => {
   const { auth, authState } = useAuth();
@@ -42,11 +31,9 @@ export default (props = {}) => {
   const { pathname } = location;
   const [show, setShow] = useState(false);
   const showClass = show ? "show" : "";
-  const hidden = (allowedRoles) => {
-    const isShow = allowedRoles?.includes(authState?.user?.role);
-    // console.log(isShow);
-    return isShow;
-  };
+  
+  const hidden = (allowedRoles) =>
+    allowedRoles?.includes(authState?.user?.role);
 
   const onCollapse = () => setShow(!show);
 
@@ -205,13 +192,13 @@ export default (props = {}) => {
               />
               <Dropdown.Divider className="my-3 border-indigo" />
               <CollapsableNavItem
-                hide={hidden(Router.CourseList.allowedRoles)}
+                hide={hidden(Router.Dashboard.allowedRoles)}
                 eventKey="courses/"
                 title="Courses"
                 icon={faFileAlt}
               >
                 <NavItem
-                  hide={hidden(Router.CourseList.allowedRoles)}
+                  hide={hidden(Router.Dashboard.allowedRoles)}
                   title="Practicum"
                   link={Router.CourseList.path}
                 />

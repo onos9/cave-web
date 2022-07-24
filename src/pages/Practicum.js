@@ -46,24 +46,25 @@ export default () => {
   const { logbook } = useParams();
 
   useEffect(() => {
-    if (logBookState?.success) navigate(`${Router.Practicum.path}/logbook`);
+    if (logBookState?.success) {
+      const curr = logBookState?.list?.filter(
+        (logBook) => logBook?.status == "Open"
+      );
+      setCurrentLogBook(curr?.length == 1 ? curr[0] : logBookState?.logBook);
+      if (curr?.length == 1) navigate(`${Router.Practicum.path}/logbook`);
+    }
 
     if (!authState?.login && authState)
       navigate(`${Router.Signin.path}/logbook`);
 
-    if (authState?.login && !logbook)
-      setTabKey(logbook ? "evangelism" : "logbook");
-
-    if (logBookState?.success) {
-      const curr = logBookState?.logBooks?.filter(
-        (logBook) => logBook?.reviewed == false
-      );
-      setCurrentLogBook(!!curr ? curr[0] : logBookState?.logBook);
-      // console.log(logBookState);
-    }
     if (authState?.login && !logBookState)
       logBook.getOneByUserId(authState?.user.id);
+    console.log(logBookState);
   }, [logBookState, authState?.login]);
+
+  useEffect(() => {
+    setTabKey(logbook ? "evangelism" : "logbook");
+  }, [logbook]);
 
   const handleTabSelection = (key) => setTabKey(key);
   const handleSignOut = () =>

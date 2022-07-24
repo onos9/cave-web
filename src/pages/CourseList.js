@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCheck,
@@ -22,10 +22,12 @@ import useUser from "../hooks/useUser";
 
 export default () => {
   const { user, userState } = useUser();
+  const [userList, setUserList] = useState();
 
   useEffect(() => {
     const isUsers = !!userState?.list;
     if (!isUsers) user.getAll();
+    setUserList(userState?.list?.filter((user) => user.role === "student"));
   }, [userState?.list]);
 
   return (
@@ -98,9 +100,9 @@ export default () => {
           </Col>
         </Row>
       </div>
-      {userState?.list ? (
+      {userList ? (
         <div>
-          {userState?.list.map((user) => (
+          {userList?.map((user) => (
             <EnrollmentTable key={`user-${user.id}`} {...user} />
           ))}
         </div>

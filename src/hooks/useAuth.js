@@ -33,6 +33,7 @@ const useAuth = () => {
         .put(`/auth/${type}`, user)
         .then((res) => {
           dispatchSuccess(res);
+          console.log(state.pathname);
           if (state) navigate(state.pathname, { state: state, replace: true });
         })
         .catch((err) => {

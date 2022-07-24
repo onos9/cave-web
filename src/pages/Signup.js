@@ -55,7 +55,9 @@ export default () => {
     }
     setEmail(data.email);
 
-    if (type == "logbook") {
+    if (type == "logbook")
+    {
+      data.role = "student"
       auth.signup(data, state, type);
       return;
     }
