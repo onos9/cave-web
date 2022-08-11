@@ -28,6 +28,7 @@ export default () => {
     const isUsers = !!userState?.list;
     if (!isUsers) user.getAll();
     setUserList(userState?.list?.filter((user) => user.role === "student"));
+
   }, [userState?.list]);
 
   const handleCloseAll = () => {

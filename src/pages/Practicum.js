@@ -19,7 +19,7 @@ import {
   Tab,
 } from "@themesberg/react-bootstrap";
 import moment from "moment-timezone";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Datetime from "react-datetime";
 import { useNavigate, useParams } from "react-router-dom";
 import BgImage from "../assets/img/illustrations/signin.svg";
@@ -31,7 +31,6 @@ import { Router } from "../router";
 export default () => {
   const { logBook, logBookState } = useLogBook();
   const { auth, authState } = useAuth();
-  const [email, setEmail] = useState();
   const [tabKey, setTabKey] = useState("logbook");
   const [showDefault, setShowDefault] = useState(false);
   const [temp, setTemp] = useState({});
@@ -44,31 +43,68 @@ export default () => {
   const [currentLogBook, setCurrentLogBook] = useState();
   const navigate = useNavigate();
   const { logbook } = useParams();
+  const ref = useRef(false);
 
   useEffect(() => {
     if (logBookState?.success) {
-      const curr = logBookState?.list?.filter(
-        (logBook) => logBook?.status == "Open"
-      );
-      setCurrentLogBook(curr?.length == 1 ? curr[0] : logBookState?.logBook);
-      console.log(curr);
-      if (curr?.length == 1 || !!logBookState?.logBook)
+      const current = logBookState?.list?.filter(
+        ({ status }) => status === "Open"
+      )[0];
+      let logs = !!current ? current : logBookState?.logBook;
+      setCurrentLogBook(logs);
+      if (!!logs)
+        logs.status =
+          logs?.evangelism?.length >= 3 &&
+          logs?.prayer?.length >= 3 &&
+          logs?.exercise?.length >= 5
+            ? "Closed"
+            : "Open";
+
+      if (logs?.status == "Closed") {
+        delete logs?.evangelism;
+        delete logs?.prayer;
+        delete logs?.exercise;
+        logBook.updateOne(logs, logs?.id);
+        navigate(`${Router.Practicum.path}`);
+      }
+      console.log(logBookState);
+
+      if (!!logs && logs?.status == "Open" && !logbook)
         navigate(`${Router.Practicum.path}/logbook`);
     }
-
-    if (!authState?.login && authState)
-      navigate(`${Router.Signin.path}/logbook`);
-
-    if (authState?.login && !logBookState)
-      logBook.getOneByUserId(authState?.user.id);
-    console.log(logBookState);
-  }, [logBookState, authState?.login]);
+  }, [logBookState]);
 
   useEffect(() => {
-    setTabKey(logbook ? "evangelism" : "logbook");
-  }, [logbook]);
+    if (!authState?.login && authState && !logbook)
+      navigate(`${Router.Signin.path}/logbook`);
 
-  const handleTabSelection = (key) => setTabKey(key);
+    if (!ref.current && !logBookState && authState?.login) {
+      logBook.getAllByUserId(authState?.user.id);
+      return () => (ref.current = true);
+    }
+  }, [authState?.login]);
+
+  useEffect(() => {
+    const key = logbook ? "evangelism" : "logbook";
+    if (!!currentLogBook) handleTabSelection(key);
+    setTabKey(key);
+  }, [logbook, currentLogBook]);
+
+  const handleTabSelection = (key) => {
+    const maxLog = key === "exercise" ? 5 : 3;
+    const alertType = key[0].toUpperCase() + key.slice(1);
+    if (currentLogBook?.[key]?.length >= maxLog && key != "logbook") {
+      let elements = document.forms[key]?.elements;
+      let len = elements.length;
+      while (len--) elements[len].disabled = true;
+      setAlertTitle(`${alertType} is completed!`);
+      setAlertMessage(`Complete other logbooks`);
+      setShowAlert(true);
+      setTimeout(() => setShowAlert(false), 7000);
+    }
+    setTabKey(key);
+  };
+
   const handleSignOut = () =>
     auth.signout(authState?.user, { params: "logbook" });
 
@@ -140,13 +176,13 @@ export default () => {
       };
     }
 
+    const alertType = tabKey[0].toUpperCase() + tabKey.slice(1);
     logBook.updateOne(data, currentLogBook?.id);
 
-    const alertType = tabKey[0].toUpperCase() + tabKey.slice(1);
     setAlertTitle(`${alertType} updated successfully!`);
     setAlertMessage(`Add more if any`);
     setShowAlert(true);
-    setTimeout(() => setShowAlert(false), 3000);
+    setTimeout(() => setShowAlert(false), 7000);
 
     setDate({});
     setFormData({});
@@ -192,7 +228,7 @@ export default () => {
         variant="success"
       >
         <Alert.Heading>{alertTitle}</Alert.Heading>
-        <p>{alertMessage}</p>
+        <p className="lead fw-bold">{alertMessage}</p>
       </Alert>
       <section className="d-flex align-items-center my-5 mt-lg-6 mb-lg-5">
         <Container>

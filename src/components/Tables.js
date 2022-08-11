@@ -38,10 +38,12 @@ export const EnrollmentTable = (props) => {
 
   useEffect(() => {
     if (apiCall.current === false) {
-      logBook.getAll();
+      logBook.getAllByUserId(props?.id);
+
       return () => (apiCall.current = true);
     }
-  }, []);
+    console.log(logBookState);
+  }, [logBookState]);
 
   const TableRow = ({
     courseCode,
@@ -113,7 +115,7 @@ export const EnrollmentTable = (props) => {
       className="pt-4 mb-4 table-wrapper table-responsive shadow-sm"
     >
       <Card.Body className="pt-0">
-        <Card.Title>{props.fullName}</Card.Title>
+        <Card.Title>{props?.fullName}</Card.Title>
         <Table hover className="user-table align-items-center">
           <thead>
             <tr>

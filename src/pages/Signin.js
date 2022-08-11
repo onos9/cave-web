@@ -51,11 +51,8 @@ export default () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formData = new FormData(document.forms.signin);
-    let data = {};
-    for (var key of formData.keys()) {
-      data = { ...data, [key]: formData.get(key) };
-    }
+    const formData = new FormData(e.target);
+    let data = Object.fromEntries(formData);
 
     const toRoute = logbook ? Router.Practicum.path : Router.Dashboard.path;
     setRoute(toRoute);

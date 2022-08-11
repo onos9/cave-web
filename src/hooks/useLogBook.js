@@ -50,7 +50,7 @@ const useLogBook = () => {
         });
     },
 
-    getOneByUserId: (id, state) => {
+    getAllByUserId: (id, state) => {
       dispatchLoading();
       axios
         .get(`/logBook/user/${id}`)

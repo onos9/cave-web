@@ -36,7 +36,7 @@ export default () => {
   }, []);
 
   const handleMenuSelect = (eventkey) => {
-    console.log(logBookState);
+    // console.log(logBookState);
     setLogs(eventkey);
   };
 
@@ -64,7 +64,7 @@ export default () => {
           >
             <Card.Body border="light" className="shadow-sm">
               <Card.Title>
-                {moment(evangelism?.date).format("MMMM d, YYYY")}
+                {moment(new Date(evangelism?.date)).format("MMMM d, YYYY")}
               </Card.Title>
               <p>{evangelism?.location}</p>
               <Table
@@ -111,7 +111,7 @@ export default () => {
           >
             <Card.Body border="light" className="shadow-sm">
               <Card.Title>
-                {moment(prayer?.date).format("MMMM d, YYYY")}
+                {moment(new Date(prayer?.date)).format("MMMM d, YYYY")}
               </Card.Title>
               {console.log(prayer?.date)}
               <p className="border-bottom border-light pb-1">
