@@ -264,7 +264,10 @@ export default () => {
         <Col xs={12} xl={4}>
           <Row>
             <Col xs={12}>
-              <ProfileCardWidget user={user} />
+              <ProfileCardWidget
+                id={logBookState?.logBook?.id}
+                user={user}
+              />
             </Col>
             <Col xs={12}>
               {/* <ChoosePhotoWidget

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -13,6 +13,7 @@ import {
   faPaperclip,
   faUserPlus,
   faArrowRight,
+  faBook,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faAngular,
@@ -44,8 +45,29 @@ import ProfileCover from "../assets/img/profile-cover.jpg";
 import teamMembers from "../data/teamMembers";
 import useMailer from "../hooks/useMailer";
 import { Router } from "../router";
+import useLogBook from "../hooks/useLogBook";
 
-export const ProfileCardWidget = ({ user }) => {
+export const ProfileCardWidget = ({ user, id }) => {
+  const { logBook, logBookState } = useLogBook();
+  const [opening, setOpening] = useState(false);
+  const [closing, setClosing] = useState(false);
+
+  useEffect(() => {
+    if (logBookState?.success) {
+      setOpening(false);
+      setClosing(false);
+    }
+  }, [logBookState]);
+
+  const handleClose = (status) => {
+    logBook.updateOne({ status }, id);
+    setClosing(true);
+  };
+  const handleOpen = (status) => {
+    logBook.updateOne({ status }, id);
+    setOpening(true);
+  };
+
   return (
     <Card border="light" className="text-center p-0 mb-4">
       <div
@@ -62,13 +84,37 @@ export const ProfileCardWidget = ({ user }) => {
         <Card.Title>{user.fullName}</Card.Title>
         <Card.Subtitle className="fw-normal">{user.role}</Card.Subtitle>
         <Card.Text className="text-gray mb-4">{user.matricNumber}</Card.Text>
-
-        {/* <Button variant="primary" size="sm" className="me-2">
-          <FontAwesomeIcon icon={faUserPlus} className="me-1" /> Connect
+        <Button
+          onClick={() => handleClose("Closed")}
+          variant="primary"
+          size="sm"
+          className="me-2"
+          disabled={closing}
+        >
+          {closing && (
+            <span
+              className="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            ></span>
+          )}
+          {" Close"}
         </Button>
-        <Button variant="secondary" size="sm">
-          Send Message
-        </Button> */}
+        <Button
+          onClick={() => handleOpen("Open")}
+          variant="secondary"
+          size="sm"
+          disabled={opening}
+        >
+          {opening && (
+            <span
+              className="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            ></span>
+          )}
+          {" Open"}
+        </Button>
       </Card.Body>
     </Card>
   );

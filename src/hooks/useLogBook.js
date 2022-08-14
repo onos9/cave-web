@@ -86,6 +86,18 @@ const useLogBook = () => {
         });
     },
 
+    updateMany: (logBook) => {
+      dispatchLoading();
+      axios
+        .post(`/logBook/updates`, logBook)
+        .then((res) => {
+          dispatchSuccess(res);
+        })
+        .catch((err) => {
+          dispatchError(err);
+        });
+    },
+
     deleteOne: (data, id) => {
       dispatchLoading();
       axios

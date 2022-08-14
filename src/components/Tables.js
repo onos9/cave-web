@@ -34,16 +34,24 @@ import { Router } from "../router";
 
 export const EnrollmentTable = (props) => {
   const { logBook, logBookState } = useLogBook();
+  const [grouped, setGrouped] = useState();
   const apiCall = useRef(false);
 
   useEffect(() => {
-    if (apiCall.current === false) {
+    if (!apiCall.current) {
       logBook.getAllByUserId(props?.id);
 
       return () => (apiCall.current = true);
     }
+    let grouping = logBookState?.list;
+    if (Number(props?.group)) {
+      grouping = logBookState?.list?.filter(
+        ({ group }) => group === props?.group
+      );
+    }
+    setGrouped(grouping);
     console.log(logBookState);
-  }, [logBookState]);
+  }, [logBookState, props?.group]);
 
   const TableRow = ({
     courseCode,
@@ -110,51 +118,57 @@ export const EnrollmentTable = (props) => {
   };
 
   return (
-    <Card
-      border="light"
-      className="pt-4 mb-4 table-wrapper table-responsive shadow-sm"
-    >
-      <Card.Body className="pt-0">
-        <Card.Title>{props?.fullName}</Card.Title>
-        <Table hover className="user-table align-items-center">
-          <thead>
-            <tr>
-              <th className="border-bottom">Course Name</th>
-              <th className="border-bottom">Course Code</th>
-              <th className="border-bottom">Group</th>
-              <th className="border-bottom">Status</th>
-              <th className="border-bottom">Time</th>
-              <th className="border-bottom">Action</th>
-            </tr>
-          </thead>
-          {logBookState?.list ? (
-            <tbody>
-              {logBookState?.list.map((logbook) => (
-                <TableRow key={`enroll-${logbook.id}`} {...logbook} />
-              ))}
-            </tbody>
-          ) : null}
-        </Table>
-        <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
-          <Nav>
-            <Pagination className="mb-2 mb-lg-0">
-              <Pagination.Prev>Previous</Pagination.Prev>
-              <Pagination.Item active>1</Pagination.Item>
-              <Pagination.Item>2</Pagination.Item>
-              <Pagination.Item>3</Pagination.Item>
-              <Pagination.Item>4</Pagination.Item>
-              <Pagination.Item>5</Pagination.Item>
-              <Pagination.Next>Next</Pagination.Next>
-            </Pagination>
-          </Nav>
-          <small className="fw-bold">
-            Showing{" "}
-            <b>{logBookState?.list?.length ? logBookState?.list?.length : 0}</b>{" "}
-            out of <b>25</b> entries
-          </small>
-        </Card.Footer>
-      </Card.Body>
-    </Card>
+    <>
+      {grouped?.length ? (
+        <Card
+          border="light"
+          className="pt-4 mb-4 table-wrapper table-responsive shadow-sm"
+        >
+          <Card.Body className="pt-0">
+            <Card.Title>{props?.fullName}</Card.Title>
+            <Table hover className="user-table align-items-center">
+              <thead>
+                <tr>
+                  <th className="border-bottom">Course Name</th>
+                  <th className="border-bottom">Course Code</th>
+                  <th className="border-bottom">Group</th>
+                  <th className="border-bottom">Status</th>
+                  <th className="border-bottom">Time</th>
+                  <th className="border-bottom">Action</th>
+                </tr>
+              </thead>
+              {grouped ? (
+                <tbody>
+                  {grouped.map((logbook) => (
+                    <TableRow key={`enroll-${logbook.id}`} {...logbook} />
+                  ))}
+                </tbody>
+              ) : null}
+            </Table>
+            <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
+              <Nav>
+                <Pagination className="mb-2 mb-lg-0">
+                  <Pagination.Prev>Previous</Pagination.Prev>
+                  <Pagination.Item active>1</Pagination.Item>
+                  <Pagination.Item>2</Pagination.Item>
+                  <Pagination.Item>3</Pagination.Item>
+                  <Pagination.Item>4</Pagination.Item>
+                  <Pagination.Item>5</Pagination.Item>
+                  <Pagination.Next>Next</Pagination.Next>
+                </Pagination>
+              </Nav>
+              <small className="fw-bold">
+                Showing{" "}
+                <b>
+                  {logBookState?.list?.length ? logBookState?.list?.length : 0}
+                </b>{" "}
+                out of <b>25</b> entries
+              </small>
+            </Card.Footer>
+          </Card.Body>
+        </Card>
+      ) : null}
+    </>
   );
 };
 

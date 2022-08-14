@@ -47,30 +47,31 @@ export default () => {
 
   useEffect(() => {
     if (logBookState?.success) {
-      const current = logBookState?.list?.filter(
+      const current = logBookState?.list?.find(
         ({ status }) => status === "Open"
-      )[0];
+      );
       let logs = !!current ? current : logBookState?.logBook;
       setCurrentLogBook(logs);
-      if (!!logs)
-        logs.status =
-          logs?.evangelism?.length >= 3 &&
-          logs?.prayer?.length >= 3 &&
-          logs?.exercise?.length >= 5
-            ? "Closed"
-            : "Open";
+      console.log(logs);
 
-      if (logs?.status == "Closed") {
-        delete logs?.evangelism;
-        delete logs?.prayer;
-        delete logs?.exercise;
-        logBook.updateOne(logs, logs?.id);
-        navigate(`${Router.Practicum.path}`);
-      }
-      console.log(logBookState);
-
-      if (!!logs && logs?.status == "Open" && !logbook)
+      if (!logbook) {
         navigate(`${Router.Practicum.path}/logbook`);
+        return;
+      }
+
+      const status =
+        logs?.evangelism?.length >= 3 &&
+        logs?.prayer?.length >= 3 &&
+        logs?.exercise?.length >= 5
+          ? "Closed"
+          : "Open";
+      console.log({ status });
+
+      // if (status == "Closed") {
+      //   logBook.updateOne({ status }, logs?.id);
+      //   navigate(`${Router.Practicum.path}`);
+      //   setTabKey("logbook");
+      // }
     }
   }, [logBookState]);
 
@@ -91,17 +92,17 @@ export default () => {
   }, [logbook, currentLogBook]);
 
   const handleTabSelection = (key) => {
-    const maxLog = key === "exercise" ? 5 : 3;
-    const alertType = key[0].toUpperCase() + key.slice(1);
-    if (currentLogBook?.[key]?.length >= maxLog && key != "logbook") {
-      let elements = document.forms[key]?.elements;
-      let len = elements.length;
-      while (len--) elements[len].disabled = true;
-      setAlertTitle(`${alertType} is completed!`);
-      setAlertMessage(`Complete other logbooks`);
-      setShowAlert(true);
-      setTimeout(() => setShowAlert(false), 7000);
-    }
+    // const maxLog = key === "exercise" ? 5 : 3;
+    // const alertType = key[0].toUpperCase() + key.slice(1);
+    // if (currentLogBook?.[key]?.length >= maxLog && key != "logbook") {
+    //   let elements = document.forms[key]?.elements;
+    //   let len = elements.length;
+    //   while (len--) elements[len].disabled = true;
+    //   setAlertTitle(`${alertType} is completed!`);
+    //   setAlertMessage(`Complete other logbooks`);
+    //   setShowAlert(true);
+    //   setTimeout(() => setShowAlert(false), 7000);
+    // }
     setTabKey(key);
   };
 
@@ -222,14 +223,6 @@ export default () => {
 
   return (
     <main>
-      <Alert
-        className="m-4 w-25 position-fixed top-0 end-0 fade-in-right"
-        show={showAlert}
-        variant="success"
-      >
-        <Alert.Heading>{alertTitle}</Alert.Heading>
-        <p className="lead fw-bold">{alertMessage}</p>
-      </Alert>
       <section className="d-flex align-items-center my-5 mt-lg-6 mb-lg-5">
         <Container>
           {!!logbook ? (
@@ -263,10 +256,14 @@ export default () => {
                     </Nav.Item>
                   </Nav>
                   <Tab.Content>
+                    <Alert className="mt-4" show={showAlert} variant="success">
+                      <Alert.Heading>{alertTitle}</Alert.Heading>
+                      <p className="fw-bold">{alertMessage}</p>
+                    </Alert>
                     <Tab.Pane eventKey="evangelism" className="py-4">
                       <Form
                         id="evangelism"
-                        className="mt-4 justify-content-center"
+                        className=" justify-content-center"
                         onSubmit={handleSubmit}
                       >
                         <div className="text-left text-md-left mb-4 mt-md-0">

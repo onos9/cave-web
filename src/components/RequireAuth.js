@@ -6,20 +6,20 @@ import { Router } from "../router";
 
 const RequireAuth = ({ allowedRoles }) => {
   const { authState } = useAuth();
-  const { state } = useLocation();
+  const location = useLocation();
   const isRole = authState?.roles?.find((role) => allowedRoles?.includes(role));
 
   return isRole && authState?.login ? (
     <Outlet />
-  ) : !authState?.login ? (
+  ) : !authState?.login && authState ? (
     <Navigate
-      to={!state?.route ? `${Router.Signin.path}/user` : `/${state?.route}`}
+      to={`${Router.Signin.path}/user`}
       state={{ from: location }}
     />
   ) : authState?.user ? (
     <Navigate to="/unauthorized" state={{ from: location }} replace />
   ) : (
-    <Preloader show={authState?.loading} />
+    <Preloader show={!!authState} />
   );
 };
 
