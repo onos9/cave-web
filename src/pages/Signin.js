@@ -26,7 +26,7 @@ import { Router } from "../router";
 export default () => {
   const { auth, authState } = useAuth();
   const navigate = useNavigate();
-  const { state } = useLocation();
+  const { state, search } = useLocation();
   const [loaded, setLoaded] = useState(false);
   const [route, setRoute] = useState(Router.Dashboard.path);
   const [logbook, setLogbook] = useState(false);
@@ -38,16 +38,20 @@ export default () => {
 
     if (authState?.login) navigate(`${route}`);
 
-    if (userID) auth.verify(id);
-
     if (id == "logbook") setLogbook(true);
-
-    if (authState?.isVerified)
-      navigate(Router.Registration.path, { replace: true });
 
     const timer = setTimeout(() => setLoaded(true), 1000);
     return () => clearTimeout(timer);
-  }, [authState?.login, authState?.isVerified]);
+  }, [authState?.login]);
+
+  useEffect(() => {
+    if (search?.includes("reg_tk") && id == "register") {
+      const token = searchParams.get("reg_tk");
+      auth.verify(token);
+      if (authState?.isVerified)
+        navigate(Router.Registration.path, { replace: true });
+    }
+  }, [authState?.isVerified]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

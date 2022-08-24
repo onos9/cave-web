@@ -26,14 +26,14 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import BgImage from "../assets/img/illustrations/signin.svg";
 import useAuth from "../hooks/useAuth";
 import { Router } from "../router";
-import axios from "../api/axios";
 
 export default () => {
   const { auth, authState } = useAuth();
   const [email, setEmail] = useState();
   const [showDefault, setShowDefault] = useState(false);
   const navigate = useNavigate();
-  const { state } = useLocation();
+  const location = useLocation();
+  const state = location?.state;
   const { type } = useParams();
 
   useEffect(() => {
@@ -42,6 +42,14 @@ export default () => {
         state: state,
         replace: true,
       });
+
+    if (location && location?.search?.includes("token") && type == "register") {
+      navigate(Router.Registration.path, {
+        state: state,
+        replace: true,
+      });
+    }
+    
   }, [authState?.login]);
 
   const handleClose = () => setShowDefault(false);
