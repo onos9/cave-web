@@ -202,6 +202,11 @@ export default (props = {}) => {
                   title="Practicum"
                   link={Router.CourseList.path}
                 />
+                <NavItem
+                  hide={hidden(Router.Settings.allowedRoles)}
+                  title="Settings"
+                  link={Router.Settings.path}
+                />
               </CollapsableNavItem>
 
               <Button
