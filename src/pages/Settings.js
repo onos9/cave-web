@@ -6,9 +6,14 @@ import { ChoosePhotoWidget, EmailConfigCardWiget, ProfileCardWidget } from "../c
 import { GeneralInfoForm } from "../components/Forms";
 
 import Profile3 from "../assets/img/team/profile-picture-3.jpg";
+import { useEffect } from "react"
 
 
 export default () => {
+  useEffect(() => {
+
+  }, [])
+  
   return (
     <>
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">

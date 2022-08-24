@@ -126,8 +126,10 @@ export const EmailConfigCardWiget = ({ template }) => {
 
   useEffect(() => {
     if (mailState?.credentials) {
-      const params = new URLSearchParams(mailState?.credentials).toString();
-      const url = `https://accounts.zoho.com/oauth/v2/auth?${params}`;
+      const params = new URLSearchParams(mailState?.credentials);
+      const p = decodeURIComponent(params);
+      const url = `https://accounts.zoho.com/oauth/v2/auth?${p}`;
+      console.log(url);
       window.open(url);
     }
   }, [mailState?.credentials]);
@@ -135,7 +137,7 @@ export const EmailConfigCardWiget = ({ template }) => {
   useEffect(() => {
     if (location.search) {
       const params = Object.fromEntries(new URLSearchParams(location.search));
-      // console.log(params?.code);
+      
       mailer.getToken(params);
     }
   }, [location.search]);
