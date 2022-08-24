@@ -34,9 +34,8 @@ export default () => {
   const { id } = useParams();
 
   useEffect(() => {
-    const userID = !!searchParams.get("userId");
-
-    if (authState?.login) navigate(`${route}`);
+    if (authState?.login && id == "register")
+      navigate(Router.Registration.path, { replace: true });
 
     if (id == "logbook") setLogbook(true);
 
@@ -161,21 +160,24 @@ export default () => {
                     <FontAwesomeIcon icon={faYoutube} />
                   </Button> */}
                 </div>
-                {logbook ? (
-                  <div className="d-flex justify-content-center align-items-center mt-4">
-                    <span className="fw-normal">
-                      Not registered?
-                      <Card.Link
-                        as={Link}
-                        to={`${Router.Signup.path}/logbook`}
-                        state={{ ...state }}
-                        className="fw-bold"
-                      >
-                        {` Create account `}
-                      </Card.Link>
-                    </span>
-                  </div>
-                ) : null}
+
+                <div className="d-flex justify-content-center align-items-center mt-4">
+                  <span className="fw-normal">
+                    Not registered?
+                    <Card.Link
+                      as={Link}
+                      to={
+                        logbook
+                          ? `${Router.Signup.path}/logbook`
+                          : `${Router.Signup.path}/${id}`
+                      }
+                      state={{ ...state }}
+                      className="fw-bold"
+                    >
+                      {` Create account `}
+                    </Card.Link>
+                  </span>
+                </div>
               </div>
             </Col>
           </Row>
