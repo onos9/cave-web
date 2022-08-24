@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { HashRouter } from "react-router-dom";
+import { BrowserRouter, HashRouter } from "react-router-dom";
 
 // core styles
 import "./scss/volt.scss";
@@ -16,10 +16,10 @@ import { store } from "./store/store";
 
 ReactDOM.render(
   <Provider>
-    <HashRouter basename="/">
+    <BrowserRouter basename="/">
       <ScrollToTop />
       <Pages />
-    </HashRouter>
+    </BrowserRouter>
   </Provider>,
   document.getElementById("root")
 );
