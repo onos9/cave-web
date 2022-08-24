@@ -166,11 +166,7 @@ export default () => {
                     Not registered?
                     <Card.Link
                       as={Link}
-                      to={
-                        logbook
-                          ? `${Router.Signup.path}/logbook`
-                          : `${Router.Signup.path}/${id}`
-                      }
+                      to={`${Router.Signup.path}/${id}`}
                       state={{ ...state }}
                       className="fw-bold"
                     >
