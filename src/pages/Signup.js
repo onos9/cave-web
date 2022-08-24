@@ -4,7 +4,11 @@ import {
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
-import { faEnvelope, faIdCard, faUnlockAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEnvelope,
+  faIdCard,
+  faUnlockAlt,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
@@ -55,13 +59,13 @@ export default () => {
     }
     setEmail(data.email);
 
-    if (type == "logbook")
-    {
-      data.role = "student"
+    if (type == "logbook") {
+      data.role = "student";
       auth.signup(data, state, type);
       return;
     }
-    auth.signup(data, state);
+    data.role = "prospective";
+    auth.signup(data, state, type);
     setShowDefault(true);
   };
 
