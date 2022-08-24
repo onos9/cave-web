@@ -11,10 +11,10 @@
     "react ui library",
     "react bootstrap 5",
     "bootstrap 5 dashboard",
-    "beznet"
+    "adullam"
   ],
   "license": "MIT",
-  "homepage": "https://beznet.com",
+  "homepage": "https://admin.adullam.ng",
   "bugs": {
     "url": "https://github.com/onos9/cave/issues"
   },
@@ -63,7 +63,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "build-local": "PUBLIC_URL=./ react-scripts build",
+    "build-local": "PUBLIC_URL=/ react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
