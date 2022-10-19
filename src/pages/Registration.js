@@ -1,17 +1,24 @@
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  Alert, Button, Col, Container, Form, Image, Navbar, Row
-} from "@themesberg/react-bootstrap"
-import React, { useState } from "react"
-import { HashLink } from "react-router-hash-link"
-import { CSSTransition } from "react-transition-group"
-import ReactHero from "../assets/img/cave-hero-logo.svg"
-import Welcome from "../components/Welcome"
-import Wizard from "../components/Wizard"
-import Done from "../components/Wizard/Done"
-import useAuth from "../hooks/useAuth"
-import useUser from "../hooks/useUser"
+  Alert,
+  Button,
+  Col,
+  Container,
+  Form,
+  Image,
+  Navbar,
+  Row,
+} from "@themesberg/react-bootstrap";
+import React, { useState } from "react";
+import { HashLink } from "react-router-hash-link";
+import { CSSTransition } from "react-transition-group";
+import ReactHero from "../assets/img/cave-hero-logo.svg";
+import Welcome from "../components/Welcome";
+import Wizard from "../components/Wizard";
+import Done from "../components/Wizard/Done";
+import useAuth from "../hooks/useAuth";
+import useUser from "../hooks/useUser";
 
 export default () => {
   const [isForm, setIsForm] = useState(false);
@@ -19,7 +26,9 @@ export default () => {
   const { authState } = useAuth();
   const [showMessage, setShowMessage] = useState(false);
   const [showDefault, setShowDefault] = useState(false);
+  const [checked, setChecked] = useState(true);
   const handleClose = () => setShowDefault(true);
+  const handleCheck = () => setChecked((prev) => !prev);
 
   const [online, setOnline] = useState(
     authState?.user?.programOption === "Online"
@@ -76,7 +85,7 @@ export default () => {
             >
               <div className="mb-4 mb-lg-0 bg-white shadow-soft border rounded border-light p-4 p-lg-5 w-100 fmxw-500">
                 {isForm ? (
-                  <Wizard onDone={setShowDefault}/>
+                  <Wizard onDone={setShowDefault} />
                 ) : (
                   <>
                     <div className="text-center text-md-center mb-4 mt-md-0">
@@ -120,6 +129,26 @@ export default () => {
                           </Form.Control.Feedback>
                         </Form.Group>
                       </Row>
+                      <Row>
+                        <Form.Group className="mb-3">
+                          <Form.Check
+                            onChange={handleCheck}
+                            name="scholarship"
+                            type="switch"
+                            label="Check this if interested in scholarship"
+                          />
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                          <Form.Label>State Reason</Form.Label>
+                          <Form.Control
+                            disabled={checked}
+                            name="scholReason"
+                            as="textarea"
+                            rows="2"
+                          />
+                        </Form.Group>
+                      </Row>
+
                       <Button
                         type="submit"
                         variant="outline-primary"
